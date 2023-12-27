@@ -1,16 +1,7 @@
 <template>
-    <!--  -->
-    <h1>仅供开发使用界面</h1>
+    <!-- release 仅需下面的代码 -->
+    <router-view></router-view>
 
-    <div class="navigate">
-        <RouterLink to="/login">登录</RouterLink>
-        <RouterLink to="/books">书目</RouterLink>
-        <RouterLink to="/administer">管理员界面</RouterLink>
-        <RouterLink to="/user">用户空间</RouterLink>
-        <RouterLink to="/detail">书本详情</RouterLink>
-    </div>
-
-    <RouterView></RouterView>
 </template>
 
 <script>
