@@ -1,6 +1,7 @@
 <template>
     <div>
         <!-- Your HTML content goes here -->
+        <p>welcome</p>
     </div>
 </template>
 
