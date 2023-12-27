@@ -7,7 +7,7 @@ import Administer from '../view/administer.vue'
 import Book_detail from '../view/book_detail.vue'
 import Home from '../view/index.vue'
 
-const router = createRouter({
+const Router = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -43,4 +43,4 @@ const router = createRouter({
     ]
 })
 
-export default router
+export default Router
