@@ -14,7 +14,26 @@ const router = createRouter({
             name: Login,
             component: Login
         },
-
+        {
+            path: "/detail",
+            name: Book_detail,
+            component: Book_detail
+        },
+        {
+            path: "/books",
+            name: Books,
+            component: Books
+        },
+        {
+            path: "/administer",
+            name: Administer,
+            component: Administer
+        },
+        {
+            path: "/user",
+            name: Userspace,
+            component: Userspace
+        },
     ]
 })
 
