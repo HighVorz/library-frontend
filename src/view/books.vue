@@ -165,7 +165,7 @@ export default {
 
 <style scoped>
 .header {
-    background: url('../assets/img/cloud.jpg') center/cover no-repeat;
+    background: url('/assets/img/cloud.jpg') center/cover no-repeat;
     color: rgb(36, 93, 116);
     padding: 15px;
     
@@ -225,7 +225,7 @@ export default {
 }
 
 .container {
-    background: url('../assets/img/librarylearning.png') center/cover no-repeat;
+    background: url('/assets/img/librarylearning.png') center/cover no-repeat;
     background-attachment: fixed;
     box-sizing: border-box;
     display: flex;

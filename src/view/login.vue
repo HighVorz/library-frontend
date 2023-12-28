@@ -59,8 +59,7 @@ export default {
 .container {
     width: 100%;
     height: 100%;
-    background: url('../assets/img/lib_register.png') center/cover no-repeat;
-    /* background-color: #c6cce1; */
+    background: url('/assets/img/lib_register.png') center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;

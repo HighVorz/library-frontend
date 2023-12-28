@@ -56,6 +56,6 @@ h1::after {
 .container {
     width: 100%;
     height: 100%;
-    background: url('../assets/img/background.jpg') center/cover no-repeat;
+    background: url('/assets/img/background.jpg') center/cover no-repeat;
 }
 </style>
