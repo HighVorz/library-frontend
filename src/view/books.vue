@@ -75,9 +75,9 @@
             <p style="color:#6e6969;">点击下方图标与我联系</p>
         </div>
         <div class="icon_set">
-            <a href="tencent://message/?uin=2055318980&Site=qq&Menu=yes"><img src="../assets/img/QQ.png" width="50px"
+            <a href="tencent://message/?uin=2055318980&Site=qq&Menu=yes"><img src="/assets/img/QQ.png" width="50px"
                     height="50px"></a>
-            <a href="mailto:2055318980@qq.com"><img src="../assets/img/mail.png" width="50px" height="50px"></a>
+            <a href="mailto:2055318980@qq.com"><img src="/assets/img/mail.png" width="50px" height="50px"></a>
         </div>
     </div>
 </template>
@@ -87,6 +87,7 @@
 export default {
     data(){
         return{
+            // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
             bookTotal: [
             {
                 bookName: "计算机体系结构",
@@ -250,6 +251,10 @@ body {
     overflow: hidden;
 }
 
+.book:hover {
+    background-color: rgb(255, 255, 255, 1);
+}
+
 .book p {
     margin: 2px;
     font-size: small;
@@ -260,9 +265,17 @@ body {
     color: #000000;
 }
 
-.book a:hover {
+/* .book a:hover {
     color: #00bfff;
     text-decoration: underline;
+} */
+.book img {
+    position: relative;
+    cursor: pointer;
+    left: 10%;
+    width: 80%;
+    height: 60%;
+    border-radius: 8px;
 }
 
 /* .book button{
@@ -279,14 +292,6 @@ h1 {
     color: #333;
 }
 
-.book img {
-    position: relative;
-    cursor: pointer;
-    left: 10%;
-    width: 80%;
-    height: 60%;
-    border-radius: 8px;
-}
 
 h3 {
     text-align: center;
