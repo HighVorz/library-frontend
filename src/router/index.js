@@ -13,32 +13,50 @@ const Router = createRouter({
         {
             path: "/",
             name: Home,
-            component: Home
+            component: Home,
+            meta:{
+                title: '首页'
+            }
         },
         {
             path: "/login",
             name: Login,
-            component: Login
+            component: Login,
+            meta:{
+                title: '登录'
+            }
         },
         {
             path: "/detail",
             name: Book_detail,
-            component: Book_detail
+            component: Book_detail,
+            meta:{
+                title: '详情'
+            }
         },
         {
             path: "/books",
             name: Books,
-            component: Books
+            component: Books,
+            meta:{
+                title: '书目'
+            }
         },
         {
             path: "/administer",
             name: Administer,
-            component: Administer
+            component: Administer,
+            meta:{
+                title: '后台管理界面'
+            }
         },
         {
             path: "/user",
             name: Userspace,
-            component: Userspace
+            component: Userspace,
+            meta:{
+                title: '用户空间'
+            }
         },
     ]
 })
