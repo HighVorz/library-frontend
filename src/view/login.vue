@@ -50,8 +50,8 @@ export default {
 </script>
 
 <style scoped>
-
-html,body {
+html,
+body {
     height: 100%;
 }
 
@@ -120,6 +120,14 @@ html,body {
     font-weight: 600;
 }
 
+.username_input:focus {
+    opacity: 1;
+}
+
+.password_input:focus {
+    opacity: 1;
+}
+
 .form>.form_password_field {
     width: 100%;
     margin-top: 24px;
@@ -162,6 +170,14 @@ html,body {
     cursor: pointer;
     border-radius: 38px;
     opacity: 0.8;
+}
+
+.signin:hover {
+    opacity: 1;
+}
+
+.signup:hover {
+    opacity: 1;
 }
 
 .signin {
