@@ -23,15 +23,50 @@
         <h2>可借阅图书列表</h2>
     </div>
     <div class="container">
-        <div class="book">
-            <h3>《计算机体系结构》</h3>
-            <img src="../assets/img/计算机体系结构.jpg" onclick="borrowBook('计算机体系结构')">
-            <p>作者：<a href="https://www.baidu.com/s/" title="搜索该作者的书">钱璟丰</a></p>
-            <p>出版社：<a href="www.baidu.com" title="搜索该出版社的书">机械工业出版社</a></p>
-            <p>出版日期：2023-12-27</p>
-            <p>可借阅状态：是</p>
+        <div class="book" v-for="item in bookTotal">
+            <h3>《{{ item.bookName }}》</h3>
+            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+            <p>作者:{{ item.bookAuthor }}</p>
+            <p>出版社:{{ item.bookPublisher }}</p>
+            <p>出版日期:{{ item.bookDate }}</p>
+            <p>可借阅状态:{{ item.bookStatus }}</p>
         </div>
 
+        <div class="book" v-for="item in bookTotal">
+            <h3>《{{ item.bookName }}》</h3>
+            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+            <p>作者:{{ item.bookAuthor }}</p>
+            <p>出版社:{{ item.bookPublisher }}</p>
+            <p>出版日期:{{ item.bookDate }}</p>
+            <p>可借阅状态:{{ item.bookStatus }}</p>
+        </div>
+
+        <div class="book" v-for="item in bookTotal">
+            <h3>《{{ item.bookName }}》</h3>
+            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+            <p>作者:{{ item.bookAuthor }}</p>
+            <p>出版社:{{ item.bookPublisher }}</p>
+            <p>出版日期:{{ item.bookDate }}</p>
+            <p>可借阅状态:{{ item.bookStatus }}</p>
+        </div>
+
+        <div class="book" v-for="item in bookTotal">
+            <h3>《{{ item.bookName }}》</h3>
+            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+            <p>作者:{{ item.bookAuthor }}</p>
+            <p>出版社:{{ item.bookPublisher }}</p>
+            <p>出版日期:{{ item.bookDate }}</p>
+            <p>可借阅状态:{{ item.bookStatus }}</p>
+        </div>
+
+        <div class="book" v-for="item in bookTotal">
+            <h3>《{{ item.bookName }}》</h3>
+            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+            <p>作者:{{ item.bookAuthor }}</p>
+            <p>出版社:{{ item.bookPublisher }}</p>
+            <p>出版日期:{{ item.bookDate }}</p>
+            <p>可借阅状态:{{ item.bookStatus }}</p>
+        </div>
     </div>
 
     <div class="footer">
@@ -47,79 +82,84 @@
     </div>
 </template>
 
-export default {
-    data(
-        return {
-            bookTotal: [
-                {
-                    bookName: "计算机体系结构",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/计算机体系结构.jpg"
-                    },
-                {
-                    bookName: "算法导论",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "MIT Press",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/算法导论.jpg"
-                    },
-                {
-                    bookName: "计算机网络",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/计算机网络.jpg"
-                    },
-                {
-                    bookName: "计算机图形学",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/计算机图形学.jpg"
-                    },
-                {
-                    bookName: "计算机组成与设计",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "Morgan Kaufmann",
-                    bookDate: "2023-12-28",
-                    bookStatus: "否",
-                    bookRef: "../assets/img/计算机组成与设计.jpg"
-                    },
-                {
-                    bookName: "操作系统概念",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "人民邮电出版社",
-                    bookDate: "2023-2-27",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/操作系统概念.jpg"
-                    },
-                {
-                    bookName: "数据库系统原理",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-1-2",
-                    bookStatus: "是",
-                    bookRef: "../assets/img/数据库系统原理.jpg"
-                    },
-                {
-                    bookName: "算法设计与分析",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-7",
-                    bookStatus: "否",
-                    bookRef: "../assets/img/算法设计与分析.jpg"
-                    },    ]
-    )
-}
-
 <script>
 
+export default {
+    data(){
+        return{
+            bookTotal: [
+            {
+                bookName: "计算机体系结构",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "机械工业出版社",
+                bookDate: "2023-12-27",
+                bookStatus: "是",
+                bookRef: "/assets/img/计算机体系结构.jpg"
+            },
+            {
+                bookName: "算法导论",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "MIT Press",
+                bookDate: "2023-12-27",
+                bookStatus: "是",
+                bookRef: "/assets/img/算法导论.jpg"
+            },
+            {
+                bookName: "计算机网络",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "清华大学出版社",
+                bookDate: "2023-12-27",
+                bookStatus: "是",
+                bookRef: "/assets/img/计算机网络.jpg"
+            },
+            {
+                bookName: "计算机图形学",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "机械工业出版社",
+                bookDate: "2023-12-27",
+                bookStatus: "是",
+                bookRef: "/assets/img/计算机图形学.jpg"
+            },
+            {
+                bookName: "计算机组成与设计",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "Morgan Kaufmann",
+                bookDate: "2023-12-28",
+                bookStatus: "否",
+                bookRef: "/assets/img/计算机组成与设计.jpg"
+            },
+            {
+                bookName: "操作系统概念",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "人民邮电出版社",
+                bookDate: "2023-2-27",
+                bookStatus: "是",
+                bookRef: "/assets/img/操作系统概念.jpg"
+            },
+            {
+                bookName: "数据库系统原理",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "机械工业出版社",
+                bookDate: "2023-1-2",
+                bookStatus: "是",
+                bookRef: "/assets/img/数据库系统原理.jpg"
+            },
+            {
+                bookName: "算法设计与分析",
+                bookAuthor: "钱璟丰",
+                bookPublisher: "清华大学出版社",
+                bookDate: "2023-12-7",
+                bookStatus: "否",
+                bookRef: "/assets/img/算法设计与分析.jpg"
+            }]
+        }
+    },
+    methods: {
+        borrowBook(bookName) {
+            alert("您已成功借阅《" + bookName + "》");
+        }
+    }
+}
 </script>
 
 <style scoped>
