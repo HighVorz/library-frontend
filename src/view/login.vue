@@ -1,19 +1,19 @@
 <template>
     <div :class="cnr">
         <form :class="fm">
-            <div :class="ft">Sign in</div>
+            <div :class="ft">图书管理系统登录</div>
             <div :class="fuf">
-                <input type="text" :class="uinput" placeholder="Username...">
+                <input type="text" :class="uinput" placeholder="请输入用户名...">
             </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" placeholder="Password...">
+                <input type="password" :class="pinput" placeholder="请在此处输入密码...">
             </div>
             <div :class="tfd">
-                <p :class="fgt">Forget password? <a href="#">Click here.</a></p>
+                <p :class="fgt">忘记密码? <a href="#">点击这里</a></p>
             </div>
             <div :class="btn">
-                <button :class="sup">Sign up</button>
-                <button :class="sin">Sign in</button>
+                <button :class="sup">注册</button>
+                <button :class="sin">登录</button>
             </div>
         </form>
     </div>
@@ -64,7 +64,8 @@ html,body {
 .container {
     width: 100%;
     height: 100%;
-    background-color: #c6cce1;
+    background: url('../assets/img/lib_register.png') center/cover no-repeat;
+    /* background-color: #c6cce1; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +74,7 @@ html,body {
 .form {
     width: 400px;
     height: 520px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 2px;
     box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.08);
     padding: 48px;
@@ -95,7 +96,7 @@ html,body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px;
+    width: 100px;
     height: 4px;
     background-color: #3178c6;
 }
@@ -111,9 +112,10 @@ html,body {
     height: 48px;
     outline: none;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 0 12px;
     background-color: #eaeaea;
+    opacity: 0.8;
     font-size: 14px;
     font-weight: 600;
 }
@@ -124,12 +126,7 @@ html,body {
 }
 
 .form>.tips_field {
-    /* width: 100%; */
     margin-top: 18px;
-    /* font-size: 14px;
-    font-weight: 600;
-    color: #3178c6;
-    text-align: center; */
 }
 
 .tips_field>.forget {
@@ -144,6 +141,12 @@ html,body {
     color: #3178c6;
 }
 
+.tips_field>.forget>a:hover {
+    text-decoration: underline;
+    color: #05305e;
+}
+
+
 .form>.btn_field {
     margin-top: 48px;
     display: flex;
@@ -153,10 +156,12 @@ html,body {
 .signup {
     flex: 1;
     height: 48px;
+    font-size: 16px;
     font-weight: bold;
     border: none;
     cursor: pointer;
     border-radius: 38px;
+    opacity: 0.8;
 }
 
 .signin {
