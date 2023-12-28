@@ -1,6 +1,6 @@
 <template>
     <div :class="cnr">
-        <div :class="fm">
+        <form :class="fm">
             <div :class="ft">Sign in</div>
             <div :class="fuf">
                 <input type="text" :class="uinput" placeholder="Username...">
@@ -15,7 +15,7 @@
                 <button :class="sup">Sign up</button>
                 <button :class="sin">Sign in</button>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -34,10 +34,13 @@ export default {
             fgt: "forget",
             btn: "btn_field",
             sup: "signup",
-            sin: "signin"
+            sin: "signin",
         };
     },
     methods: {
+        handlesup() {
+            // this.$router.push("/signup");
+        },
         // Your methods go here
     },
     mounted() {
@@ -47,8 +50,8 @@ export default {
 </script>
 
 <style scoped>
-body,
-html {
+
+html,body {
     height: 100%;
 }
 

@@ -1,7 +1,6 @@
 <template>
     <!-- release 仅需下面的代码 -->
     <router-view></router-view>
-
 </template>
 
 <script>
@@ -14,3 +13,12 @@ export default {
     },
 };
 </script>
+
+<style>
+html,
+body,
+#app {
+    margin: 0;
+    height: 100%;
+}
+</style>
