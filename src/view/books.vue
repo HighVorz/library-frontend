@@ -175,6 +175,7 @@ body {
     background: url('../assets/img/cloud.jpg') center/cover no-repeat;
     color: rgb(36, 93, 116);
     padding: 15px;
+    text-align: center;
 }
 
 .choose {
@@ -282,10 +283,6 @@ body {
     position: relative;
     left: 33%;
 } */
-
-h1 {
-    text-align: center;
-}
 
 .leader {
     padding-left: 10px;

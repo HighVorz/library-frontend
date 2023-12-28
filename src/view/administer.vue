@@ -2,6 +2,7 @@
     <div class="header">
         <h1>欢迎来到图书管理系统</h1>
     </div>
+    
 </template>
 
 <script>
@@ -27,6 +28,5 @@ body {
     background: url('../assets/img/cloud.jpg') center/cover no-repeat;
     color: rgb(36, 93, 116);
     padding: 15px;
-    /* text-align: center; */
 }
 </style>
