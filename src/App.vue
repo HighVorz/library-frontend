@@ -21,4 +21,11 @@ body,
     margin: 0;
     height: 100%;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
 </style>
