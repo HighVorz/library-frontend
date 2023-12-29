@@ -1,11 +1,12 @@
 <template>
     <h1>书名:</h1>
     <div>
-        <button @click="showModal = true">搜索一下</button>
+        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i>  搜索一下</button>
 
         <div v-if="showModal" class="modal">
             <div class="search-container">
                 <form class="search-form">
+                    <p>图书搜索</p>
                     <div class="form-group">
                         <label for="name">书名:</label>
                         <input type="text" id="name" class="form-control">
@@ -35,13 +36,13 @@
         </div>
     </div>
     <table>
-        <tr>
+        <tr style="font-weight: bold;">
             <td>书名</td>
             <td>作者</td>
             <td>价格</td>
             <td>出版社</td>
             <td>出版时间</td>
-            <td>添加&nbsp&nbsp&nbsp删除</td>
+            <td>操作:添加 / 删除</td>
         </tr>
         <tr>
             <td>书名</td>
@@ -49,7 +50,7 @@
             <td>价格</td>
             <td>出版社</td>
             <td>出版时间</td>
-            <td>添加&nbsp&nbsp&nbsp删除</td>
+            <td><button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del" @click="showAlertdel">删除</button></td>
         </tr>
         <tr>
             <td>书名</td>
@@ -57,7 +58,7 @@
             <td>价格</td>
             <td>出版社</td>
             <td>出版时间</td>
-            <td>添加&nbsp&nbsp&nbsp删除</td>
+            <td><button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del" @click="showAlertdel">删除</button></td>
         </tr>
     </table>
 </template>
@@ -67,6 +68,14 @@ export default {
     data() {
         return {
             showModal: false
+        }
+    },
+    methods: {
+        showAlertadd() {
+            alert('添加成功')
+        },
+        showAlertdel() {
+            alert('删除成功')
         }
     },
     watch: {
@@ -82,6 +91,38 @@ export default {
 </script>
 
 <style scpoed>
+
+.search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 15px;
+    margin-bottom:30px;
+    margin-left:15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+    animation: bounce 0.6s ease;
+}
+
+/* .search-button i:hover {
+    a
+} */
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -116,7 +157,7 @@ tr:hover {
     width: 100%;
     margin: auto;
     border: none;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 .search-form {
@@ -126,6 +167,27 @@ tr:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     padding: 20px;
+}
+
+.search-form p {
+    position: relative;
+    text-align: center;
+    font-size: 32px;
+    color: #0056b3;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form p::before {
+    position: absolute;
+    content: "";
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 4px;
+    background-color: #0276ea;
 }
 
 .form-group {
@@ -192,5 +254,33 @@ tr:hover {
 
 .quit:hover {
     background-color: #b02a37;
+}
+
+.act {
+    padding: 5px 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.addin {
+    cursor: pointer;
+    color: white;
+    background-color: #28a745;
+}
+
+.addin:hover {
+    background-color: #218838;
+}
+
+.del {
+    cursor: pointer;
+    color: white;
+    background-color: #dc3545;
+}
+
+.del:hover {
+    background-color: #c82333;
 }
 </style>
