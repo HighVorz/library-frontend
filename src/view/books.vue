@@ -49,6 +49,9 @@
     <!-- 主页面 -->
     <div class="mixed">
         <h2>可借阅图书列表</h2>
+        <!-- <video autoplay muted loop id="myVideo">
+            <source src="/assets/img/lib_learning.mp4" type="video/mp4">
+        </video> -->
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i>  搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
@@ -61,7 +64,7 @@
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
-            <div class="book" v-for="item in bookTotal">
+            <!-- <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
                 <img :src="item.bookRef" @click="borrowBook(item.bookName)">
                 <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
@@ -95,9 +98,10 @@
                 <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
+            </div> -->
         </div>
     </div>
+    <!-- <pagination :data="bookTotal" @pagination-change-page="getResults"></pagination> -->
     <div class="footer">
         <div class="contact">
             <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
@@ -112,10 +116,14 @@
 </template>
 
 <script>
+// import Pagination from 'vue-pagination-2';
 
 export default {
     data() {
         return {
+            // page:1,
+            // perPage: 8,
+            // pages:[],
             showModal: false,
             showChoose: false,
             selectedBookName: "",
@@ -187,6 +195,14 @@ export default {
                 }]
         }
     },
+    // components: {
+    //     Pagination
+    // },
+    // computed: {
+    //     paginatedData() {
+    //         return this.pages[this.page];
+    //     },
+    // },
     methods: {
         handleimgClick(bookName) {
             alert("您已成功借阅《" + bookName + "》");
@@ -195,7 +211,11 @@ export default {
         },
         handleLogout() {
             this.$router.push('/login')
-        }
+        },
+        // getResults(page) {
+        //     this.page = page;
+        //     this.pages = _.chunk(this.bookTotal, this.perPage);
+        // }
     },
     watch: {
         showModal(val) {
@@ -227,7 +247,23 @@ export default {
 
 .divider {
     height: 3px;
-    background-color: black;
+    background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
+    background-size: 800% 800%;
+    animation: AnimationName 3s ease infinite;
+}
+
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
 }
 
 .search_book {
@@ -270,10 +306,19 @@ export default {
     color: #ffffff;
 }
 .mixed {
-    background: url('/assets/img/librarylearning.png') center/cover no-repeat;
+    background: url('/assets/img/lib_learning.gif') center/cover no-repeat;
     background-attachment: fixed;
+    /* position: relative; */
     box-sizing: border-box;
 }
+
+/* #myVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    object-fit:fill;
+} */
+
 .mixed h2 {
     margin: 10px;
     width:300px;
@@ -283,6 +328,7 @@ export default {
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 .container {
+    /* position: relative; */
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;

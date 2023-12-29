@@ -1,9 +1,9 @@
 <template>
     <div class="header">
         <h1>综合图书管理</h1>
-    </div>  
+    </div>
     <div>
-        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i>  搜索一下</button>
+        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
 
         <div v-if="showModal" class="modal">
             <div class="search-container">
@@ -41,26 +41,24 @@
         <tr style="font-weight: bold;">
             <td>书名</td>
             <td>作者</td>
-            <td>价格</td>
             <td>出版社</td>
             <td>出版时间</td>
+            <td>借阅状态</td>
             <td>操作:添加 / 删除</td>
         </tr>
-        <tr>
-            <td>书名</td>
-            <td>作者</td>
-            <td>价格</td>
-            <td>出版社</td>
-            <td>出版时间</td>
-            <td><button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del" @click="showAlertdel">删除</button></td>
-        </tr>
-        <tr>
-            <td>书名</td>
-            <td>作者</td>
-            <td>价格</td>
-            <td>出版社</td>
-            <td>出版时间</td>
-            <td><button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del" @click="showAlertdel">删除</button></td>
+        <tr v-for="item in bookTotal">
+            <td>{{ item.bookName }}</td>
+            <td>{{ item.bookAuthor }}</td>
+            <td>{{ item.bookPublisher }}</td>
+            <td>{{ item.bookDate }}</td>
+            <td>{{ item.bookStatus }}</td>
+            <td>
+                <form action="/login">
+                    <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
+                        @click="showAlertdel">删除</button>
+                </form>
+            </td>
+
         </tr>
     </table>
 </template>
@@ -69,7 +67,72 @@
 export default {
     data() {
         return {
-            showModal: false
+            showModal: false,
+            bookTotal: [
+                {
+                    bookName: "计算机体系结构",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "机械工业出版社",
+                    bookDate: "2023-12-27",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/计算机体系结构.jpg"
+                },
+                {
+                    bookName: "算法导论",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "MIT Press",
+                    bookDate: "2023-12-27",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/算法导论.jpg"
+                },
+                {
+                    bookName: "计算机网络",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "清华大学出版社",
+                    bookDate: "2023-12-27",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/计算机网络.jpg"
+                },
+                {
+                    bookName: "计算机图形学",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "机械工业出版社",
+                    bookDate: "2023-12-27",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/计算机图形学.jpg"
+                },
+                {
+                    bookName: "计算机组成与设计",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "Morgan Kaufmann",
+                    bookDate: "2023-12-28",
+                    bookStatus: "否",
+                    bookRef: "/assets/img/计算机组成与设计.jpg"
+                },
+                {
+                    bookName: "操作系统概念",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "人民邮电出版社",
+                    bookDate: "2023-2-27",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/操作系统概念.jpg"
+                },
+                {
+                    bookName: "数据库系统原理",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "机械工业出版社",
+                    bookDate: "2023-1-2",
+                    bookStatus: "是",
+                    bookRef: "/assets/img/数据库系统原理.jpg"
+                },
+                {
+                    bookName: "算法设计与分析",
+                    bookAuthor: "钱璟丰",
+                    bookPublisher: "清华大学出版社",
+                    bookDate: "2023-12-7",
+                    bookStatus: "否",
+                    bookRef: "/assets/img/算法设计与分析.jpg"
+                }]
         }
     },
     methods: {
@@ -93,7 +156,6 @@ export default {
 </script>
 
 <style scoped>
-
 .header {
     background: url('/assets/img/admin_header.jpg') center/cover no-repeat;
     color: rgb(237, 237, 217);
@@ -103,15 +165,16 @@ export default {
 }
 
 .search-button {
-    margin-top: 20px;
+    margin: 20px 0px 30px 15px;
     padding: 10px 20px;
     font-size: 16px;
+    width: 10%;
+    position: relative;
+    left: 80%;
     color: white;
     background-color: #007bff;
     border: none;
     border-radius: 15px;
-    margin-bottom:30px;
-    margin-left:15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
@@ -123,14 +186,11 @@ export default {
     font-weight: bold;
 }
 
-/* .search-button i:hover {
-    a
-} */
-
 @keyframes bounce {
     0% {
         transform: translateY(0);
     }
+
     100% {
         transform: translateY(-5px);
     }
@@ -241,8 +301,8 @@ tr:hover {
     font-weight: bold;
     color: white;
     margin-top: 10px;
-    margin-left:5%;
-    margin-right:30%;
+    margin-left: 5%;
+    margin-right: 30%;
     background-color: #007bff;
     border: none;
     cursor: pointer;
