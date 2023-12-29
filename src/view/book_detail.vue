@@ -1,5 +1,7 @@
 <template>
-    <h1>书名:</h1>
+    <div class="header">
+        <h1>综合图书管理</h1>
+    </div>  
     <div>
         <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i>  搜索一下</button>
 
@@ -90,9 +92,18 @@ export default {
 }
 </script>
 
-<style scpoed>
+<style scoped>
+
+.header {
+    background: url('/assets/img/admin_header.jpg') center/cover no-repeat;
+    color: rgb(237, 237, 217);
+    padding: 15px;
+    text-align: center;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
 
 .search-button {
+    margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
     color: white;
@@ -103,11 +114,13 @@ export default {
     margin-left:15px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    transition: font-weight 0.3s ease;
 }
 
 .search-button:hover {
     background-color: #0056b3;
-    animation: bounce 0.6s ease;
+    animation: bounce 0.3s forwards;
+    font-weight: bold;
 }
 
 /* .search-button i:hover {
@@ -115,11 +128,11 @@ export default {
 } */
 
 @keyframes bounce {
-    0%, 100% {
+    0% {
         transform: translateY(0);
     }
-    50% {
-        transform: translateY(-7px);
+    100% {
+        transform: translateY(-5px);
     }
 }
 
@@ -271,6 +284,7 @@ tr:hover {
 }
 
 .addin:hover {
+    animation: bounce 0.3s forwards;
     background-color: #218838;
 }
 
@@ -281,6 +295,7 @@ tr:hover {
 }
 
 .del:hover {
+    animation: bounce 0.3s forwards;
     background-color: #c82333;
 }
 </style>

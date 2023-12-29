@@ -9,7 +9,7 @@
                 <input type="password" :class="pinput" placeholder="请在此处输入密码...">
             </div>
             <div :class="tfd">
-                <p :class="fgt">忘记密码? <a href="#">点击这里</a></p>
+                <p :class="fgt">忘记密码? <a href="/books">点击这里</a></p>
             </div>
             <div :class="btn">
                 <button :class="sup">注册</button>
