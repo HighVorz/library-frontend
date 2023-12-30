@@ -54,4 +54,5 @@ input:hover {
 button {
     cursor: url("/assets/img/alternate.ico"), auto;
 }
+
 </style>

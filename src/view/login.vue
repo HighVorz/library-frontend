@@ -8,12 +8,15 @@
             <div :class="fpwd">
                 <input type="password" :class="pinput" placeholder="请在此处输入密码...">
             </div>
+            <div>
+                <el-checkbox>记住密码</el-checkbox>
+            </div>
             <div :class="tfd">
-                <p :class="fgt">忘记密码? <a href="/books">点击这里</a></p>
+                <p :class="fgt">忘记密码? <a href="/user">点击这里</a></p>
             </div>
             <div :class="btn">
-                <button :class="sup">注册</button>
-                <button :class="sin">登录</button>
+                <button :class="sup" @click="handlesup">注册</button>
+                <button :class="sin" @click="handlesin">登录</button>
             </div>
         </form>
     </div>
@@ -35,11 +38,28 @@ export default {
             btn: "btn_field",
             sup: "signup",
             sin: "signin",
+            mmtrue: "false",
         };
     },
     methods: {
         handlesup() {
-            // this.$router.push("/signup");
+            this.$router.push("/user");
+        },
+        handlesin() {
+            if (this.mmtrue) {
+                alert("登录成功");
+                // this.$message({
+                //     message: "登录成功",
+                //     type: "success",
+                // });
+                this.$router.push("/books");
+            } else {
+                alert("登录失败");
+                // this.$message({
+                //     message: "登录失败",
+                //     type: "error",
+                // });
+            }
         },
         // Your methods go here
     },
@@ -54,6 +74,11 @@ export default {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+.el-checkbox {
+    margin-top: 10px;
+    /* cursor: url("/assets/img/alternate.ico"), auto; */
 }
 
 .container {
@@ -128,7 +153,7 @@ export default {
 }
 
 .form>.tips_field {
-    margin-top: 18px;
+    margin-top: 5px;
 }
 
 .tips_field>.forget {

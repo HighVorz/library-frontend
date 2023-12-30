@@ -2,9 +2,9 @@
     <div class="header">
         <h1>综合图书管理</h1>
     </div>
-    <div>
+    <hr>
+    <div class="container">
         <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
-
         <div v-if="showModal" class="modal">
             <div class="search-container">
                 <form class="search-form">
@@ -36,31 +36,43 @@
                 </form>
             </div>
         </div>
+        <table>
+            <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
+                <td>书名</td>
+                <td>作者</td>
+                <td>出版社</td>
+                <td>出版时间</td>
+                <td>借阅状态</td>
+                <td>操作:添加 / 删除</td>
+            </tr>
+            <tr v-for="item in bookTotal">
+                <td>{{ item.bookName }}</td>
+                <td>{{ item.bookAuthor }}</td>
+                <td>{{ item.bookPublisher }}</td>
+                <td>{{ item.bookDate }}</td>
+                <td>{{ item.bookStatus }}</td>
+                <td>
+                    <form action="" @submit="handleSubmit">
+                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
+                            @click="deleteItem(item)">删除</button>
+                    </form>
+                </td>
+            </tr>
+            <tr v-for="item in bookTotal">
+                <td>{{ item.bookName }}</td>
+                <td>{{ item.bookAuthor }}</td>
+                <td>{{ item.bookPublisher }}</td>
+                <td>{{ item.bookDate }}</td>
+                <td>{{ item.bookStatus }}</td>
+                <td>
+                    <form action="" @submit="handleSubmit">
+                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
+                            @click="deleteItem(item)">删除</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </div>
-    <table>
-        <tr style="font-weight: bold;">
-            <td>书名</td>
-            <td>作者</td>
-            <td>出版社</td>
-            <td>出版时间</td>
-            <td>借阅状态</td>
-            <td>操作:添加 / 删除</td>
-        </tr>
-        <tr v-for="item in bookTotal">
-            <td>{{ item.bookName }}</td>
-            <td>{{ item.bookAuthor }}</td>
-            <td>{{ item.bookPublisher }}</td>
-            <td>{{ item.bookDate }}</td>
-            <td>{{ item.bookStatus }}</td>
-            <td>
-                <form action="/login">
-                    <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
-                        @click="showAlertdel">删除</button>
-                </form>
-            </td>
-
-        </tr>
-    </table>
 </template>
 
 <script>
@@ -68,79 +80,34 @@ export default {
     data() {
         return {
             showModal: false,
-            bookTotal: [
-                {
-                    bookName: "计算机体系结构",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机体系结构.jpg"
-                },
-                {
-                    bookName: "算法导论",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "MIT Press",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/算法导论.jpg"
-                },
-                {
-                    bookName: "计算机网络",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机网络.jpg"
-                },
-                {
-                    bookName: "计算机图形学",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机图形学.jpg"
-                },
-                {
-                    bookName: "计算机组成与设计",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "Morgan Kaufmann",
-                    bookDate: "2023-12-28",
-                    bookStatus: "否",
-                    bookRef: "/assets/img/计算机组成与设计.jpg"
-                },
-                {
-                    bookName: "操作系统概念",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "人民邮电出版社",
-                    bookDate: "2023-2-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/操作系统概念.jpg"
-                },
-                {
-                    bookName: "数据库系统原理",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-1-2",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/数据库系统原理.jpg"
-                },
-                {
-                    bookName: "算法设计与分析",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-7",
-                    bookStatus: "否",
-                    bookRef: "/assets/img/算法设计与分析.jpg"
-                }]
+            bookTotal: [] // 存储从数据库里面得到的数据
+        }
+    },
+    async created() {
+        const response = await fetch('/data.json');
+        if (response.ok) {
+            this.bookTotal = await response.json();
+        } else {
+            console.error('Failed to load data.json:', response.status, response.statusText);
         }
     },
     methods: {
+        handleSubmit(event) {
+            event.preventDefault();
+            // 删除操作...
+        }, // 到时候记得删掉，只是为了测试删除
         showAlertadd() {
-            alert('添加成功')
+            alert('添加成功');
+            console.log(this.data);
+            console.log(this.bookTotal);
         },
-        showAlertdel() {
-            alert('删除成功')
+        deleteItem(item) {
+            alert('删除成功');
+            const index = this.bookTotal.indexOf(item);
+            console.log(index);
+            if (index !== -1) {
+                this.bookTotal.splice(index, 1);
+            }
         }
     },
     watch: {
@@ -164,6 +131,18 @@ export default {
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
+.container::before {
+    content: "";
+    background: url('/assets/img/master.jpg') center/cover no-repeat;
+    opacity: 0.5;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
 .search-button {
     margin: 20px 0px 20px 0px;
     padding: 10px 20px;
@@ -172,7 +151,7 @@ export default {
     position: relative;
     left: 85%;
     color: white;
-    background-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.7);
     border: none;
     border-radius: 15px;
     transition: background-color 0.3s ease;
@@ -180,7 +159,7 @@ export default {
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: rgba(0, 123, 255, 1);
     animation: bounce 0.3s forwards;
     font-weight: bold;
 }
@@ -207,11 +186,17 @@ td {
 }
 
 tr:nth-child(even) {
-    background-color: #f2f3ea;
+    background-color: rgba(242, 243, 234, 0.5);
 }
 
 tr:hover {
-    background-color: #ddd;
+    background-color: rgba(221, 221, 221, 0.8);
+}
+
+hr {
+    border: 3px solid #ddd;
+    margin: 0;
+
 }
 
 .modal {
@@ -270,6 +255,7 @@ tr:hover {
 .form-group label {
     display: inline-block;
     width: 60px;
+    cursor: url('/assets/img/alternate.ico'), auto;
     font-size: 16px;
     font-weight: bold;
     margin-right: 5px;
@@ -336,21 +322,21 @@ tr:hover {
 
 .addin {
     color: white;
-    background-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.7);
 }
 
 .addin:hover {
     animation: bounce 0.3s forwards;
-    background-color: #218838;
+    background-color: rgba(40, 167, 69, 1);
 }
 
 .del {
     color: white;
-    background-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.7);
 }
 
 .del:hover {
     animation: bounce 0.3s forwards;
-    background-color: #c82333;
+    background-color: rgba(220, 53, 69, 1);
 }
 </style>

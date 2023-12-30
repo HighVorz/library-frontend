@@ -64,15 +64,6 @@
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
-            <!-- <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
-
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
                 <img :src="item.bookRef" @click="borrowBook(item.bookName)">
@@ -98,7 +89,16 @@
                 <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div> -->
+            </div>
+
+            <div class="book" v-for="item in bookTotal">
+                <h3>《{{ item.bookName }}》</h3>
+                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
+                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <p>出版日期:{{ item.bookDate }}</p>
+                <p>可借阅状态:{{ item.bookStatus }}</p>
+            </div>
         </div>
     </div>
     <!-- <pagination :data="bookTotal" @pagination-change-page="getResults"></pagination> -->
