@@ -5,6 +5,7 @@
         "bookPublisher": "机械工业出版社",
         "bookDate": "2023-12-27",
         "bookStatus": "是",
+        "bookNumber": "1",
         "bookRef": "/assets/img/计算机体系结构.jpg"
     },
     {
@@ -13,6 +14,7 @@
         "bookPublisher": "MIT Press",
         "bookDate": "2023-12-27",
         "bookStatus": "是",
+        "bookNumber": "2",
         "bookRef": "/assets/img/算法导论.jpg"
     },
     {
@@ -21,6 +23,7 @@
         "bookPublisher": "清华大学出版社",
         "bookDate": "2023-12-27",
         "bookStatus": "是",
+        "bookNumber": "3",
         "bookRef": "/assets/img/计算机网络.jpg"
     },
     {
@@ -29,6 +32,7 @@
         "bookPublisher": "机械工业出版社",
         "bookDate": "2023-12-27",
         "bookStatus": "是",
+        "bookNumber": "6",
         "bookRef": "/assets/img/计算机图形学.jpg"
     },
     {
@@ -37,6 +41,7 @@
         "bookPublisher": "Morgan Kaufmann",
         "bookDate": "2023-12-28",
         "bookStatus": "否",
+        "bookNumber": "0",
         "bookRef": "/assets/img/计算机组成与设计.jpg"
     },
     {
@@ -45,6 +50,7 @@
         "bookPublisher": "人民邮电出版社",
         "bookDate": "2023-2-27",
         "bookStatus": "是",
+        "bookNumber": "5",
         "bookRef": "/assets/img/操作系统概念.jpg"
     },
     {
@@ -53,6 +59,7 @@
         "bookPublisher": "机械工业出版社",
         "bookDate": "2023-1-2",
         "bookStatus": "是",
+        "bookNumber": "8",
         "bookRef": "/assets/img/数据库系统原理.jpg"
     },
     {
@@ -61,6 +68,7 @@
         "bookPublisher": "清华大学出版社",
         "bookDate": "2023-12-7",
         "bookStatus": "否",
+        "bookNumber": "0",
         "bookRef": "/assets/img/算法设计与分析.jpg"
     }
 ]

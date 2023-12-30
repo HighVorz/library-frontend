@@ -155,7 +155,11 @@ export default {
     },
     methods: {
         handleimgClick(book) {
-            alert("您已成功借阅《" + book.bookName + "》");
+            if (book.bookStatus === '否') {
+                alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
+                return;
+            }
+            alert("您已成功借阅《" + book.bookName + "》<(￣︶￣)↗[GO!]");
             this.showChoose = true;
             this.selectedBook = book;
         },
@@ -257,16 +261,9 @@ export default {
 .mixed {
     background: url('/assets/img/lib_learning.gif') center/cover no-repeat;
     background-attachment: fixed;
-    /* position: relative; */
     box-sizing: border-box;
 }
 
-/* #myVideo {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    object-fit:fill;
-} */
 
 .mixed h2 {
     margin: 10px;
@@ -278,7 +275,6 @@ export default {
 }
 
 .container {
-    /* position: relative; */
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;

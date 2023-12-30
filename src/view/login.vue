@@ -52,6 +52,7 @@ export default {
                 //     message: "登录成功",
                 //     type: "success",
                 // });
+                // 默认是进入读者的页面
                 this.$router.push("/books");
             } else {
                 alert("登录失败");

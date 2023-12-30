@@ -4,6 +4,8 @@
     </div>
     <hr>
     <div class="container">
+        <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>退出账户</button>
+        <button class="add-button"><i class="fas fa-book"></i> 添加图书</button>
         <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
         <div v-if="showModal" class="modal">
             <div class="search-container">
@@ -108,6 +110,9 @@ export default {
             if (index !== -1) {
                 this.bookTotal.splice(index, 1);
             }
+        },
+        handleLogout() {
+            this.$router.push('/login')
         }
     },
     watch: {
@@ -142,13 +147,51 @@ export default {
     left: 0;
     z-index: -1;
 }
-
-.search-button {
+.exit-button {
     margin: 20px 0px 20px 0px;
     padding: 10px 20px;
     font-size: 16px;
     width: 10%;
     position: relative;
+    left: 1%;
+    color: white;
+    background-color: rgba(255, 0, 0, 0.7);
+    border: none;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+    transition: font-weight 0.3s ease;
+}
+.exit-button:hover {
+    background-color: rgba(255, 0, 0, 1);
+    animation: bounce 0.3s forwards;
+    font-weight: bold;
+}
+.add-button {
+    margin: 20px 0px 20px 0px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 10%;
+    position: absolute;
+    left: 70%;
+    color: white;
+    background-color: rgba(119, 255, 0, 0.7);
+    border: none;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+    transition: font-weight 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: rgba(119, 255, 0, 1);
+    animation: bounce 0.3s forwards;
+    font-weight: bold;
+}
+.search-button {
+    margin: 20px 0px 20px 0px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 10%;
+    position: absolute;
     left: 85%;
     color: white;
     background-color: rgba(0, 123, 255, 0.7);
