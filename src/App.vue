@@ -30,4 +30,28 @@ body {
     padding: 0;
     background-color: #f2f2f2;
 }
+
+#app {
+    cursor: url("/assets/img/pointer.ico"), auto;
+}
+
+a:hover {
+    cursor: url("/assets/img/help.ico"), auto;
+}
+
+a[type="button"] {
+    cursor: url("/assets/img/alternate.ico"), auto;
+}
+
+img {
+    cursor: url("/assets/img/alternate.ico"), auto;
+}
+
+input:hover {
+    cursor: url("/assets/img/text.ico"), auto;
+}
+
+button {
+    cursor: url("/assets/img/alternate.ico"), auto;
+}
 </style>

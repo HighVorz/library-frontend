@@ -165,17 +165,16 @@ export default {
 }
 
 .search-button {
-    margin: 20px 0px 30px 15px;
+    margin: 20px 0px 20px 0px;
     padding: 10px 20px;
     font-size: 16px;
     width: 10%;
     position: relative;
-    left: 80%;
+    left: 85%;
     color: white;
     background-color: #007bff;
     border: none;
     border-radius: 15px;
-    cursor: pointer;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
 }
@@ -305,7 +304,6 @@ tr:hover {
     margin-right: 30%;
     background-color: #007bff;
     border: none;
-    cursor: pointer;
 }
 
 .add:hover {
@@ -322,7 +320,6 @@ tr:hover {
     margin-top: 10px;
     background-color: #dc3545;
     border: none;
-    cursor: pointer;
 }
 
 .quit:hover {
@@ -338,7 +335,6 @@ tr:hover {
 }
 
 .addin {
-    cursor: pointer;
     color: white;
     background-color: #28a745;
 }
@@ -349,7 +345,6 @@ tr:hover {
 }
 
 .del {
-    cursor: pointer;
     color: white;
     background-color: #dc3545;
 }

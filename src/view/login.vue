@@ -154,17 +154,17 @@ export default {
     display: flex;
 }
 
-.btn_field>.signin,
+.signin,
 .signup {
     flex: 1;
     height: 48px;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    cursor: pointer;
     border-radius: 38px;
     opacity: 0.8;
 }
+
 
 .signin:hover {
     opacity: 1;

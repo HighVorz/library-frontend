@@ -15,7 +15,7 @@
                 <input type="text" id="pub" class="form-control">
                 <label for="money">单价:</label>
                 <input type="number" id="money" class="form-control">
-                <input type="button" id="addBook" class="add btn btn-primary" value="添加图书" />
+                <button id="addBook" class="add btn btn-primary">添加图书</button>
             </div>
         </form>
     </div>
@@ -95,7 +95,6 @@ export default {
     font-weight: bold;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
 }
 
 #addBook:hover {

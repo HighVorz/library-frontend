@@ -2,11 +2,11 @@
     <div class="container">
         <h1>首页</h1>
         <div class="navigate">
-            <RouterLink to="/login">登录</RouterLink><br>
-            <RouterLink to="/books">书目</RouterLink><br>
-            <RouterLink to="/administer">管理员界面</RouterLink><br>
-            <RouterLink to="/user">用户空间</RouterLink><br>
-            <RouterLink to="/detail">书本详情</RouterLink><br>
+            <RouterLink to="/login" type="button">登录</RouterLink><br>
+            <RouterLink to="/books" type="button">书目</RouterLink><br>
+            <RouterLink to="/administer" type="button">管理员界面</RouterLink><br>
+            <RouterLink to="/user" type="button">用户空间</RouterLink><br>
+            <RouterLink to="/detail" type="button">书本详情</RouterLink><br>
         </div>
     </div>
 </template>

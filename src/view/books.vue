@@ -277,7 +277,6 @@ export default {
     font-weight: bold;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 16px;
 }
 
@@ -297,7 +296,6 @@ export default {
     font-weight: bold;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     font-size: 16px;
 }
 
@@ -367,7 +365,6 @@ export default {
 
 .book img {
     position: relative;
-    cursor: pointer;
     left: 10%;
     width: 80%;
     height: 60%;
@@ -494,6 +491,7 @@ h3 {
 
 .form-group label {
     display: inline-block;
+    cursor: url("/assets/img/alternate.ico"), auto;
     width: 60px;
     font-size: 16px;
     font-weight: bold;
@@ -529,7 +527,6 @@ h3 {
     margin-right: 30%;
     background-color: #007bff;
     border: none;
-    cursor: pointer;
 }
 
 .addbk:hover {
@@ -546,7 +543,6 @@ h3 {
     margin-top: 10px;
     background-color: #dc3545;
     border: none;
-    cursor: pointer;
 }
 
 .quit:hover {
@@ -599,5 +595,10 @@ h3 {
     width: 32px;
     height: 4px;
     background-color: #0276ea;
+}
+
+
+button:hover {
+    cursor: url("/assets/img/alternate.ico"), auto;
 }
 </style>

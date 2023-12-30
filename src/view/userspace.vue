@@ -6,7 +6,7 @@
     <span v-for="i in pageNum" @click="page(i)" :style="{ cursor: 'pointer', margin: '10px' }">{{ i }}</span>
     <input type="button" value="下一页" @click="nextPage"> -->
     <div class="animated-background">
-        <p>你好</p>
+        <p>忘记密码</p>
     </div>
 </template>
 
