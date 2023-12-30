@@ -8,6 +8,12 @@
             <div :class="fpwd">
                 <input type="password" :class="pinput" placeholder="请在此处输入密码...">
             </div>
+            <div class="identity">
+                <el-select class="csidentity" v-model="selectedOption" placeholder="请选择身份">
+                    <el-option label="用户" value="user"></el-option>
+                    <el-option label="管理员" value="admin"></el-option>
+                </el-select>
+            </div>
             <div :class="btn">
                 <button :class="sin" @click="handlefnsup">返回登录</button>
                 <button :class="sup">点击注册</button>
@@ -18,8 +24,8 @@
 
 <script>
 export default {
-    data(){
-        return{
+    data() {
+        return {
             ft: "form_title",
             fm: "form",
             cnr: "container",
@@ -30,6 +36,7 @@ export default {
             btn: "btn_field",
             sup: "signup",
             sin: "signin",
+            selectedOption: ""
         }
     },
     methods: {
@@ -63,6 +70,8 @@ export default {
     box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.08);
     padding: 48px;
 }
+
+
 
 .form>.form_title {
     font-size: 36px;
@@ -104,14 +113,15 @@ export default {
     font-weight: 600;
 }
 
-.username_input:focus {
-    opacity: 1;
+
+.identity {
+    margin-top: 24px;
 }
 
-.password_input:focus {
-    opacity: 1;
+.el-select {
+    width: 100%;
+    opacity: 0.8;
 }
-
 .form>.form_password_field {
     width: 100%;
     margin-top: 24px;
@@ -119,7 +129,7 @@ export default {
 
 
 .form>.btn_field {
-    margin-top: 48px;
+    margin-top: 40px;
     display: flex;
 }
 
@@ -153,6 +163,7 @@ export default {
     color: #000;
     margin-right: 10px;
 }
+
 /* .animated-background p {
     margin: 0px;
 }

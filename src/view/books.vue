@@ -1,6 +1,8 @@
 <template>
     <div class="header">
-        <marquee><h1>欢迎来到图书借阅系统</h1></marquee>
+        <marquee>
+            <h1>欢迎来到图书借阅系统</h1>
+        </marquee>
     </div>
     <div class="divider"></div>
     <!-- 弹窗一 -->
@@ -40,8 +42,12 @@
     <div v-if="showChoose" class="modal2">
         <div class="search-container2">
             <form class="search-form2">
-                <p class="choosebook">《{{ selectedBookName }}》的详细情况</p>
-                <button @click="showChoose = false">关闭</button>
+                <p class="choosebook">《{{ selectedBook.bookName }}》详细情况</p>
+                <img class="book-image" :src="selectedBook.bookRef">
+                <!-- 在加上一些主页没有显示的类似数量之类的信息 -->
+                <button class="form-button" @click="showChoose = false">关闭</button>
+                <button class="form-button borrow-btn">借阅</button>
+                <button class="form-button keep-btn">续借</button>
             </form>
         </div>
     </div>
@@ -52,50 +58,50 @@
         <!-- <video autoplay muted loop id="myVideo">
             <source src="/assets/img/lib_learning.mp4" type="video/mp4">
         </video> -->
-        <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i>  搜索书籍</button>
+        <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <img :src="item.bookRef" @click="handleimgClick(item)">
+                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <img :src="item.bookRef" @click="handleimgClick(item)">
+                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <img :src="item.bookRef" @click="handleimgClick(item)">
+                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <img :src="item.bookRef" @click="handleimgClick(item)">
+                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
             <div class="book" v-for="item in bookTotal">
                 <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-                <p>作者:<a href="https://www.baidu.com" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a href="https://www.wangyi.com" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <img :src="item.bookRef" @click="handleimgClick(item)">
+                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
                 <p>出版日期:{{ item.bookDate }}</p>
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
@@ -126,73 +132,9 @@ export default {
             // pages:[],
             showModal: false,
             showChoose: false,
-            selectedBookName: "",
+            selectedBook: [],
             // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
-            bookTotal: [
-                {
-                    bookName: "计算机体系结构",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机体系结构.jpg"
-                },
-                {
-                    bookName: "算法导论",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "MIT Press",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/算法导论.jpg"
-                },
-                {
-                    bookName: "计算机网络",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机网络.jpg"
-                },
-                {
-                    bookName: "计算机图形学",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-12-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/计算机图形学.jpg"
-                },
-                {
-                    bookName: "计算机组成与设计",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "Morgan Kaufmann",
-                    bookDate: "2023-12-28",
-                    bookStatus: "否",
-                    bookRef: "/assets/img/计算机组成与设计.jpg"
-                },
-                {
-                    bookName: "操作系统概念",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "人民邮电出版社",
-                    bookDate: "2023-2-27",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/操作系统概念.jpg"
-                },
-                {
-                    bookName: "数据库系统原理",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "机械工业出版社",
-                    bookDate: "2023-1-2",
-                    bookStatus: "是",
-                    bookRef: "/assets/img/数据库系统原理.jpg"
-                },
-                {
-                    bookName: "算法设计与分析",
-                    bookAuthor: "钱璟丰",
-                    bookPublisher: "清华大学出版社",
-                    bookDate: "2023-12-7",
-                    bookStatus: "否",
-                    bookRef: "/assets/img/算法设计与分析.jpg"
-                }]
+            bookTotal: []
         }
     },
     // components: {
@@ -203,11 +145,19 @@ export default {
     //         return this.pages[this.page];
     //     },
     // },
+    async created() {
+        const response = await fetch('/data.json');
+        if (response.ok) {
+            this.bookTotal = await response.json();
+        } else {
+            console.error('Failed to load data.json:', response.status, response.statusText);
+        }
+    },
     methods: {
-        handleimgClick(bookName) {
-            alert("您已成功借阅《" + bookName + "》");
+        handleimgClick(book) {
+            alert("您已成功借阅《" + book.bookName + "》");
             this.showChoose = true;
-            this.selectedBookName = bookName;
+            this.selectedBook = book;
         },
         handleLogout() {
             this.$router.push('/login')
@@ -268,7 +218,7 @@ export default {
 
 .search_book {
     position: absolute;
-    right:15%;
+    right: 15%;
     margin-top: 20px;
     width: 110px;
     height: 36px;
@@ -303,6 +253,7 @@ export default {
     background-color: rgba(255, 0, 0, 1);
     color: #ffffff;
 }
+
 .mixed {
     background: url('/assets/img/lib_learning.gif') center/cover no-repeat;
     background-attachment: fixed;
@@ -319,12 +270,13 @@ export default {
 
 .mixed h2 {
     margin: 10px;
-    width:300px;
+    width: 300px;
     display: inline-block;
     font-size: 36px;
     color: #d6a8a8;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
+
 .container {
     /* position: relative; */
     display: flex;
@@ -601,4 +553,57 @@ h3 {
 button:hover {
     cursor: url("/assets/img/alternate.ico"), auto;
 }
-</style>
+
+.search-form2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.choosebook {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.book-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    /* object-fit: cover; */
+    margin-bottom: 20px;
+}
+
+.form-button {
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+.borrow-btn {
+    background-color: #28a745;
+}
+
+.borrow-btn:hover {
+    background-color: #1e7e34;
+}
+
+.keep-btn {
+    background-color: #ffc107;
+}
+
+.keep-btn:hover {
+    background-color: #d39e00;
+}</style>
