@@ -55,6 +55,7 @@
     <!-- 主页面 -->
     <div class="mixed">
         <h2>可借阅图书列表</h2>
+        <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p>
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
@@ -196,6 +197,18 @@ export default {
     text-shadow: -2px 0 rgb(255, 0, 0), 0 2px rgb(255, 0, 0), 2px 0 rgb(255, 0, 0), 0 -2px rgb(255, 0, 0);
 }
 
+.mixed>.bar {
+    font-weight: bold;
+    font-size: large;
+    background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
+    background-size: 800% 800%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 0 9%;
+    /* text-shadow: -2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), 2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255); */
+    animation: AnimationName 3s ease infinite;
+}
 .divider {
     height: 3px;
     background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
@@ -221,7 +234,7 @@ export default {
     position: absolute;
     right: 15%;
     margin-top: 20px;
-    width: 110px;
+    width: 8%;
     height: 36px;
     background-color: rgba(0, 123, 255, 0.8);
     color: #e2dbdb;
@@ -234,13 +247,14 @@ export default {
 .search_book:hover {
     background-color: rgba(0, 123, 255, 1);
     color: #ffffff;
+    animation: bounce 0.3s forwards;
 }
 
 .exitbk {
     position: absolute;
     right: 3%;
     margin-top: 20px;
-    width: 110px;
+    width: 8%;
     height: 36px;
     background-color: rgba(255, 0, 0, 0.8);
     color: #e2dbdb;
@@ -253,6 +267,17 @@ export default {
 .exitbk:hover {
     background-color: rgba(255, 0, 0, 1);
     color: #ffffff;
+    animation: bounce 0.3s forwards;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-5px);
+    }
 }
 
 .mixed {

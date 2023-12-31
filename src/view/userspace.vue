@@ -116,7 +116,7 @@ export default {
 .form>.form_title {
     font-size: 36px;
     font-weight: bold;
-    color: #d55a5a;
+    color: #64f625;
     text-align: center;
     padding-bottom: 10px;
     margin: 30px 0px 40px 0px;
@@ -131,7 +131,7 @@ export default {
     transform: translateX(-50%);
     width: 40px;
     height: 4px;
-    background-color: #d55a5a;
+    background-color: #64f625;
 }
 
 .form>.form_user_field,
@@ -152,6 +152,18 @@ export default {
     opacity: 0.8;
     font-size: 14px;
     font-weight: 600;
+}
+
+.username_input:focus {
+    opacity: 1;
+}
+
+.password_input:focus {
+    opacity: 1;
+}
+
+.mail_input:focus {
+    opacity: 1;
 }
 
 .mail_input {
@@ -200,7 +212,7 @@ export default {
 
 .signup {
     color: #fff;
-    background-color: #d55a5a;
+    background-color: #64f625;
     margin-left: 10px;
 }
 

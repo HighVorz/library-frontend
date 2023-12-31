@@ -17,8 +17,9 @@
                 </el-select>
                 <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
             </div>
-            <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="usercertify" placeholder="请在此处输入验证码...">
+            <div :class="fct">
+                <input type="text" :class="cinput" v-model="usercertify" placeholder="请在此处输入验证码...">
+                <img src="/assets/img/certify.png" title="换一张?">
                 <p v-if="certifyError" class="error" style="font-size: small;color: red;position: absolute;">验证码不能为空</p>
             </div>
             <div :class="btn">
@@ -46,8 +47,8 @@ export default {
             fuf: "form_user_field",
             uinput: "username_input",
             minput: "mail_input",
-            fpwd: "form_password_field",
-            pinput: "password_input",
+            fct: "form_certify_field",
+            cinput: "certify_input",
             btn: "btn_field",
             sup: "signup",
             sin: "signin",
@@ -80,6 +81,10 @@ export default {
                 this.selectedError = false;
             }
             if (this.username && this.useremail && this.usercertify && this.selectedOption) {
+                if (this.usercertify != "5374") {
+                    alert("验证码错误");
+                    return;
+                }
                 alert("找回成功，请前往邮箱查看密码");
                 this.$router.push("/login");
             }
@@ -138,11 +143,10 @@ export default {
 }
 
 .form>.form_user_field,
-.form_password_field {
+.form_certify_field {
     width: 100%;
 }
 
-.form_password_field>.password_input,
 .form_user_field>.username_input,
 .form_user_field>.mail_input {
     width: 100%;
@@ -155,6 +159,40 @@ export default {
     opacity: 0.8;
     font-size: 14px;
     font-weight: 600;
+}
+
+.form_certify_field>.certify_input {
+    width: 60%;
+    height: 48px;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    padding: 0 12px;
+    background-color: #eaeaea;
+    opacity: 0.8;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10%;
+}
+
+.form_certify_field>img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30%;
+    height: 48px;
+    border-radius: 10px;
+}
+
+.username_input:focus {
+    opacity: 1;
+}
+
+.certify_input:focus {
+    opacity: 1;
+}
+
+.mail_input:focus {
+    opacity: 1;
 }
 
 .mail_input {
@@ -171,7 +209,7 @@ export default {
     opacity: 0.8;
 }
 
-.form>.form_password_field {
+.form>.form_certify_field {
     margin-top: 24px;
 }
 
@@ -211,5 +249,4 @@ export default {
     color: #000;
     margin-right: 10px;
 }
-
 </style>

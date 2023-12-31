@@ -116,8 +116,7 @@ export default {
             this.$router.push('/login')
         },
         handleReader() {
-            this.$router.push('/reader')
-            // 这个页面还没有加
+            this.$router.push('/administer/usercontrol')
         }
     },
     watch: {
