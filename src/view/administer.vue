@@ -1,45 +1,88 @@
 <template>
-    <div class="header">
-        <h1>欢迎来到图书管理系统</h1>
-    </div>
-    <div class="choose">
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="name">书名:</label>
-                <input type="text" id="name" class="form-control">
-                <label for="au">作者:</label>
-                <input type="text" id="au" class="form-control">
-                <label for="num">数量:</label>
-                <input type="number" id="num" class="form-control">
-                <label for="pub">出版社:</label>
-                <input type="text" id="pub" class="form-control">
-                <label for="money">单价:</label>
-                <input type="number" id="money" class="form-control">
-                <button id="addBook" class="add btn btn-primary">添加图书</button>
+    <div :class="cnr">
+        <form :class="fm" @submit.prevent="">
+            <div :class="ft">密码找回</div>
+            <div :class="fuf">
+                <input type="text" :class="uinput" v-model="username" placeholder="请输入用户名...">
+                <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
+            </div>
+            <div :class="fuf">
+                <input type="text" :class="minput" v-model="useremail" placeholder="请输入邮箱...">
+                <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
+            </div>
+            <div class="identity">
+                <el-select class="csidentity" v-model="selectedOption" placeholder="请选择身份">
+                    <el-option label="用户" value="user"></el-option>
+                    <el-option label="管理员" value="admin"></el-option>
+                </el-select>
+                <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
+            </div>
+            <div :class="fpwd">
+                <input type="password" :class="pinput" v-model="usercertify" placeholder="请在此处输入验证码...">
+                <p v-if="certifyError" class="error" style="font-size: small;color: red;position: absolute;">验证码不能为空</p>
+            </div>
+            <div :class="btn">
+                <button :class="sin" @click="handlefnsup">返回登录</button>
+                <button :class="sup" @click="handleprereg">点击找回</button>
             </div>
         </form>
     </div>
-    <div class="leader">
-        <h2>可管理图书列表</h2>
-    </div>
-    <div class="container">
-        <div class="book" v-for="item in bookTotal">
-            <h3>《{{ item.bookName }}》</h3>
-            <img :src="item.bookRef" @click="borrowBook(item.bookName)">
-            <p>作者:{{ item.bookAuthor }}</p>
-            <p>出版社:{{ item.bookPublisher }}</p>
-            <p>出版日期:{{ item.bookDate }}</p>
-            <p>可借阅状态:{{ item.bookStatus }}</p>
-        </div>
-    </div>
-    <!-- <div class="search-mask" style="display: block;overflow: hidden; position: fixed;top: 0%;right: 0%;bottom: 0%;left: 0%;"></div> -->
 </template>
 
 <script>
 export default {
     data() {
         return {
-
+            ft: "form_title",
+            username: '',
+            useremail: '',
+            usercertify: '',
+            usernameError: false,
+            emailError: false,
+            certifyError: false,
+            selectedError: false,
+            fm: "form",
+            cnr: "container",
+            fuf: "form_user_field",
+            uinput: "username_input",
+            minput: "mail_input",
+            fpwd: "form_password_field",
+            pinput: "password_input",
+            btn: "btn_field",
+            sup: "signup",
+            sin: "signin",
+            selectedOption: ""
+        }
+    },
+    methods: {
+        handlefnsup() {
+            this.$router.push("/login");
+        },
+        handleprereg() {
+            if (!this.username) {
+                this.usernameError = true;
+            } else {
+                this.usernameError = false;
+            }
+            if (!this.useremail) {
+                this.emailError = true;
+            } else {
+                this.emailError = false;
+            }
+            if (!this.usercertify) {
+                this.certifyError = true;
+            } else {
+                this.certifyError = false;
+            }
+            if (!this.selectedOption) {
+                this.selectedError = true;
+            } else {
+                this.selectedError = false;
+            }
+            if (this.username && this.useremail && this.usercertify && this.selectedOption) {
+                alert("找回成功，请前往邮箱查看密码");
+                this.$router.push("/login");
+            }
         }
     }
 }
@@ -47,63 +90,126 @@ export default {
 
 
 <style scoped>
-.header {
-    background: url('../assets/img/cloud.jpg') center/cover no-repeat;
-    color: rgb(36, 93, 116);
-    padding: 15px;
-    text-align: center;
-}
-
-.form-inline {
-    background-color: rgba(42, 145, 236,0.8);
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.form-inline:hover {
-    background-color: rgba(42, 145, 236,1);
-}
-
-.form-group {
+* {
     box-sizing: border-box;
-    font-weight: bold;
-    margin-left: 9%;
-    margin-right:9%;
-}
-
-.form-control {
-    width: 12%;
-    height: 20px;
-    font-weight: bold;
-    margin: 5px;
-    border-radius: 4px;
-    outline:none;
-    border: none;
-    background-color: #f2f2f2;
-    opacity: 0.8;
-}
-
-.form-control:focus {
-    opacity: 1;
-}
-
-#addBook {
-    margin-left: 20px;
-    height: 20px;
-    width: 100px;
-    background-color: rgba(255, 242, 0, 0.75);
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-}
-
-#addBook:hover {
-    background-color: rgba(255, 242, 0, 1);
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    background: url('/assets/img/lib_admin.jpg') center/cover no-repeat;
-    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('/assets/img/lib_register.png') center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width: 400px;
+    height: 520px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.08);
+    padding: 48px;
+}
+
+
+
+.form>.form_title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #d55a5a;
+    text-align: center;
+    padding-bottom: 10px;
+    margin: 30px 0px 40px 0px;
+    position: relative;
+}
+
+.form_title::before {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background-color: #d55a5a;
+}
+
+.form>.form_user_field,
+.form_password_field {
+    width: 100%;
+}
+
+.form_password_field>.password_input,
+.form_user_field>.username_input,
+.form_user_field>.mail_input {
+    width: 100%;
+    height: 48px;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    padding: 0 12px;
+    background-color: #eaeaea;
+    opacity: 0.8;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mail_input {
+    margin-top: 24px;
+
+}
+
+.identity {
+    margin-top: 24px;
+}
+
+.el-select {
+    width: 100%;
+    opacity: 0.8;
+}
+
+.form>.form_password_field {
+    margin-top: 24px;
+}
+
+
+.form>.btn_field {
+    margin-top: 20px;
+    display: flex;
+}
+
+.signin,
+.signup {
+    flex: 1;
+    height: 48px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 38px;
+    opacity: 0.8;
+}
+
+
+.signin:hover {
+    opacity: 1;
+}
+
+.signup:hover {
+    opacity: 1;
+}
+
+.signup {
+    color: #fff;
+    background-color: #d55a5a;
+    margin-left: 10px;
+}
+
+.signin {
+    color: #000;
+    margin-right: 10px;
 }
 
 </style>

@@ -5,6 +5,7 @@
     <hr>
     <div class="container">
         <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>退出账户</button>
+        <button class="reader-button" @click="handleReader"><i class="fas fa-users"></i> 读者管理</button>
         <button class="add-button"><i class="fas fa-book"></i> 添加图书</button>
         <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
         <div v-if="showModal" class="modal">
@@ -113,6 +114,10 @@ export default {
         },
         handleLogout() {
             this.$router.push('/login')
+        },
+        handleReader() {
+            this.$router.push('/reader')
+            // 这个页面还没有加
         }
     },
     watch: {
@@ -147,6 +152,25 @@ export default {
     left: 0;
     z-index: -1;
 }
+.reader-button {
+    margin: 20px 0px 20px 0px;
+    padding: 10px 20px;
+    font-size: 16px;
+    width: 10%;
+    position: relative;
+    left: 45%;
+    color: rgb(0, 0, 0);
+    background-color: rgba(255, 255, 0, 0.7);
+    border: none;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+    transition: font-weight 0.3s ease;
+}
+.reader-button:hover {
+    background-color: rgb(255, 255, 0);
+    animation: bounce 0.3s forwards;
+    font-weight: bold;
+}
 .exit-button {
     margin: 20px 0px 20px 0px;
     padding: 10px 20px;
@@ -173,7 +197,7 @@ export default {
     width: 10%;
     position: absolute;
     left: 70%;
-    color: white;
+    color: rgb(0, 0, 0);
     background-color: rgba(119, 255, 0, 0.7);
     border: none;
     border-radius: 15px;
@@ -193,7 +217,7 @@ export default {
     width: 10%;
     position: absolute;
     left: 85%;
-    color: white;
+    color: rgb(0, 0, 0);
     background-color: rgba(0, 123, 255, 0.7);
     border: none;
     border-radius: 15px;

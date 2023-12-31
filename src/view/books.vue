@@ -55,9 +55,6 @@
     <!-- 主页面 -->
     <div class="mixed">
         <h2>可借阅图书列表</h2>
-        <!-- <video autoplay muted loop id="myVideo">
-            <source src="/assets/img/lib_learning.mp4" type="video/mp4">
-        </video> -->
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
