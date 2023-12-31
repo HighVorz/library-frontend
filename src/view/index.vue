@@ -7,6 +7,7 @@
             <RouterLink to="/administer" type="button">管理员界面</RouterLink><br>
             <RouterLink to="/user" type="button">用户空间</RouterLink><br>
             <RouterLink to="/detail" type="button">书本详情</RouterLink><br>
+            <RouterLink to="/administer/usercontrol" type="button">用户管理</RouterLink><br>
         </div>
     </div>
 </template>

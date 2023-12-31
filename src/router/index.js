@@ -6,6 +6,7 @@ import Userspace from '../view/userspace.vue'
 import Administer from '../view/administer.vue'
 import Book_detail from '../view/book_detail.vue'
 import Home from '../view/index.vue'
+import User_Management from '../view/user_management.vue';
 
 const Router = createRouter({
     history: createWebHistory(),
@@ -48,6 +49,14 @@ const Router = createRouter({
             component: Administer,
             meta:{
                 title: '后台管理界面'
+            }
+        },
+        {
+            path: "/administer/usercontrol",
+            name: User_Management,
+            component: User_Management,
+            meta:{
+                title: '用户管理'
             }
         },
         {
