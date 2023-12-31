@@ -62,7 +62,7 @@
             <form class="search-form2-1">
                 <input type="text" class="userbr" v-model="brnum" placeholder="请输入借阅个数...">
                 <div class="funcbutton">
-                    <button class="form-button borrow-btn" @click="borrowBookfin" style="margin-right: 42%;">借阅</button>
+                    <button class="form-button borrow-btn" @click="borrowBookfin" style="margin-right: 62%;">借阅</button>
                     <button class="form-button" @click="erjishowbr = false">关闭</button>
                 </div>
             </form>
@@ -74,7 +74,7 @@
             <form class="search-form2-1">
                 <input type="text" class="userbr" v-model="brnum" placeholder="请输入续借时长(天)...">
                 <div class="funcbutton">
-                    <button class="form-button keep-btn" @click="keepBookfin" style="margin-right: 42%;">续借</button>
+                    <button class="form-button keep-btn" @click="keepBookfin" style="margin-right: 62%;">续借</button>
                     <button class="form-button" @click="erjishowbr = false">关闭</button>
                 </div>
             </form>
@@ -134,7 +134,6 @@
             </div>
         </div>
     </div>
-    <!-- <pagination :data="bookTotal" @pagination-change-page="getResults"></pagination> -->
     <div class="footer">
         <div class="contact">
             <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
@@ -149,14 +148,9 @@
 </template>
 
 <script>
-// import Pagination from 'vue-pagination-2';
-
 export default {
     data() {
         return {
-            // page:1,
-            // perPage: 8,
-            // pages:[],
             showModal: false,
             showChoose: false,
             erjishowbr: false,
@@ -167,14 +161,6 @@ export default {
             bookTotal: []
         }
     },
-    // components: {
-    //     Pagination
-    // },
-    // computed: {
-    //     paginatedData() {
-    //         return this.pages[this.page];
-    //     },
-    // },
     async created() {
         const response = await fetch('/data.json');
         if (response.ok) {
