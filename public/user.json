@@ -3,54 +3,63 @@
         "userName": "钱璟丰",
         "userMail": "2055318980@qq.com",
         "userBorrow": "计算机体系结构",
-        "userBorrowtime": "2023-12-27"
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
     },
     {
         "userName": "小明",
         "userMail": "666666666@qq.com",
         "userBorrow": "计算机网络",
-        "userBorrowtime": "2023-12-27"
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
     },
     {
         "userName": "小红",
         "userMail": "233465654756@qq.com",
         "userBorrow": "计算机图形学",
-        "userBorrowtime": "2023-1-1"
+        "userBorrowtime": "2023-1-1",
+        "userReturntime": "2023-1-2"
     },
     {
         "userName": "张三",
         "userMail": "zhangsan@example.com",
         "userBorrow": "数据库系统原理",
-        "userBorrowtime": "2023-12-28"
+        "userBorrowtime": "2023-12-28",
+        "userReturntime": "null"
     },
     {
         "userName": "李四",
         "userMail": "lisi@example.com",
         "userBorrow": "操作系统概念",
-        "userBorrowtime": "2023-2-1"
+        "userBorrowtime": "2023-2-1",
+        "userReturntime": "null"
     },
     {
         "userName": "王五",
         "userMail": "wangwu@example.com",
         "userBorrow": "算法设计与分析",
-        "userBorrowtime": "2023-12-7"
+        "userBorrowtime": "2023-12-7",
+        "userReturntime": "2024-1-1"
     },
     {
         "userName": "赵六",
         "userMail": "zhaoliu@example.com",
         "userBorrow": "计算机组成与设计",
-        "userBorrowtime": "2023-1-15"
+        "userBorrowtime": "2023-1-15",
+        "userReturntime": "2023-1-20"
     },
     {
         "userName": "陈七",
         "userMail": "chenqi@example.com",
         "userBorrow": "计算机体系结构",
-        "userBorrowtime": "2023-12-27"
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-29"
     },
     {
         "userName": "张十",
         "userMail": "zhangshi@example.com",
         "userBorrow": "数据结构与算法",
-        "userBorrowtime": "2023-1-20"
+        "userBorrowtime": "2023-1-20",
+        "userReturntime": "2023-1-25"
     }   
 ]

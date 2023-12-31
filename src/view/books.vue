@@ -42,12 +42,41 @@
     <div v-if="showChoose" class="modal2">
         <div class="search-container2">
             <form class="search-form2">
-                <p class="choosebook">《{{ selectedBook.bookName }}》详细情况</p>
-                <img class="book-image" :src="selectedBook.bookRef">
+                <p class="choosebook">《{{ selectedBook.bookName }}》详情</p>
+                <img class="book-image" :src="selectedBook.bookRef" title="真的没有其他的了">
                 <!-- 在加上一些主页没有显示的类似数量之类的信息 -->
-                <button class="form-button" @click="showChoose = false">关闭</button>
-                <button class="form-button borrow-btn">借阅</button>
-                <button class="form-button keep-btn">续借</button>
+                <p class="booknum">此书剩余数量:{{ selectedBook.bookNumber }}</p>
+                <p class="bookloc">此书位置:{{ selectedBook.bookLocate }}</p>
+                <div class="funcbutton">
+                    <button class="form-button borrow-btn" @click.prevent="borrowBook">借阅</button>
+                    <button class="form-button keep-btn" @click.prevent="keepBook">续借</button>
+                    <button class="form-button" @click="showChoose = false">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹窗二-1 -->
+    <div v-if="erjishowbr" class="modal2-1">
+        <div class="search-container2-1">
+            <form class="search-form2-1">
+                <input type="text" class="userbr" v-model="brnum" placeholder="请输入借阅个数...">
+                <div class="funcbutton">
+                    <button class="form-button borrow-btn" @click="borrowBookfin" style="margin-right: 42%;">借阅</button>
+                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 弹窗二-2 -->
+    <div v-if="erjishowkp" class="modal2-1">
+        <div class="search-container2-1">
+            <form class="search-form2-1">
+                <input type="text" class="userbr" v-model="brnum" placeholder="请输入续借时长(天)...">
+                <div class="funcbutton">
+                    <button class="form-button keep-btn" @click="keepBookfin" style="margin-right: 42%;">续借</button>
+                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                </div>
             </form>
         </div>
     </div>
@@ -130,6 +159,9 @@ export default {
             // pages:[],
             showModal: false,
             showChoose: false,
+            erjishowbr: false,
+            erjishowkp: false,
+            brnum: '',
             selectedBook: [],
             // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
             bookTotal: []
@@ -157,12 +189,24 @@ export default {
                 alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
                 return;
             }
-            alert("您已成功借阅《" + book.bookName + "》<(￣︶￣)↗[GO!]");
+            alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
             this.showChoose = true;
             this.selectedBook = book;
         },
         handleLogout() {
             this.$router.push('/login')
+        },
+        keepBook() {
+            this.erjishowkp = "true";
+        },
+        borrowBook() {
+            this.erjishowbr = "true";
+        },
+        borrowBookfin() {
+            alert("借阅成功");
+        },
+        keepBookfin() {
+            alert("续借成功");
         },
         // getResults(page) {
         //     this.page = page;
@@ -183,7 +227,8 @@ export default {
             } else {
                 document.body.style.overflow = 'auto'
             }
-        }
+        },
+
     }
 }
 </script>
@@ -209,6 +254,7 @@ export default {
     /* text-shadow: -2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), 2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255); */
     animation: AnimationName 3s ease infinite;
 }
+
 .divider {
     height: 3px;
     background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
@@ -549,7 +595,7 @@ h3 {
 .search-form2>.choosebook {
     position: relative;
     text-align: center;
-    font-size: 32px;
+    font-size: 26px;
     color: #0056b3;
     font-weight: bold;
     margin-top: 10px;
@@ -601,9 +647,24 @@ button:hover {
     background-color: #007bff;
     border: none;
     padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+    margin: 0 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.booknum {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.bookloc {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .form-button:hover {
@@ -624,4 +685,71 @@ button:hover {
 
 .keep-btn:hover {
     background-color: #d39e00;
-}</style>
+}
+
+.modal2-1 {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.search-container2-1 {
+    width: 100%;
+    margin: auto;
+    border: none;
+    margin-top: 10%;
+}
+
+.search-form2-1 {
+    width: 30%;
+    margin: auto;
+    margin-top: 20%;
+    background-color: #fefefe;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.search-form2-1>.choosebook {
+    position: relative;
+    text-align: center;
+    font-size: 26px;
+    color: #0056b3;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form2-1>.choosebook::before {
+    position: absolute;
+    content: "";
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 4px;
+    background-color: #0276ea;
+}
+
+.userbr {
+    width: 80%;
+    text-align: center;
+    height: 40px;
+    padding: 0 12px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px 5px rgba(47, 45, 45, 0.08);
+    font-size: 20px;
+    background-color: #e9e7ee;
+    font-weight: 600;
+}
+</style>
