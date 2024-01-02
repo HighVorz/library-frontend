@@ -3,10 +3,10 @@
         <form :class="fm">
             <div :class="ft">图书管理系统登录</div>
             <div :class="fuf">
-                <input type="text" :class="uinput" placeholder="请输入用户名...">
+                <input type="text" :class="uinput" placeholder="Username">
             </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" placeholder="请在此处输入密码...">
+                <input type="password" :class="pinput" placeholder="Password">
             </div>
             <div>
                 <el-checkbox>记住密码</el-checkbox>
@@ -23,6 +23,11 @@
 </template>
 
 <script>
+
+import {useVuelidate} from '@vuelidate/core'
+import {required, email} from '@vuelidate/validators'
+
+
 export default {
     data() {
         return {
@@ -39,8 +44,17 @@ export default {
             sup: "signup",
             sin: "signin",
             mmtrue: "false",
+            //
+            username: "",
+            password: ""
         };
     },
+    validations(){
+        return {
+            username: {required},
+            password: {required},
+        }
+    },  
     methods: {
         handlesup() {
             this.$router.push("/user");
