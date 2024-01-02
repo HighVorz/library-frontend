@@ -1,18 +1,20 @@
 <template>
     <div :class="cnr">
-        <form :class="fm">
+        <form :class="fm" @submit.prevent="">
             <div :class="ft">图书管理系统登录</div>
             <div :class="fuf">
-                <input type="text" :class="uinput" placeholder="Username">
+                <input type="text" :class="uinput" v-model="username" placeholder="Username">
+                <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" placeholder="Password">
+                <input type="password" :class="pinput" v-model="userpassword" placeholder="Password">
+                <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <div>
                 <el-checkbox>记住密码</el-checkbox>
             </div>
             <div :class="tfd">
-                <p :class="fgt">忘记密码? <a href="/user">点击这里</a></p>
+                <p :class="fgt">忘记密码? <a href="/administer">点击这里</a></p>
             </div>
             <div :class="btn">
                 <button :class="sup" @click="handlesup">注册</button>
@@ -31,6 +33,10 @@ import {required, email} from '@vuelidate/validators'
 export default {
     data() {
         return {
+            username: '',
+            userpassword: '',
+            usernameError: false,
+            passwordError: false,
             ft: "form_title",
             fm: "form",
             cnr: "container",
@@ -60,23 +66,27 @@ export default {
             this.$router.push("/user");
         },
         handlesin() {
-            if (this.mmtrue) {
-                alert("登录成功");
-                // this.$message({
-                //     message: "登录成功",
-                //     type: "success",
-                // });
-                // 默认是进入读者的页面
-                this.$router.push("/books");
+            if (!this.username) {
+                this.usernameError = true;
             } else {
-                alert("登录失败");
-                // this.$message({
-                //     message: "登录失败",
-                //     type: "error",
-                // });
+                this.usernameError = false;
+            }
+            if (!this.userpassword) {
+                this.passwordError = true;
+            } else {
+                this.passwordError = false;
+            }
+            if (!this.usernameError && !this.passwordError) {
+                if (this.mmtrue) {
+                    alert("登录成功");
+                    // 默认是进入读者的页面
+                    this.$router.push("/books");
+                } else {
+                    alert("登录失败");
+                }
+                // 提交表单的代码...
             }
         },
-        // Your methods go here
     },
     mounted() {
         // Code to run when the component is mounted

@@ -42,12 +42,41 @@
     <div v-if="showChoose" class="modal2">
         <div class="search-container2">
             <form class="search-form2">
-                <p class="choosebook">《{{ selectedBook.bookName }}》详细情况</p>
-                <img class="book-image" :src="selectedBook.bookRef">
+                <p class="choosebook">《{{ selectedBook.bookName }}》详情</p>
+                <img class="book-image" :src="selectedBook.bookRef" title="真的没有其他的了">
                 <!-- 在加上一些主页没有显示的类似数量之类的信息 -->
-                <button class="form-button" @click="showChoose = false">关闭</button>
-                <button class="form-button borrow-btn">借阅</button>
-                <button class="form-button keep-btn">续借</button>
+                <p class="booknum">此书剩余数量:{{ selectedBook.bookNumber }}</p>
+                <p class="bookloc">此书位置:{{ selectedBook.bookLocate }}</p>
+                <div class="funcbutton">
+                    <button class="form-button borrow-btn" @click.prevent="borrowBook">借阅</button>
+                    <button class="form-button keep-btn" @click.prevent="keepBook">续借</button>
+                    <button class="form-button" @click="showChoose = false">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹窗二-1 -->
+    <div v-if="erjishowbr" class="modal2-1">
+        <div class="search-container2-1">
+            <form class="search-form2-1">
+                <input type="text" class="userbr" v-model="brnum" placeholder="请输入借阅个数...">
+                <div class="funcbutton">
+                    <button class="form-button borrow-btn" @click="borrowBookfin" style="margin-right: 62%;">借阅</button>
+                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 弹窗二-2 -->
+    <div v-if="erjishowkp" class="modal2-1">
+        <div class="search-container2-1">
+            <form class="search-form2-1">
+                <input type="text" class="userbr" v-model="brnum" placeholder="请输入续借时长(天)...">
+                <div class="funcbutton">
+                    <button class="form-button keep-btn" @click="keepBookfin" style="margin-right: 62%;">续借</button>
+                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                </div>
             </form>
         </div>
     </div>
@@ -55,9 +84,7 @@
     <!-- 主页面 -->
     <div class="mixed">
         <h2>可借阅图书列表</h2>
-        <!-- <video autoplay muted loop id="myVideo">
-            <source src="/assets/img/lib_learning.mp4" type="video/mp4">
-        </video> -->
+        <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p>
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
@@ -107,7 +134,6 @@
             </div>
         </div>
     </div>
-    <!-- <pagination :data="bookTotal" @pagination-change-page="getResults"></pagination> -->
     <div class="footer">
         <div class="contact">
             <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
@@ -122,29 +148,19 @@
 </template>
 
 <script>
-// import Pagination from 'vue-pagination-2';
-
 export default {
     data() {
         return {
-            // page:1,
-            // perPage: 8,
-            // pages:[],
             showModal: false,
             showChoose: false,
+            erjishowbr: false,
+            erjishowkp: false,
+            brnum: '',
             selectedBook: [],
             // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
             bookTotal: []
         }
     },
-    // components: {
-    //     Pagination
-    // },
-    // computed: {
-    //     paginatedData() {
-    //         return this.pages[this.page];
-    //     },
-    // },
     async created() {
         const response = await fetch('/data.json');
         if (response.ok) {
@@ -159,12 +175,24 @@ export default {
                 alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
                 return;
             }
-            alert("您已成功借阅《" + book.bookName + "》<(￣︶￣)↗[GO!]");
+            alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
             this.showChoose = true;
             this.selectedBook = book;
         },
         handleLogout() {
             this.$router.push('/login')
+        },
+        keepBook() {
+            this.erjishowkp = "true";
+        },
+        borrowBook() {
+            this.erjishowbr = "true";
+        },
+        borrowBookfin() {
+            alert("借阅成功");
+        },
+        keepBookfin() {
+            alert("续借成功");
         },
         // getResults(page) {
         //     this.page = page;
@@ -185,7 +213,8 @@ export default {
             } else {
                 document.body.style.overflow = 'auto'
             }
-        }
+        },
+
     }
 }
 </script>
@@ -197,6 +226,19 @@ export default {
     font-size: large;
     text-align: center;
     text-shadow: -2px 0 rgb(255, 0, 0), 0 2px rgb(255, 0, 0), 2px 0 rgb(255, 0, 0), 0 -2px rgb(255, 0, 0);
+}
+
+.mixed>.bar {
+    font-weight: bold;
+    font-size: large;
+    background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
+    background-size: 800% 800%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 0 9%;
+    /* text-shadow: -2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), 2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255); */
+    animation: AnimationName 3s ease infinite;
 }
 
 .divider {
@@ -224,7 +266,7 @@ export default {
     position: absolute;
     right: 15%;
     margin-top: 20px;
-    width: 110px;
+    width: 8%;
     height: 36px;
     background-color: rgba(0, 123, 255, 0.8);
     color: #e2dbdb;
@@ -237,13 +279,14 @@ export default {
 .search_book:hover {
     background-color: rgba(0, 123, 255, 1);
     color: #ffffff;
+    animation: bounce 0.3s forwards;
 }
 
 .exitbk {
     position: absolute;
     right: 3%;
     margin-top: 20px;
-    width: 110px;
+    width: 8%;
     height: 36px;
     background-color: rgba(255, 0, 0, 0.8);
     color: #e2dbdb;
@@ -256,6 +299,17 @@ export default {
 .exitbk:hover {
     background-color: rgba(255, 0, 0, 1);
     color: #ffffff;
+    animation: bounce 0.3s forwards;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-5px);
+    }
 }
 
 .mixed {
@@ -527,7 +581,7 @@ h3 {
 .search-form2>.choosebook {
     position: relative;
     text-align: center;
-    font-size: 32px;
+    font-size: 26px;
     color: #0056b3;
     font-weight: bold;
     margin-top: 10px;
@@ -579,9 +633,24 @@ button:hover {
     background-color: #007bff;
     border: none;
     padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+    margin: 0 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.booknum {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.bookloc {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .form-button:hover {
@@ -602,4 +671,71 @@ button:hover {
 
 .keep-btn:hover {
     background-color: #d39e00;
-}</style>
+}
+
+.modal2-1 {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.search-container2-1 {
+    width: 100%;
+    margin: auto;
+    border: none;
+    margin-top: 10%;
+}
+
+.search-form2-1 {
+    width: 30%;
+    margin: auto;
+    margin-top: 20%;
+    background-color: #fefefe;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.search-form2-1>.choosebook {
+    position: relative;
+    text-align: center;
+    font-size: 26px;
+    color: #0056b3;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form2-1>.choosebook::before {
+    position: absolute;
+    content: "";
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 4px;
+    background-color: #0276ea;
+}
+
+.userbr {
+    width: 80%;
+    text-align: center;
+    height: 40px;
+    padding: 0 12px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px 5px rgba(47, 45, 45, 0.08);
+    font-size: 20px;
+    background-color: #e9e7ee;
+    font-weight: 600;
+}
+</style>

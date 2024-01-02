@@ -1,22 +1,29 @@
 <template>
     <div :class="cnr">
-        <form :class="fm">
+        <form :class="fm" @submit.prevent="">
             <div :class="ft">用户注册</div>
             <div :class="fuf">
-                <input type="text" :class="uinput" placeholder="请输入用户名...">
+                <input type="text" :class="uinput" v-model="username" placeholder="请输入用户名...">
+                <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
+            </div>
+            <div :class="fuf">
+                <input type="text" :class="minput" v-model="useremail" placeholder="请输入邮箱...">
+                <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" placeholder="请在此处输入密码...">
+                <input type="password" :class="pinput" v-model="userpassword" placeholder="请在此处输入密码...">
+                <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <div class="identity">
                 <el-select class="csidentity" v-model="selectedOption" placeholder="请选择身份">
                     <el-option label="用户" value="user"></el-option>
                     <el-option label="管理员" value="admin"></el-option>
                 </el-select>
+                <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
             </div>
             <div :class="btn">
                 <button :class="sin" @click="handlefnsup">返回登录</button>
-                <button :class="sup">点击注册</button>
+                <button :class="sup" @click="handleprereg">点击注册</button>
             </div>
         </form>
     </div>
@@ -27,10 +34,18 @@ export default {
     data() {
         return {
             ft: "form_title",
+            username: '',
+            useremail: '',
+            userpassword: '',
+            usernameError: false,
+            emailError: false,
+            passwordError: false,
+            selectedError: false,
             fm: "form",
             cnr: "container",
             fuf: "form_user_field",
             uinput: "username_input",
+            minput: "mail_input",
             fpwd: "form_password_field",
             pinput: "password_input",
             btn: "btn_field",
@@ -42,6 +57,31 @@ export default {
     methods: {
         handlefnsup() {
             this.$router.push("/login");
+        },
+        handleprereg() {
+            if (!this.username) {
+                this.usernameError = true;
+            } else {
+                this.usernameError = false;
+            }
+            if (!this.useremail) {
+                this.emailError = true;
+            } else {
+                this.emailError = false;
+            }
+            if (!this.userpassword) {
+                this.passwordError = true;
+            } else {
+                this.passwordError = false;
+            }
+            if (!this.selectedOption) {
+                this.selectedError = true;
+            } else {
+                this.selectedError = false;
+            }
+            if (!this.usernameError && !this.emailError && !this.passwordError && !this.selectedError) {
+                // 提交表单的代码...
+            }
         },
     },
 }
@@ -76,7 +116,7 @@ export default {
 .form>.form_title {
     font-size: 36px;
     font-weight: bold;
-    color: #d55a5a;
+    color: #64f625;
     text-align: center;
     padding-bottom: 10px;
     margin: 30px 0px 40px 0px;
@@ -91,7 +131,7 @@ export default {
     transform: translateX(-50%);
     width: 40px;
     height: 4px;
-    background-color: #d55a5a;
+    background-color: #64f625;
 }
 
 .form>.form_user_field,
@@ -100,7 +140,8 @@ export default {
 }
 
 .form_password_field>.password_input,
-.form_user_field>.username_input {
+.form_user_field>.username_input,
+.form_user_field>.mail_input {
     width: 100%;
     height: 48px;
     outline: none;
@@ -113,6 +154,22 @@ export default {
     font-weight: 600;
 }
 
+.username_input:focus {
+    opacity: 1;
+}
+
+.password_input:focus {
+    opacity: 1;
+}
+
+.mail_input:focus {
+    opacity: 1;
+}
+
+.mail_input {
+    margin-top: 24px;
+
+}
 
 .identity {
     margin-top: 24px;
@@ -122,14 +179,14 @@ export default {
     width: 100%;
     opacity: 0.8;
 }
+
 .form>.form_password_field {
-    width: 100%;
     margin-top: 24px;
 }
 
 
 .form>.btn_field {
-    margin-top: 40px;
+    margin-top: 20px;
     display: flex;
 }
 
@@ -155,7 +212,7 @@ export default {
 
 .signup {
     color: #fff;
-    background-color: #d55a5a;
+    background-color: #64f625;
     margin-left: 10px;
 }
 
