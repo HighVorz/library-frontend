@@ -7,7 +7,7 @@
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="userpassword" placeholder="Password">
+                <input type="password" :class="pinput" v-model="password" placeholder="Password">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <div>
@@ -33,8 +33,6 @@ import {required, email} from '@vuelidate/validators'
 export default {
     data() {
         return {
-            username: '',
-            userpassword: '',
             usernameError: false,
             passwordError: false,
             ft: "form_title",
@@ -61,6 +59,7 @@ export default {
             password: {required},
         }
     },  
+    
     methods: {
         handlesup() {
             this.$router.push("/user");
