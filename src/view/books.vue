@@ -340,7 +340,7 @@ export default {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
-    margin: 10px;
+    margin:10px 35px 10px 35px;
     background-color: rgb(255, 255, 255, 0.8);
     box-sizing: border-box;
     overflow: hidden;
