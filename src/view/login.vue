@@ -1,65 +1,75 @@
 <template>
-    <div :class="cnr">
-        <form :class="fm" @submit.prevent="">
-            <div :class="ft">图书管理系统登录</div>
-            <div :class="fuf">
-                <input type="text" :class="uinput" v-model="username" placeholder="Username">
-                <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
+    <div class="container">
+        <form class="form" @submit.prevent="">
+            <div class="form_title">图书管理系统登录</div>
+            <div class="form_user_field">
+                <input
+                    type="text"
+                    class="username_input"
+                    v-model="username"
+                    placeholder="Username"
+                />
+                <p
+                    v-if="usernameError"
+                    class="error"
+                    style="font-size: small; color: red; position: absolute"
+                >
+                    用户名不能为空
+                </p>
             </div>
-            <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="password" placeholder="Password">
-                <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
+            <div class="form_password_field">
+                <input
+                    type="password"
+                    class="password_input"
+                    v-model="password"
+                    placeholder="Password"
+                />
+                <p
+                    v-if="passwordError"
+                    class="error"
+                    style="font-size: small; color: red; position: absolute"
+                >
+                    密码不能为空
+                </p>
             </div>
             <div>
                 <el-checkbox>记住密码</el-checkbox>
             </div>
-            <div :class="tfd">
-                <p :class="fgt">忘记密码? <a href="/administer">点击这里</a></p>
+            <div class="tips_field">
+                <p class="forget">
+                    忘记密码? <a href="/administer">点击这里</a>
+                </p>
             </div>
-            <div :class="btn">
-                <button :class="sup" @click="handlesup">注册</button>
-                <button :class="sin" @click="handlesin">登录</button>
+            <div class="btn_field">
+                <button class="signup" @click="handlesup">注册</button>
+                <button class="signin" @click="handlesin">登录</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-
-import {useVuelidate} from '@vuelidate/core'
-import {required, email} from '@vuelidate/validators'
-
+import { useVuelidate } from "@vuelidate/core";
+import { required, email } from "@vuelidate/validators";
 
 export default {
     data() {
         return {
             usernameError: false,
             passwordError: false,
-            ft: "form_title",
-            fm: "form",
-            cnr: "container",
-            fuf: "form_user_field",
-            uinput: "username_input",
-            fpwd: "form_password_field",
-            pinput: "password_input",
-            tfd: "tips_field",
-            fgt: "forget",
-            btn: "btn_field",
-            sup: "signup",
-            sin: "signin",
             mmtrue: "false",
             //
             username: "",
-            password: ""
+            password: "",
         };
     },
-    validations(){
+    validations() {
         return {
-            username: {required},
-            password: {required},
-        }
-    },  
-    
+            username: { required },
+            password: { required },
+        };
+    },
+
     methods: {
         handlesup() {
             this.$router.push("/register");
@@ -88,19 +98,16 @@ export default {
         },
 
         // 🚩
-        check_table(){
-
-        },
+        check_table() {},
 
         // 🚩
-        login(){
-
-        },
-
-        
+        login() {},
     },
     mounted() {
-        // Code to run when the component is mounted
+        document.body.style.overflow = "hidden";
+    },
+    beforeDestroy() {
+        document.body.style.overflow = "";
     },
 };
 </script>
@@ -120,7 +127,7 @@ export default {
 .container {
     width: 100%;
     height: 100%;
-    background: url('/assets/img/lib_register.png') center/cover no-repeat;
+    background: url("/assets/img/lib_register.png") center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,7 +142,7 @@ export default {
     padding: 48px;
 }
 
-.form>.form_title {
+.form > .form_title {
     font-size: 36px;
     font-weight: bold;
     color: #3178c6;
@@ -156,13 +163,13 @@ export default {
     background-color: #3178c6;
 }
 
-.form>.form_user_field,
+.form > .form_user_field,
 .form_password_field {
     width: 100%;
 }
 
-.form_password_field>.password_input,
-.form_user_field>.username_input {
+.form_password_field > .password_input,
+.form_user_field > .username_input {
     width: 100%;
     height: 48px;
     outline: none;
@@ -183,34 +190,33 @@ export default {
     opacity: 1;
 }
 
-.form>.form_password_field {
+.form > .form_password_field {
     width: 100%;
     margin-top: 24px;
 }
 
-.form>.tips_field {
+.form > .tips_field {
     margin-top: 5px;
 }
 
-.tips_field>.forget {
+.tips_field > .forget {
     font-size: 12px;
     opacity: 0.8;
 }
 
-.tips_field>.forget>a {
+.tips_field > .forget > a {
     text-decoration: none;
     outline: none;
     font-weight: bold;
     color: #3178c6;
 }
 
-.tips_field>.forget>a:hover {
+.tips_field > .forget > a:hover {
     text-decoration: underline;
     color: #05305e;
 }
 
-
-.form>.btn_field {
+.form > .btn_field {
     margin-top: 48px;
     display: flex;
 }
@@ -225,7 +231,6 @@ export default {
     border-radius: 38px;
     opacity: 0.8;
 }
-
 
 .signin:hover {
     opacity: 1;

@@ -97,41 +97,6 @@
                 <p>可借阅状态:{{ item.bookStatus }}</p>
             </div>
 
-            <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
-
-            <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
-
-            <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
-
-            <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
-            </div>
         </div>
     </div>
     <div class="footer">
@@ -313,7 +278,8 @@ export default {
 }
 
 .mixed {
-    background: url('/assets/img/lib_learning2back.gif') center/cover no-repeat;
+    /* background: url('/assets/img/lib_learning2back.gif') center/cover no-repeat; */
+    /* width: 70%; */
     background-attachment: fixed;
     box-sizing: border-box;
 }

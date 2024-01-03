@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>首页</h1>
+        <h1>开发者界面</h1>
         <div class="navigate">
             <RouterLink to="/login" type="button">登录</RouterLink><br>
             <RouterLink to="/books" type="button">书目</RouterLink><br>
