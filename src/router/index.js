@@ -7,6 +7,7 @@ import Administer from '../view/administer.vue'
 import Book_detail from '../view/book_detail.vue'
 import Home from '../view/index.vue'
 import User_Management from '../view/user_management.vue';
+import Register from '../view/register.vue';
 
 const Router = createRouter({
     history: createWebHistory(),
@@ -25,6 +26,14 @@ const Router = createRouter({
             component: Login,
             meta:{
                 title: '登录'
+            }
+        },
+        {
+            path: "/register",
+            name: Register,
+            component: Register,
+            meta:{
+                title: '注册'
             }
         },
         {

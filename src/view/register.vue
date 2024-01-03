@@ -1,120 +1,103 @@
+
 <template>
     <div :class="cnr">
         <form :class="fm" @submit.prevent="">
-            <div :class="ft">图书管理系统登录</div>
+            <div :class="ft">用户注册</div>
             <div :class="fuf">
-                <input type="text" :class="uinput" v-model="username" placeholder="Username">
+                <input type="text" :class="uinput" v-model="username" placeholder="请输入用户名...">
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
+            <div :class="fuf">
+                <input type="text" :class="minput" v-model="useremail" placeholder="请输入邮箱...">
+                <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
+            </div>
             <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="password" placeholder="Password">
+                <input type="password" :class="pinput" v-model="userpassword" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
-            <div>
-                <el-checkbox>记住密码</el-checkbox>
-            </div>
-            <div :class="tfd">
-                <p :class="fgt">忘记密码? <a href="/administer">点击这里</a></p>
+            <div class="identity">
+                <el-select class="csidentity" v-model="selectedOption" placeholder="请选择身份">
+                    <el-option label="用户" value="user"></el-option>
+                    <el-option label="管理员" value="admin"></el-option>
+                </el-select>
+                <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
             </div>
             <div :class="btn">
-                <button :class="sup" @click="handlesup">注册</button>
-                <button :class="sin" @click="handlesin">登录</button>
+                <button :class="sin" @click="handlefnsup">返回登录</button>
+                <button :class="sup" @click="handleprereg">点击注册</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-
-import {useVuelidate} from '@vuelidate/core'
-import {required, email} from '@vuelidate/validators'
-
-
 export default {
     data() {
         return {
-            usernameError: false,
-            passwordError: false,
             ft: "form_title",
+            username: '',
+            useremail: '',
+            userpassword: '',
+            usernameError: false,
+            emailError: false,
+            passwordError: false,
+            selectedError: false,
             fm: "form",
             cnr: "container",
             fuf: "form_user_field",
             uinput: "username_input",
+            minput: "mail_input",
             fpwd: "form_password_field",
             pinput: "password_input",
-            tfd: "tips_field",
-            fgt: "forget",
             btn: "btn_field",
             sup: "signup",
             sin: "signin",
-            mmtrue: "false",
-            //
-            username: "",
-            password: ""
-        };
-    },
-    validations(){
-        return {
-            username: {required},
-            password: {required},
+            selectedOption: ""
         }
-    },  
-    
+    },
     methods: {
-        handlesup() {
-            this.$router.push("/register");
+        // 🚩
+        check_table() {},
+
+        // 🚩
+        register() {},
+        
+        handlefnsup() {
+            this.$router.push("/login");
         },
-        handlesin() {
+        handleprereg() {
             if (!this.username) {
                 this.usernameError = true;
             } else {
                 this.usernameError = false;
+            }
+            if (!this.useremail) {
+                this.emailError = true;
+            } else {
+                this.emailError = false;
             }
             if (!this.userpassword) {
                 this.passwordError = true;
             } else {
                 this.passwordError = false;
             }
-            if (!this.usernameError && !this.passwordError) {
-                if (this.mmtrue) {
-                    alert("登录成功");
-                    // 默认是进入读者的页面
-                    this.$router.push("/books");
-                } else {
-                    alert("登录失败");
-                }
+            if (!this.selectedOption) {
+                this.selectedError = true;
+            } else {
+                this.selectedError = false;
+            }
+            if (!this.usernameError && !this.emailError && !this.passwordError && !this.selectedError) {
                 // 提交表单的代码...
             }
         },
-
-        // 🚩
-        check_table(){
-
-        },
-
-        // 🚩
-        login(){
-
-        },
-
-        
     },
-    mounted() {
-        // Code to run when the component is mounted
-    },
-};
+}
 </script>
-
 <style scoped>
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-.el-checkbox {
-    margin-top: 10px;
-    /* cursor: url("/assets/img/alternate.ico"), auto; */
 }
 
 .container {
@@ -135,10 +118,12 @@ export default {
     padding: 48px;
 }
 
+
+
 .form>.form_title {
     font-size: 36px;
     font-weight: bold;
-    color: #3178c6;
+    color: #64f625;
     text-align: center;
     padding-bottom: 10px;
     margin: 30px 0px 40px 0px;
@@ -151,9 +136,9 @@ export default {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 40px;
     height: 4px;
-    background-color: #3178c6;
+    background-color: #64f625;
 }
 
 .form>.form_user_field,
@@ -162,7 +147,8 @@ export default {
 }
 
 .form_password_field>.password_input,
-.form_user_field>.username_input {
+.form_user_field>.username_input,
+.form_user_field>.mail_input {
     width: 100%;
     height: 48px;
     outline: none;
@@ -183,35 +169,31 @@ export default {
     opacity: 1;
 }
 
-.form>.form_password_field {
-    width: 100%;
+.mail_input:focus {
+    opacity: 1;
+}
+
+.mail_input {
+    margin-top: 24px;
+
+}
+
+.identity {
     margin-top: 24px;
 }
 
-.form>.tips_field {
-    margin-top: 5px;
-}
-
-.tips_field>.forget {
-    font-size: 12px;
+.el-select {
+    width: 100%;
     opacity: 0.8;
 }
 
-.tips_field>.forget>a {
-    text-decoration: none;
-    outline: none;
-    font-weight: bold;
-    color: #3178c6;
-}
-
-.tips_field>.forget>a:hover {
-    text-decoration: underline;
-    color: #05305e;
+.form>.form_password_field {
+    margin-top: 24px;
 }
 
 
 .form>.btn_field {
-    margin-top: 48px;
+    margin-top: 20px;
     display: flex;
 }
 
@@ -235,14 +217,41 @@ export default {
     opacity: 1;
 }
 
-.signin {
+.signup {
     color: #fff;
-    background-color: #3178c6;
+    background-color: #64f625;
     margin-left: 10px;
 }
 
-.signup {
+.signin {
     color: #000;
     margin-right: 10px;
 }
+
+/* .animated-background p {
+    margin: 0px;
+}
+
+.animated-background {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
+    background-size: 800% 800%;
+    animation: AnimationName 3s ease infinite;
+}
+
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+} */
 </style>
+
