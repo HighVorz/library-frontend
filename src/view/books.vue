@@ -313,7 +313,7 @@ export default {
 }
 
 .mixed {
-    background: url('/assets/img/lib_learning.gif') center/cover no-repeat;
+    background: url('/assets/img/lib_learning2back.gif') center/cover no-repeat;
     background-attachment: fixed;
     box-sizing: border-box;
 }
