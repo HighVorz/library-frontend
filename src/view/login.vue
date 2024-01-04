@@ -7,14 +7,15 @@
                     type="text"
                     class="username_input"
                     v-model="username"
+                    @blur="verify_username"
                     placeholder="Username"
                 />
                 <p
-                    v-if="usernameError"
+                    v-if="username_has_error"
                     class="error"
                     style="font-size: small; color: red; position: absolute"
                 >
-                    用户名不能为空
+                    {{ username_errors }}
                 </p>
             </div>
             <div class="form_password_field">
@@ -22,14 +23,15 @@
                     type="password"
                     class="password_input"
                     v-model="password"
+                    @blur="verify_password"
                     placeholder="Password"
                 />
                 <p
-                    v-if="passwordError"
+                    v-if="password_has_error"
                     class="error"
                     style="font-size: small; color: red; position: absolute"
                 >
-                    密码不能为空
+                    {{ password_errors }}
                 </p>
             </div>
             <div>
@@ -55,18 +57,15 @@ import { required, email } from "@vuelidate/validators";
 export default {
     data() {
         return {
-            usernameError: false,
-            passwordError: false,
+            username_has_error: false,
+            password_has_error: false,
+            username_errors: "",
+            password_errors: "",
+
             mmtrue: "false",
             //
             username: "",
             password: "",
-        };
-    },
-    validations() {
-        return {
-            username: { required },
-            password: { required },
         };
     },
 
@@ -75,26 +74,48 @@ export default {
             this.$router.push("/register");
         },
         handlesin() {
-            if (!this.username) {
-                this.usernameError = true;
+            if (!this.verify_username() || !this.verify_password()) {
+                return;
+            }
+            console.log("right");
+            // if request server is ok
+            this.$router.push("/books");
+        },
+
+        hasOnlyNumber(s) {
+            var pattern = /^\d+$/; // 使用正则表达式匹配数字字符
+            return pattern.test(s);
+        },
+
+        verify_username() {
+            // 判断是否为空
+            if (this.username.length === 0) {
+                this.username_has_error = true;
+                this.username_errors = "用户名不能为空";
+                return false;
+            }
+
+            if (!this.hasOnlyNumber(this.username)) {
+                this.username_has_error = true;
+                this.username_errors = "用户名非法";
+                return false;
+            }
+
+            // 其他规则
+            this.username_has_error = false;
+            return true;
+        },
+
+        verify_password() {
+            if (this.password.length === 0) {
+                this.password_has_error = true;
+                this.password_errors = "密码不能为空";
+                return false;
             } else {
-                this.usernameError = false;
+                this.password_has_error = false;
             }
-            if (!this.userpassword) {
-                this.passwordError = true;
-            } else {
-                this.passwordError = false;
-            }
-            if (!this.usernameError && !this.passwordError) {
-                if (this.mmtrue) {
-                    alert("登录成功");
-                    // 默认是进入读者的页面
-                    this.$router.push("/books");
-                } else {
-                    alert("登录失败");
-                }
-                // 提交表单的代码...
-            }
+
+            return true;
         },
 
         // 🚩
