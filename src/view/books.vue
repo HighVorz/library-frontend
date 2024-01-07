@@ -68,8 +68,13 @@
 									</div>
 								</div>
 
-    
-    
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -143,12 +148,59 @@ export default {
 
 		}
 	},
-
+	async created() {
+		const response = await fetch('/data.json');
+		if (response.ok) {
+			this.bookTotal = await response.json();
+		} else {
+			console.error('Failed to load data.json:', response.status, response.statusText);
+		}
+	},
 	methods: {
-		
+		handleimgClick(book) {
+			if (book.bookStatus === '否') {
+				alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
+				return;
+			}
+			alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
+			this.showChoose = true;
+			this.selectedBook = book;
+		},
+		handleLogout() {
+			this.$router.push('/login')
+		},
+		keepBook() {
+			this.erjishowkp = "true";
+		},
+		borrowBook() {
+			this.erjishowbr = "true";
+		},
+		borrowBookfin() {
+			alert("借阅成功");
+		},
+		keepBookfin() {
+			alert("续借成功");
+		},
+		// getResults(page) {
+		//     this.page = page;
+		//     this.pages = _.chunk(this.bookTotal, this.perPage);
+		// }
 	},
 	watch: {
-		
+		showModal(val) {
+			if (val) {
+				document.body.style.overflow = 'hidden'
+			} else {
+				document.body.style.overflow = 'auto'
+			}
+		},
+		showChoose(val) {
+			if (val) {
+				document.body.style.overflow = 'hidden'
+			} else {
+				document.body.style.overflow = 'auto'
+			}
+		},
 
 	}
 }
