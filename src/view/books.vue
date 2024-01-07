@@ -67,7 +67,6 @@
 										</div>
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>
@@ -80,9 +79,6 @@
 <script>
 
 import "bootstrap/dist/js/bootstrap.js";
-import "bootstrap/dist/css/bootstrap.css";
-import "../css/plugins.css";
-import "../css/style.css";
 
 export default {
 	data() {
@@ -206,4 +202,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+	@import "bootstrap/dist/css/bootstrap.css";
+	@import "../css/plugins.css";
+	@import "../css/style.css";
+</style>

@@ -77,16 +77,8 @@ export default {
             selectedTab: 'userInfo',
             showModal: false,
             avatar: '/assets/img/avatar.png',
-            borrowRecords: [
-                { id: 1, bookName: '书名1', quantity: 1, borrowTime: '2022-01-01' },
-                // 其他记录...
-            ],
-            userInfo: {
-                signature: '好的好的',
-                email: 'jesus.com',
-                borrowNum: 0,
-                status: '在线',
-            }
+            borrowRecords: [],
+            userInfo: {}
         }
     },
     async created() {
@@ -263,9 +255,6 @@ input[type="file"] {
     font-size: 16px;
     margin: 4px 8px;
 }
-
-
-
 .styled-table button:hover {
     animation: bounce 0.3s forwards;
 }

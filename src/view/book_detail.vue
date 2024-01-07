@@ -50,7 +50,8 @@
                                         <input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty"
                                             type="number">
                                         <div class="addtocart__actions">
-                                            <button class="btn btn-secondary" type="submit" title="Add to Cart">Borrow</button>
+                                            <button class="btn btn-secondary" type="submit"
+                                                title="Add to Cart">Borrow</button>
                                         </div>
                                     </div>
 
@@ -201,7 +202,7 @@
                                 <li><a href="#">Business <span>(4)</span></a></li>
                                 <li><a href="#">Cookbooks <span>(6)</span></a></li>
                                 <li><a href="#">Health & Fitness <span>(7)</span></a></li>
-                                
+
                             </ul>
                         </aside>
                     </div>
@@ -214,10 +215,6 @@
 <script>
 
 import "bootstrap/dist/js/bootstrap.js";
-import "bootstrap/dist/css/bootstrap.css";
-import "../css/plugins.css";
-import "../css/style.css";
-
 
 export default {
     data() {
@@ -244,7 +241,7 @@ export default {
         console.log(this.bookid);
         // set book by bookid
     },
-  
+
     async created() {
         const response = await fetch('/data.json');
         if (response.ok) {
@@ -296,6 +293,10 @@ export default {
 </script>
 
 <style scoped>
+@import "bootstrap/dist/css/bootstrap.css";
+@import "../css/plugins.css";
+@import "../css/style.css";
+
 .header {
     background: url('/assets/img/admin_header.jpg') center/cover no-repeat;
     color: rgb(237, 237, 217);
