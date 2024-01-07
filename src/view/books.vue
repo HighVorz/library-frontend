@@ -49,7 +49,6 @@
 					<div class="tab__container">
 						<div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
 							<div class="row">
-
 								<div v-for="book in bookList" :key="book.id" class="col-lg-4 col-md-4 col-sm-6 col-12">
 									<div class="product">
 										<div class="product__thumb">
