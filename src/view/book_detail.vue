@@ -137,8 +137,8 @@
                 <td>{{ item.bookStatus }}</td>
                 <td>
                     <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showModal3 = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
-                            @click="deleteItem(item)">删除</button>
+                        <button class="act addin" @click="showModal3 = true">修改</button>&nbsp&nbsp&nbsp<button
+                            class="act del" @click="deleteItem(item)">删除</button>
                     </form>
                 </td>
             </tr>
@@ -358,13 +358,14 @@ export default {
 }
 
 table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 5;
+    border: 1px solid #000000;
     width: 100%;
-    font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
 td {
-    border: 1px solid black;
     padding: 10px;
 }
 
@@ -523,6 +524,7 @@ hr {
 .fixbk:hover {
     background-color: rgb(11, 87, 29);
 }
+
 .quit {
     width: 30%;
     padding: 10px;

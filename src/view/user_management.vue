@@ -264,13 +264,14 @@ export default {
 }
 
 table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 5;
+    border: 1px solid #000000;
     width: 100%;
     font-family: Arial, sans-serif;
 }
 
 td {
-    border: 1px solid black;
     padding: 10px;
 }
 
