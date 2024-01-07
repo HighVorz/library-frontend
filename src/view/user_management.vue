@@ -17,16 +17,20 @@
                     <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="num">借书时间:</label>
-                    <input type="number" id="num" class="form-control">
+                    <label for="bknum">借书数量:</label>
+                    <input type="number" id="bknum" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="pub">还书时间:</label>
-                    <input type="text" id="pub" class="form-control">
+                    <label for="time">借书时间:</label>
+                    <input type="date" id="time" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="money">用户邮箱:</label>
-                    <input type="number" id="money" class="form-control">
+                    <label for="ret">还书时间:</label>
+                    <input type="date" id="ret" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="mail">用户邮箱:</label>
+                    <input type="email" id="mail" class="form-control">
                 </div>
                 <div class="form-group">
                     <button class="searchbk">查找</button>
@@ -50,16 +54,20 @@
                     <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="num">借书时间:</label>
-                    <input type="number" id="num" class="form-control">
+                    <label for="bknum">借书数量:</label>
+                    <input type="number" id="bknum" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="pub">还书时间:</label>
-                    <input type="text" id="pub" class="form-control">
+                    <label for="time">借书时间:</label>
+                    <input type="date" id="time" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="money">用户邮箱:</label>
-                    <input type="number" id="money" class="form-control">
+                    <label for="ret">还书时间:</label>
+                    <input type="date" id="ret" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="mail">用户邮箱:</label>
+                    <input type="email" id="mail" class="form-control">
                 </div>
                 <!-- 其实也能放入图片 -->
                 <div class="form-group">
@@ -79,6 +87,7 @@
             <tr style="font-weight: bold;background-color: rgba(103, 57, 202, 0.5);">
                 <td>用户名</td>
                 <td>用户借书</td>
+                <td>借书数量</td>
                 <td>借书时间</td>
                 <td>还书时间</td>
                 <td>用户邮箱</td>
@@ -86,7 +95,8 @@
             </tr>
             <tr v-for="item in userTotal">
                 <td>{{ item.userName }}</td>
-                <td>{{ item.userBorrow }}</td>
+                <td>《{{ item.userBorrow }}》</td>
+                <td>{{ item.borrowNum }}</td>
                 <td>{{ item.userBorrowtime }}</td>
                 <td>{{ item.userReturntime }}</td>
                 <td>{{ item.userMail }}</td>
@@ -100,6 +110,7 @@
             <tr v-for="item in userTotal">
                 <td>{{ item.userName }}</td>
                 <td>{{ item.userBorrow }}</td>
+                <td>{{ item.borrowNum }}</td>
                 <td>{{ item.userBorrowtime }}</td>
                 <td>{{ item.userReturntime }}</td>
                 <td>{{ item.userMail }}</td>

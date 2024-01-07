@@ -3,34 +3,16 @@
         <form class="form" @submit.prevent="">
             <div class="form_title">图书管理系统登录</div>
             <div class="form_user_field">
-                <input
-                    type="text"
-                    class="username_input"
-                    v-model="username"
-                    @blur="verify_username"
-                    placeholder="Username"
-                />
-                <p
-                    v-if="username_has_error"
-                    class="error"
-                    style="font-size: small; color: red; position: absolute"
-                >
+                <input type="text" class="username_input" v-model="username" @blur="verify_username"
+                    placeholder="Username" />
+                <p v-if="username_has_error" class="error" style="font-size: small; color: red; position: absolute">
                     {{ username_errors }}
                 </p>
             </div>
             <div class="form_password_field">
-                <input
-                    type="password"
-                    class="password_input"
-                    v-model="password"
-                    @blur="verify_password"
-                    placeholder="Password"
-                />
-                <p
-                    v-if="password_has_error"
-                    class="error"
-                    style="font-size: small; color: red; position: absolute"
-                >
+                <input type="password" class="password_input" v-model="password" @blur="verify_password"
+                    placeholder="Password" />
+                <p v-if="password_has_error" class="error" style="font-size: small; color: red; position: absolute">
                     {{ password_errors }}
                 </p>
             </div>
@@ -119,10 +101,10 @@ export default {
         },
 
         // 🚩
-        check_table() {},
+        check_table() { },
 
         // 🚩
-        login() {},
+        login() { },
     },
     mounted() {
         document.body.style.overflow = "hidden";
@@ -142,7 +124,6 @@ export default {
 
 .el-checkbox {
     margin-top: 10px;
-    /* cursor: url("/assets/img/alternate.ico"), auto; */
 }
 
 .container {
@@ -163,7 +144,7 @@ export default {
     padding: 48px;
 }
 
-.form > .form_title {
+.form>.form_title {
     font-size: 36px;
     font-weight: bold;
     color: #3178c6;
@@ -184,13 +165,13 @@ export default {
     background-color: #3178c6;
 }
 
-.form > .form_user_field,
+.form>.form_user_field,
 .form_password_field {
     width: 100%;
 }
 
-.form_password_field > .password_input,
-.form_user_field > .username_input {
+.form_password_field>.password_input,
+.form_user_field>.username_input {
     width: 100%;
     height: 48px;
     outline: none;
@@ -211,33 +192,33 @@ export default {
     opacity: 1;
 }
 
-.form > .form_password_field {
+.form>.form_password_field {
     width: 100%;
     margin-top: 24px;
 }
 
-.form > .tips_field {
+.form>.tips_field {
     margin-top: 5px;
 }
 
-.tips_field > .forget {
+.tips_field>.forget {
     font-size: 12px;
     opacity: 0.8;
 }
 
-.tips_field > .forget > a {
+.tips_field>.forget>a {
     text-decoration: none;
     outline: none;
     font-weight: bold;
     color: #3178c6;
 }
 
-.tips_field > .forget > a:hover {
+.tips_field>.forget>a:hover {
     text-decoration: underline;
     color: #05305e;
 }
 
-.form > .btn_field {
+.form>.btn_field {
     margin-top: 48px;
     display: flex;
 }

@@ -17,16 +17,16 @@
                     <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="num">数量:</label>
-                    <input type="number" id="num" class="form-control">
-                </div>
-                <div class="form-group">
                     <label for="pub">出版社:</label>
                     <input type="text" id="pub" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="money">单价:</label>
-                    <input type="number" id="money" class="form-control">
+                    <label for="time">出版时间:</label>
+                    <input type="date" id="time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="restnum">剩余数量:</label>
+                    <input type="number" id="restnum" class="form-control">
                 </div>
                 <div class="form-group">
                     <button class="searchbk">查找</button>
@@ -50,21 +50,63 @@
                     <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="num">数量:</label>
-                    <input type="number" id="num" class="form-control">
+                    <label for="pub">出版社:</label>
+                    <input type="text" id="pub" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="time">出版时间:</label>
+                    <input type="date" id="time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="restbk">剩余数量:</label>
+                    <input type="number" id="restbk" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="status">借阅状态:</label>
+                    <input type="text" id="status" class="form-control">
+                </div>
+                <!-- 其实也能放入图片 -->
+                <div class="form-group">
+                    <button class="addbk" @click="showAlertadd">添加</button>
+                    <button @click="showModal2 = false" class="quit">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹窗3 -->
+    <div v-if="showModal3" class="modal">
+        <div class="search-container">
+            <form class="search-form3" @submit.prevent="">
+                <p>修改信息</p>
+                <div class="form-group">
+                    <label for="name">书名:</label>
+                    <input type="text" id="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="au">作者:</label>
+                    <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="pub">出版社:</label>
                     <input type="text" id="pub" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="money">单价:</label>
-                    <input type="number" id="money" class="form-control">
+                    <label for="time">出版时间:</label>
+                    <input type="date" id="time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="restbk">剩余数量:</label>
+                    <input type="number" id="restbk" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="status">借阅状态:</label>
+                    <input type="text" id="status" class="form-control">
                 </div>
                 <!-- 其实也能放入图片 -->
                 <div class="form-group">
-                    <button class="addbk" @click="showAlertadd">添加</button>
-                    <button @click="showModal2 = false" class="quit">关闭</button>
+                    <button class="fixbk" @click="showAlertfix">修改</button>
+                    <button @click="showModal3 = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
@@ -82,18 +124,20 @@
                 <td>作者</td>
                 <td>出版社</td>
                 <td>出版时间</td>
+                <td>剩余数量</td>
                 <td>借阅状态</td>
-                <td>操作:添加 / 删除</td>
+                <td>操作:修改 / 删除</td>
             </tr>
             <tr v-for="item in bookTotal">
                 <td>{{ item.bookName }}</td>
                 <td>{{ item.bookAuthor }}</td>
                 <td>{{ item.bookPublisher }}</td>
                 <td>{{ item.bookDate }}</td>
+                <td>{{ item.bookNumber }}</td>
                 <td>{{ item.bookStatus }}</td>
                 <td>
                     <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
+                        <button class="act addin" @click="showModal3 = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
                             @click="deleteItem(item)">删除</button>
                     </form>
                 </td>
@@ -103,6 +147,7 @@
                 <td>{{ item.bookAuthor }}</td>
                 <td>{{ item.bookPublisher }}</td>
                 <td>{{ item.bookDate }}</td>
+                <td>{{ item.bookNumber }}</td>
                 <td>{{ item.bookStatus }}</td>
                 <td>
                     <form action="" @submit="handleSubmit">
@@ -121,6 +166,7 @@ export default {
         return {
             showModal: false,
             showModal2: false,
+            showModal3: false,
             bookTotal: [] // 存储从数据库里面得到的数据
         }
     },
@@ -136,9 +182,12 @@ export default {
         handleSubmit(event) {
             event.preventDefault();
             // 删除操作...
-         }, // 到时候记得删掉，只是为了测试删除
+        }, // 到时候记得删掉，只是为了测试删除
         showAlertadd() {
             alert('添加成功');
+        },
+        showAlertfix() {
+            alert('修改成功');
         },
         deleteItem(item) {
             alert('删除成功');
@@ -164,6 +213,13 @@ export default {
             }
         },
         showModal2(val) {
+            if (val) {
+                document.body.style.overflow = 'hidden'
+            } else {
+                document.body.style.overflow = 'auto'
+            }
+        },
+        showModal3(val) {
             if (val) {
                 document.body.style.overflow = 'hidden'
             } else {
@@ -206,6 +262,9 @@ export default {
     background-color: rgba(255, 255, 0, 0.7);
     border: none;
     border-radius: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
 }
@@ -227,6 +286,9 @@ export default {
     background-color: rgba(255, 0, 0, 0.7);
     border: none;
     border-radius: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
 }
@@ -248,6 +310,9 @@ export default {
     background-color: rgba(119, 255, 0, 0.7);
     border: none;
     border-radius: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
 }
@@ -269,6 +334,9 @@ export default {
     background-color: rgba(0, 123, 255, 0.7);
     border: none;
     border-radius: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     transition: background-color 0.3s ease;
     transition: font-weight 0.3s ease;
 }
@@ -329,11 +397,12 @@ hr {
     width: 100%;
     margin: auto;
     border: none;
-    margin-top: 10%;
+    margin-top: 7%;
 }
 
 .search-form,
-.search-form2 {
+.search-form2,
+.search-form3 {
     width: 30%;
     margin: auto;
     background-color: #fefefe;
@@ -343,7 +412,8 @@ hr {
 }
 
 .search-form p,
-.search-form2 p {
+.search-form2 p,
+.search-form3 p {
     position: relative;
     text-align: center;
     font-size: 32px;
@@ -354,7 +424,8 @@ hr {
 }
 
 .search-form p::before,
-.search-form2 p::before {
+.search-form2 p::before,
+.search-form3 p::before {
     position: absolute;
     content: "";
     bottom: -5px;
@@ -368,8 +439,17 @@ hr {
 .search-form2 p {
     color: #4bdc35;
 }
+
 .search-form2 p::before {
     background-color: #4bdc35;
+}
+
+.search-form3 p {
+    color: rgb(40, 167, 69);
+}
+
+.search-form3 p::before {
+    background-color: rgb(40, 167, 69);
 }
 
 .form-group {
@@ -379,13 +459,16 @@ hr {
 
 .form-group label {
     display: inline-block;
-    width: 60px;
+    width: 20%;
     cursor: url('/assets/img/alternate.ico'), auto;
     font-size: 16px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 2%;
     margin-top: 8px;
     margin-bottom: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: rgb(56, 56, 56);
 }
 
@@ -404,7 +487,8 @@ hr {
 }
 
 .searchbk,
-.addbk {
+.addbk,
+.fixbk {
     width: 30%;
     padding: 10px;
     border-radius: 20px;
@@ -419,7 +503,8 @@ hr {
 }
 
 .searchbk:hover,
-.addbk:hover {
+.addbk:hover,
+.fixbk:hover {
     background-color: #0056b3;
 }
 
@@ -431,6 +516,13 @@ hr {
     background-color: #1aad14;
 }
 
+.fixbk {
+    background-color: rgb(40, 167, 69);
+}
+
+.fixbk:hover {
+    background-color: rgb(11, 87, 29);
+}
 .quit {
     width: 30%;
     padding: 10px;

@@ -19,16 +19,12 @@
                     <input type="text" id="au" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="num">数量:</label>
-                    <input type="number" id="num" class="form-control">
+                    <label for="time">出版时间:</label>
+                    <input type="date" id="time" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="pub">出版社:</label>
                     <input type="text" id="pub" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="money">单价:</label>
-                    <input type="number" id="money" class="form-control">
                 </div>
                 <div class="form-group">
                     <button class="addbk">查找</button>
@@ -230,7 +226,6 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* text-shadow: -2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), 2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255); */
     animation: AnimationName 3s ease infinite;
 }
 
@@ -268,6 +263,8 @@ export default {
     border-radius: 8px;
     font-size: 16px;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .search_book:hover {
@@ -289,6 +286,8 @@ export default {
     border-radius: 8px;
     font-size: 16px;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .exitbk:hover {
@@ -493,7 +492,7 @@ h3 {
 .form-group label {
     display: inline-block;
     cursor: url("/assets/img/alternate.ico"), auto;
-    width: 15%;
+    width: 20%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
