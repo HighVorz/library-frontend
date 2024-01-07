@@ -15,7 +15,7 @@ const Router = createRouter({
     routes: [
         {
             path: "/",
-            name: Home,
+            name: 'home',
             component: Home,
             meta: {
                 title: '首页'
@@ -23,7 +23,7 @@ const Router = createRouter({
         },
         {
             path: "/login",
-            name: Login,
+            name: 'login',
             component: Login,
             props: true,
             meta: {
@@ -32,15 +32,15 @@ const Router = createRouter({
         },
         {
             path: "/register",
-            name: Register,
+            name: 'register',
             component: Register,
             meta: {
                 title: '注册'
             }
         },
         {
-            path: "/detail",
-            name: Book_detail,
+            path: "/detail/:id",
+            name: 'detail',
             component: Book_detail,
             meta: {
                 title: '详情'
@@ -48,7 +48,7 @@ const Router = createRouter({
         },
         {
             path: "/books",
-            name: Books,
+            name: 'books',
             component: Books,
             props: true,
             meta: {
@@ -57,7 +57,7 @@ const Router = createRouter({
         },
         {
             path: "/administer",
-            name: Administer,
+            name: 'administer',
             component: Administer,
             meta: {
                 title: '后台管理界面'
@@ -65,7 +65,7 @@ const Router = createRouter({
         },
         {
             path: "/administer/usercontrol",
-            name: User_Management,
+            name: 'usercontrol',
             component: User_Management,
             meta: {
                 title: '用户管理'
@@ -81,7 +81,7 @@ const Router = createRouter({
         },
         {
             path: "/user",
-            name: Userspace,
+            name: 'user',
             component: Userspace,
             meta: {
                 title: '用户空间'
