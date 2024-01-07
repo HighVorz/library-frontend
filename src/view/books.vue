@@ -31,7 +31,7 @@
                     <input type="number" id="money" class="form-control">
                 </div>
                 <div class="form-group">
-                    <button class="addbk">查找图书</button>
+                    <button class="addbk">查找</button>
                     <button @click="showModal = false" class="quit">关闭</button>
                 </div>
             </form>
@@ -88,17 +88,20 @@
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
-            <div class="book" v-for="item in bookTotal">
-                <h3>《{{ item.bookName }}》</h3>
+            <div class="book" v-for="item in paginatedData">
+                <h3 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName }}》</h3>
                 <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p>作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p>出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p>出版日期:{{ item.bookDate }}</p>
-                <p>可借阅状态:{{ item.bookStatus }}</p>
+                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版日期:{{ item.bookDate }}</p>
+                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">可借阅状态:{{ item.bookStatus }}</p>
             </div>
-
         </div>
+        <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="bookTotal.length">
+        </ElPagination>
     </div>
+    <hr>
     <div class="footer">
         <div class="contact">
             <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
@@ -113,7 +116,11 @@
 </template>
 
 <script>
+import { ElPagination } from 'element-plus';
 export default {
+    components: {
+        ElPagination
+    },
     data() {
         return {
             showModal: false,
@@ -123,7 +130,10 @@ export default {
             brnum: '',
             selectedBook: [],
             // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
-            bookTotal: []
+            bookTotal: [],
+            currentPage: 1,
+            pageSize: 15,
+            paginatedData: [],
         }
     },
     async created() {
@@ -135,6 +145,19 @@ export default {
         }
     },
     methods: {
+        handleSizeChange(val) {
+            this.pageSize = val;
+            this.updatePaginatedData();
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.updatePaginatedData();
+        },
+        updatePaginatedData() {
+            const start = (this.currentPage - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            this.paginatedData = this.bookTotal.slice(start, end);
+        },
         handleimgClick(book) {
             if (book.bookStatus === '否') {
                 alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
@@ -159,10 +182,6 @@ export default {
         keepBookfin() {
             alert("续借成功");
         },
-        // getResults(page) {
-        //     this.page = page;
-        //     this.pages = _.chunk(this.bookTotal, this.perPage);
-        // }
     },
     watch: {
         showModal(val) {
@@ -179,8 +198,13 @@ export default {
                 document.body.style.overflow = 'auto'
             }
         },
-
-    }
+        bookTotal: {
+            deep: true,
+            handler() {
+                this.updatePaginatedData();
+            }
+        }
+    },
 }
 </script>
 
@@ -201,7 +225,11 @@ export default {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 0 0 0 9%;
+    margin: auto;
+    width: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     /* text-shadow: -2px 0 rgb(255, 255, 255), 0 2px rgb(255, 255, 255), 2px 0 rgb(255, 255, 255), 0 -2px rgb(255, 255, 255); */
     animation: AnimationName 3s ease infinite;
 }
@@ -239,6 +267,7 @@ export default {
     border: none;
     border-radius: 8px;
     font-size: 16px;
+    overflow: hidden;
 }
 
 .search_book:hover {
@@ -259,6 +288,7 @@ export default {
     border: none;
     border-radius: 8px;
     font-size: 16px;
+    overflow: hidden;
 }
 
 .exitbk:hover {
@@ -278,8 +308,6 @@ export default {
 }
 
 .mixed {
-    /* background: url('/assets/img/lib_learning2back.gif') center/cover no-repeat; */
-    /* width: 70%; */
     background-attachment: fixed;
     box-sizing: border-box;
 }
@@ -301,12 +329,12 @@ export default {
 }
 
 .book {
-    width: 15%;
+    width: 16%;
     height: 300px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
-    margin:10px 35px 10px 35px;
+    margin: 10px 2% 10px 2%;
     background-color: rgb(255, 255, 255, 0.8);
     box-sizing: border-box;
     overflow: hidden;
@@ -314,6 +342,11 @@ export default {
 
 .book:hover {
     background-color: rgb(255, 255, 255, 1);
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
 }
 
 .book p {
@@ -460,10 +493,13 @@ h3 {
 .form-group label {
     display: inline-block;
     cursor: url("/assets/img/alternate.ico"), auto;
-    width: 60px;
+    width: 15%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-size: 16px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 2%;
     margin-top: 8px;
     margin-bottom: 3px;
     color: rgb(56, 56, 56);

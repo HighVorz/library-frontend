@@ -73,7 +73,6 @@
     <div class="container">
         <button class="return-button" @click="handleReturn"><i class="fas fa-arrow-left"></i> 返回图书管理界面</button>
         <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i> 退出账户</button>
-        <!-- <button class="add-button" @click="showModal2 = true"><i class="fas fa-book"></i> 添加图书</button> -->
         <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
 
         <table>
