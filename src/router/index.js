@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import Login from '../view/login.vue'
 import Books from '../view/books.vue'
@@ -8,6 +8,7 @@ import Book_detail from '../view/book_detail.vue'
 import Home from '../view/index.vue'
 import User_Management from '../view/user_management.vue';
 import Register from '../view/register.vue';
+import Search from '../view/search.vue'
 
 const Router = createRouter({
     history: createWebHistory(),
@@ -16,7 +17,7 @@ const Router = createRouter({
             path: "/",
             name: Home,
             component: Home,
-            meta:{
+            meta: {
                 title: '首页'
             }
         },
@@ -25,7 +26,7 @@ const Router = createRouter({
             name: Login,
             component: Login,
             props: true,
-            meta:{
+            meta: {
                 title: '登录'
             }
         },
@@ -33,7 +34,7 @@ const Router = createRouter({
             path: "/register",
             name: Register,
             component: Register,
-            meta:{
+            meta: {
                 title: '注册'
             }
         },
@@ -41,7 +42,7 @@ const Router = createRouter({
             path: "/detail",
             name: Book_detail,
             component: Book_detail,
-            meta:{
+            meta: {
                 title: '详情'
             }
         },
@@ -50,7 +51,7 @@ const Router = createRouter({
             name: Books,
             component: Books,
             props: true,
-            meta:{
+            meta: {
                 title: '书目'
             }
         },
@@ -58,7 +59,7 @@ const Router = createRouter({
             path: "/administer",
             name: Administer,
             component: Administer,
-            meta:{
+            meta: {
                 title: '后台管理界面'
             }
         },
@@ -66,15 +67,23 @@ const Router = createRouter({
             path: "/administer/usercontrol",
             name: User_Management,
             component: User_Management,
-            meta:{
+            meta: {
                 title: '用户管理'
+            }
+        },
+        {
+            path: "/search",
+            name: 'search',
+            component: Search,
+            meta: {
+                title: '搜索'
             }
         },
         {
             path: "/user",
             name: Userspace,
             component: Userspace,
-            meta:{
+            meta: {
                 title: '用户空间'
             }
         },

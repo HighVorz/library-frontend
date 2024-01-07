@@ -18,6 +18,9 @@
                         <a class="nav-link" href="/books" type="button">书目</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/search" type="button">搜索</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/administer" type="button">管理员</a>
                     </li>
                     <li class="nav-item">

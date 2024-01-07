@@ -79,7 +79,7 @@
         <button class="spacebk" @click="handleSpace"><i class="fas fa-user"></i> 用户空间</button>
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
-        <div class="container">
+        <!-- <div class="container">
             <div class="book" v-for="item in paginatedData">
                 <h3 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName }}》</h3>
                 <img :src="item.bookRef" @click="handleimgClick(item)">
@@ -88,7 +88,7 @@
                 <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版日期:{{ item.bookDate }}</p>
                 <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">可借阅状态:{{ item.bookStatus }}</p>
             </div>
-        </div>
+        </div> -->
 
 
         <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
