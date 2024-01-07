@@ -80,7 +80,9 @@
     <!-- 主页面 -->
     <div class="mixed">
         <h2>可借阅图书列表</h2>
+        <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
         <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p>
+        <button class="spacebk" @click="handleSpace"><i class="fas fa-user"></i> 用户空间</button>
         <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <div class="container">
@@ -166,6 +168,9 @@ export default {
         },
         handleLogout() {
             this.$router.push('/login')
+        },
+        handleSpace() {
+            this.$router.push({ path: '/user', query: { username: this.$route.query.username } })
         },
         keepBook() {
             this.erjishowkp = "true";
@@ -258,7 +263,7 @@ export default {
     width: 8%;
     height: 36px;
     background-color: rgba(0, 123, 255, 0.8);
-    color: #e2dbdb;
+    color: #f1ecec;
     font-weight: bold;
     border: none;
     border-radius: 8px;
@@ -281,7 +286,7 @@ export default {
     width: 8%;
     height: 36px;
     background-color: rgba(255, 0, 0, 0.8);
-    color: #e2dbdb;
+    color: #f1ecec;
     font-weight: bold;
     border: none;
     border-radius: 8px;
@@ -306,7 +311,28 @@ export default {
         transform: translateY(-5px);
     }
 }
+.spacebk {
+    position: absolute;
+    right: 27%;
+    margin-top: 20px;
+    width: 8%;
+    height: 36px;
+    background-color: rgba(8, 226, 19, 0.8);
+    color: #f1ecec;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
+.spacebk:hover {
+    background-color: rgba(8, 226, 19, 1);
+    color: #ffffff;
+    animation: bounce 0.3s forwards;
+}
 .mixed {
     background-attachment: fixed;
     box-sizing: border-box;

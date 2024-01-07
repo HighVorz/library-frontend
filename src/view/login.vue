@@ -61,7 +61,8 @@ export default {
             }
             console.log("right");
             // if request server is ok
-            this.$router.push("/books");
+            this.$router.push({ path: '/books', query: { username: this.username } });
+            // this.$router.push("/books");
         },
 
         hasOnlyNumber(s) {

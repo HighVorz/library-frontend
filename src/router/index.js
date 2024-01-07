@@ -24,6 +24,7 @@ const Router = createRouter({
             path: "/login",
             name: Login,
             component: Login,
+            props: true,
             meta:{
                 title: '登录'
             }
@@ -48,6 +49,7 @@ const Router = createRouter({
             path: "/books",
             name: Books,
             component: Books,
+            props: true,
             meta:{
                 title: '书目'
             }
