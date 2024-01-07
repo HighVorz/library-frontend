@@ -128,7 +128,7 @@
                 <td>借阅状态</td>
                 <td>操作:修改 / 删除</td>
             </tr>
-            <tr v-for="item in bookTotal">
+            <tr v-for="item in paginatedData">
                 <td>{{ item.bookName }}</td>
                 <td>{{ item.bookAuthor }}</td>
                 <td>{{ item.bookPublisher }}</td>
@@ -142,43 +142,54 @@
                     </form>
                 </td>
             </tr>
-            <tr v-for="item in bookTotal">
-                <td>{{ item.bookName }}</td>
-                <td>{{ item.bookAuthor }}</td>
-                <td>{{ item.bookPublisher }}</td>
-                <td>{{ item.bookDate }}</td>
-                <td>{{ item.bookNumber }}</td>
-                <td>{{ item.bookStatus }}</td>
-                <td>
-                    <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
-                            @click="deleteItem(item)">删除</button>
-                    </form>
-                </td>
-            </tr>
         </table>
+        <el-pagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="bookTotal.length">
+        </el-pagination>
     </div>
 </template>
 
 <script>
+import { ElPagination } from 'element-plus';
+
 export default {
+    components: {
+        ElPagination
+    },
     data() {
         return {
             showModal: false,
             showModal2: false,
             showModal3: false,
-            bookTotal: [] // 存储从数据库里面得到的数据
+            bookTotal: [], // 存储从数据库里面得到的数据
+            currentPage: 1,
+            pageSize: 10,
+            paginatedData: []
         }
     },
     async created() {
         const response = await fetch('/data.json');
         if (response.ok) {
             this.bookTotal = await response.json();
+            this.updatePaginatedData(); //这里多加一句是因为一开始没有数据，所以需要手动调用一下
         } else {
             console.error('Failed to load data.json:', response.status, response.statusText);
         }
     },
     methods: {
+        handleSizeChange(val) {
+            this.pageSize = val;
+            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+        },
+        updatePaginatedData() {
+            const start = (this.currentPage - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            this.paginatedData = this.bookTotal.slice(start, end);
+        },
         handleSubmit(event) {
             event.preventDefault();
             // 删除操作...
@@ -567,5 +578,11 @@ hr {
 .del:hover {
     animation: bounce 0.3s forwards;
     background-color: rgba(220, 53, 69, 1);
+}
+
+.pagination-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 }
 </style>

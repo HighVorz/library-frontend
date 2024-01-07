@@ -93,7 +93,7 @@
                 <td>用户邮箱</td>
                 <td>操作:修改 / 删除</td>
             </tr>
-            <tr v-for="item in userTotal">
+            <tr v-for="item in paginatedData">
                 <td>{{ item.userName }}</td>
                 <td>《{{ item.userBorrow }}》</td>
                 <td>{{ item.borrowNum }}</td>
@@ -107,42 +107,53 @@
                     </form>
                 </td>
             </tr>
-            <tr v-for="item in userTotal">
-                <td>{{ item.userName }}</td>
-                <td>{{ item.userBorrow }}</td>
-                <td>{{ item.borrowNum }}</td>
-                <td>{{ item.userBorrowtime }}</td>
-                <td>{{ item.userReturntime }}</td>
-                <td>{{ item.userMail }}</td>
-                <td>
-                    <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showAlertadd">修改</button>&nbsp&nbsp&nbsp<button class="act del"
-                            @click="deleteItem(item)">删除</button>
-                    </form>
-                </td>
-            </tr>
         </table>
+        <el-pagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="userTotal.length">
+        </el-pagination>
     </div>
 </template>
 
 <script>
+import { ElPagination } from 'element-plus';
+
 export default {
+    components: {
+        ElPagination
+    },
     data() {
         return {
             userTotal: [],
             showModal: false,
             showModal2: false,
+            currentPage: 1,
+            pageSize: 10,
+            paginatedData: []
         }
     },
     async created() {
         const response = await fetch('/user.json');
         if (response.ok) {
             this.userTotal = await response.json();
+            this.updatePaginatedData();
         } else {
             console.error('Failed to load data.json:', response.status, response.statusText);
         }
     },
     methods: {
+        handleSizeChange(val) {
+            this.pageSize = val;
+            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+        },
+        updatePaginatedData() {
+            const start = (this.currentPage - 1) * this.pageSize;
+            const end = start + this.pageSize;
+            this.paginatedData = this.userTotal.slice(start, end);
+        },
         showAlertmodify() {
             alert('修改成功');
             this.showModal2 = false;
@@ -449,5 +460,10 @@ hr {
 
 .quit:hover {
     background-color: #b02a37;
+}
+.pagination-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 }
 </style>
