@@ -1,0 +1,35 @@
+{
+    "user": {
+        "userMail": "peropero@muse.com",
+        "userSignature": "热爱阅读的我,更热爱音游",
+        "userHead": "传入地址",
+        "userTotalborrow": "12",
+        "userStatus": "摸鱼中~"
+    },
+    "userborrow": [
+        {
+            "bookName": "计算机体系结构",
+            "bookNumber": "1",
+            "borrowDate": "2023-12-27",
+            "returnDate": "2024-1-27"
+        },
+        {
+            "bookName": "算法导论",
+            "bookNumber": "2",
+            "borrowDate": "2023-12-25",
+            "returnDate": "2024-1-25"
+        },
+        {
+            "bookName": "计算机网络",
+            "bookNumber": "3",
+            "borrowDate": "2023-3-27",
+            "returnDate": "2023-4-27"
+        },
+        {
+            "bookName": "计算机图形学",
+            "bookNumber": "6",
+            "borrowDate": "2023-5-2",
+            "returnDate": "2023-6-2"
+        }
+    ]
+}
