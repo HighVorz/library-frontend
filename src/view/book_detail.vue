@@ -1,129 +1,250 @@
 <template>
-    <div class="header">
-        <h1>综合图书管理</h1>
-    </div>
-    <hr>
-    <!-- 弹窗1 -->
-    <div v-if="showModal" class="modal">
-        <div class="search-container">
-            <form class="search-form">
-                <p>图书搜索</p>
-                <div class="form-group">
-                    <label for="name">书名:</label>
-                    <input type="text" id="name" class="form-control">
+    <div class="maincontent bg--white pt--80 pb--55">
+        <div class="container" v-bind="book">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="wn__single__product">
+                        <div class="row">
+                            <div class="col-lg-6 col-12">
+                                <div class="wn__fotorama__wrapper">
+                                    <div class="fotorama wn__fotorama__action" data-nav="thumbs">
+                                        <a href="1.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="2.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="3.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="4.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="5.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="6.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="7.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                        <a href="8.jpg"><img src="/assets/img/books/1.jpg" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <div class="product__info__main">
+                                    <h1>{{ book.bookname }}</h1>
+                                    <div style="margin: 2px 0;">
+                                        <p>Author: <span>{{ book.author }}</span></p>
+                                    </div>
+                                    <div class="product-info-stock-sku d-flex">
+                                        <p>Availability:<span>{{ book.availability }}</span></p>
+                                    </div>
+                                    <div class="product-reviews-summary d-flex">
+                                        <ul class="rating-summary d-flex">
+                                            <li><i class="zmdi zmdi-star-outline"></i></li>
+                                            <li><i class="zmdi zmdi-star-outline"></i></li>
+                                            <li><i class="zmdi zmdi-star-outline"></i></li>
+                                            <li class="off"><i class="zmdi zmdi-star-outline"></i></li>
+                                            <li class="off"><i class="zmdi zmdi-star-outline"></i></li>
+                                        </ul>
+                                        <div class="reviews-actions d-flex">
+                                            <a href="#">(1 Review)</a>
+                                            <a href="#">Add Your Review</a>
+                                        </div>
+                                    </div>
+                                    <div class="price-box">
+                                        <span>${{ book.price }}</span>
+                                    </div>
+
+                                    <div class="box-tocart d-flex">
+                                        <span>Quantity</span>
+                                        <input id="qty" class="input-text qty" name="qty" min="1" value="1" title="Qty"
+                                            type="number">
+                                        <div class="addtocart__actions">
+                                            <button class="btn btn-secondary" type="submit" title="Add to Cart">Borrow</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="product__overview">
+                                        <p>{{ book.overview }}</p>
+                                        <ul class="pro__attribute">
+                                            <li>• Two-tone gray heather hoodie.</li>
+                                            <li>• Drawstring-adjustable hood. </li>
+                                            <li>• Machine wash/dry.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product__info__detailed">
+                        <div class="pro_details_nav nav justify-content-start" role="tablist">
+                            <a class="nav-item nav-link active" data-toggle="tab" href="#nav-details" role="tab">Details</a>
+                            <a class="nav-item nav-link" data-toggle="tab" href="#nav-review" role="tab">Reviews</a>
+                        </div>
+                        <div class="tab__container">
+                            <!-- Start Single Tab Content -->
+                            <div class="pro__tab_label tab-pane fade show active" id="nav-details" role="tabpanel">
+                                <div class="description__attribute">
+                                    <p>{{ book.description }}</p>
+                                    <ul>
+                                        <li>• Two-tone gray heather hoodie.</li>
+                                        <li>• Drawstring-adjustable hood. </li>
+                                        <li>• Machine wash/dry.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- End Single Tab Content -->
+                            <!-- Start Single Tab Content -->
+                            <div class="pro__tab_label tab-pane fade" id="nav-review" role="tabpanel">
+                                <div class="review__attribute">
+                                    <h1>Customer Reviews</h1>
+                                    <h2>Hastech</h2>
+                                    <div class="review__ratings__type d-flex">
+                                        <div class="review-ratings">
+                                            <div class="rating-summary d-flex">
+                                                <span>Quality</span>
+                                                <ul class="rating d-flex">
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="rating-summary d-flex">
+                                                <span>Price</span>
+                                                <ul class="rating d-flex">
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+                                            <div class="rating-summary d-flex">
+                                                <span>value</span>
+                                                <ul class="rating d-flex">
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="review-content">
+                                            <p>Hastech</p>
+                                            <p>Review by Hastech</p>
+                                            <p>Posted on 11/6/2018</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-fieldset">
+                                    <h2>You're reviewing:</h2>
+                                    <h3>Chaz Kangeroo Hoodie</h3>
+                                    <div class="review-field-ratings">
+                                        <div class="product-review-table">
+                                            <div class="review-field-rating d-flex">
+                                                <span>Quality</span>
+                                                <ul class="rating d-flex">
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+                                            <div class="review-field-rating d-flex">
+                                                <span>Price</span>
+                                                <ul class="rating d-flex">
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+                                            <div class="review-field-rating d-flex">
+                                                <span>Value</span>
+                                                <ul class="rating d-flex">
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                    <li class="off"><i class="zmdi zmdi-star"></i></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="review_form_field">
+                                        <div class="input__box">
+                                            <span>Nickname</span>
+                                            <input id="nickname_field" type="text" name="nickname">
+                                        </div>
+                                        <div class="input__box">
+                                            <span>Summary</span>
+                                            <input id="summery_field" type="text" name="summery">
+                                        </div>
+                                        <div class="input__box">
+                                            <span>Review</span>
+                                            <textarea name="review"></textarea>
+                                        </div>
+                                        <div class="review-form-actions">
+                                            <button>Submit Review</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Tab Content -->
+                        </div>
+                    </div>
+
+
                 </div>
-                <div class="form-group">
-                    <label for="au">作者:</label>
-                    <input type="text" id="au" class="form-control">
+                <div class="col-lg-3 col-12 md-mt-40 sm-mt-40">
+                    <div class="shop__sidebar">
+                        <aside class="wedget__categories poroduct--cat">
+                            <h3 class="wedget__title">Book Categories</h3>
+                            <ul>
+                                <li><a href="#">Biography <span>(3)</span></a></li>
+                                <li><a href="#">Business <span>(4)</span></a></li>
+                                <li><a href="#">Cookbooks <span>(6)</span></a></li>
+                                <li><a href="#">Health & Fitness <span>(7)</span></a></li>
+                                
+                            </ul>
+                        </aside>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="num">数量:</label>
-                    <input type="number" id="num" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="pub">出版社:</label>
-                    <input type="text" id="pub" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="money">单价:</label>
-                    <input type="number" id="money" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button class="searchbk">查找</button>
-                    <button @click="showModal = false" class="quit">关闭</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-
-    <!-- 弹窗2 -->
-    <div v-if="showModal2" class="modal">
-        <div class="search-container">
-            <form class="search-form2" @submit.prevent="">
-                <p>添加图书</p>
-                <div class="form-group">
-                    <label for="name">书名:</label>
-                    <input type="text" id="name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="au">作者:</label>
-                    <input type="text" id="au" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="num">数量:</label>
-                    <input type="number" id="num" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="pub">出版社:</label>
-                    <input type="text" id="pub" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="money">单价:</label>
-                    <input type="number" id="money" class="form-control">
-                </div>
-                <!-- 其实也能放入图片 -->
-                <div class="form-group">
-                    <button class="addbk" @click="showAlertadd">添加</button>
-                    <button @click="showModal2 = false" class="quit">关闭</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>退出账户</button>
-        <button class="reader-button" @click="handleReader"><i class="fas fa-users"></i> 读者管理</button>
-        <button class="add-button" @click="showModal2 = true"><i class="fas fa-book"></i> 添加图书</button>
-        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
-
-        <table>
-            <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
-                <td>书名</td>
-                <td>作者</td>
-                <td>出版社</td>
-                <td>出版时间</td>
-                <td>借阅状态</td>
-                <td>操作:添加 / 删除</td>
-            </tr>
-            <tr v-for="item in bookTotal">
-                <td>{{ item.bookName }}</td>
-                <td>{{ item.bookAuthor }}</td>
-                <td>{{ item.bookPublisher }}</td>
-                <td>{{ item.bookDate }}</td>
-                <td>{{ item.bookStatus }}</td>
-                <td>
-                    <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
-                            @click="deleteItem(item)">删除</button>
-                    </form>
-                </td>
-            </tr>
-            <tr v-for="item in bookTotal">
-                <td>{{ item.bookName }}</td>
-                <td>{{ item.bookAuthor }}</td>
-                <td>{{ item.bookPublisher }}</td>
-                <td>{{ item.bookDate }}</td>
-                <td>{{ item.bookStatus }}</td>
-                <td>
-                    <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showAlertadd">添加</button>&nbsp&nbsp&nbsp<button class="act del"
-                            @click="deleteItem(item)">删除</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
     </div>
 </template>
 
 <script>
+
+import "bootstrap/dist/js/bootstrap.js";
+import "bootstrap/dist/css/bootstrap.css";
+import "../css/plugins.css";
+import "../css/style.css";
+
+
 export default {
     data() {
         return {
             showModal: false,
             showModal2: false,
-            bookTotal: [] // 存储从数据库里面得到的数据
+            bookTotal: [],
+            bookid: "",
+            book: {
+                bookid: "1",
+                bookname: "Chaz Kangeroo Hoodie",
+                author: "nobody",
+                availability: "In stock",
+                price: "52.00",
+                overview: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promisessuperior warmth with every wear. Thick material blocks out the wind as ribbedcuffs and bottom band seal in body heat.",
+                description: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superiorwarmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superior warmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather"
+            }
         }
     },
+
+    mounted() {
+        this.bookid = this.$route.params.id;
+        // 使用 id 进行相关操作
+        console.log(this.bookid);
+        // set book by bookid
+    },
+  
     async created() {
         const response = await fetch('/data.json');
         if (response.ok) {
@@ -136,7 +257,7 @@ export default {
         handleSubmit(event) {
             event.preventDefault();
             // 删除操作...
-         }, // 到时候记得删掉，只是为了测试删除
+        }, // 到时候记得删掉，只是为了测试删除
         showAlertadd() {
             alert('添加成功');
         },
@@ -368,6 +489,7 @@ hr {
 .search-form2 p {
     color: #4bdc35;
 }
+
 .search-form2 p::before {
     background-color: #4bdc35;
 }
@@ -473,5 +595,4 @@ hr {
 .del:hover {
     animation: bounce 0.3s forwards;
     background-color: rgba(220, 53, 69, 1);
-}
-</style>
+}</style>
