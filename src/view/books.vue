@@ -133,6 +133,7 @@ export default {
         }
     },
     async created() {
+        document.body.style.overflow = 'auto'
         const response = await fetch('/data.json');
         if (response.ok) {
             this.bookTotal = await response.json();
