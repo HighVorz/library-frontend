@@ -38,10 +38,6 @@ a:hover {
     cursor: url("/assets/img/help.ico"), auto;
 }
 
-a[type="button"] {
-    cursor: url("/assets/img/alternate.ico"), auto;
-}
-
 img {
     cursor: url("/assets/img/alternate.ico"), auto;
 }
