@@ -232,27 +232,6 @@ export default {
     font-weight: bold;
 }
 
-/* .add-button {
-    margin: 20px 0px 20px 0px;
-    padding: 10px 20px;
-    font-size: 16px;
-    width: 10%;
-    position: absolute;
-    left: 70%;
-    color: rgb(0, 0, 0);
-    background-color: rgba(119, 255, 0, 0.7);
-    border: none;
-    border-radius: 15px;
-    transition: background-color 0.3s ease;
-    transition: font-weight 0.3s ease;
-}
-
-.add-button:hover {
-    background-color: rgba(119, 255, 0, 1);
-    animation: bounce 0.3s forwards;
-    font-weight: bold;
-} */
-
 .search-button {
     margin: 20px 0px 20px 0px;
     padding: 10px 20px;

@@ -56,9 +56,9 @@
     <div v-if="erjishowbr" class="modal2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
-                <input type="text" class="userbr" v-model="brnum" placeholder="请输入借阅个数...">
+                <input type="number" class="userbr" v-model="brnum" placeholder="请输入借阅个数..." required>
                 <div class="funcbutton">
-                    <button class="form-button borrow-btn" @click="borrowBookfin" style="margin-right: 62%;">借阅</button>
+                    <button class="form-button borrow-btn" @click="borrowBookfin">借阅</button>
                     <button class="form-button" @click="erjishowbr = false">关闭</button>
                 </div>
             </form>
@@ -68,10 +68,10 @@
     <div v-if="erjishowkp" class="modal2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
-                <input type="text" class="userbr" v-model="brnum" placeholder="请输入续借时长(天)...">
+                <input type="date" class="userbr" v-model="brnum" required>
                 <div class="funcbutton">
-                    <button class="form-button keep-btn" @click="keepBookfin" style="margin-right: 62%;">续借</button>
-                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                    <button class="form-button keep-btn" @click="keepBookfin">续借</button>
+                    <button class="form-button" @click="erjishowkp = false">关闭</button>
                 </div>
             </form>
         </div>
@@ -172,12 +172,12 @@ export default {
         borrowBook() {
             this.erjishowbr = "true";
         },
-        borrowBookfin() {
-            alert("借阅成功");
-        },
-        keepBookfin() {
-            alert("续借成功");
-        },
+        // borrowBookfin() {
+        //     alert("借阅成功");
+        // },
+        // keepBookfin() {
+        //     alert("续借成功");
+        // },
     },
     watch: {
         showModal(val) {
@@ -394,7 +394,6 @@ h3 {
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     font-size: 14px;
 }
 
@@ -408,7 +407,6 @@ h3 {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     font-size: 16px;
     margin: 37px 20px 20px 20px;
     float: right
@@ -503,7 +501,11 @@ h3 {
     margin-bottom: 3px;
     color: rgb(56, 56, 56);
 }
-
+.funcbutton {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
 .form-group input {
     width: 68%;
     height: 32px;
