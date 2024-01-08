@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-md navbar-light">
         <div class="container-xxl">
-            <a href="#intro" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <span class="fw-bold text-secondary"> Library </span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"

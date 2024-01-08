@@ -1,5 +1,8 @@
 <template>
-    <div class="container">
+    <div class="bg-image">
+    </div>
+
+    <div class="position-absolute top-50 start-50 translate-middle">
         <form class="form" @submit.prevent="">
             <div class="form_title">图书管理系统登录</div>
             <div class="form_user_field">
@@ -21,7 +24,7 @@
             </div>
             <div class="tips_field">
                 <p class="forget">
-                    忘记密码? <a href="/administer">点击这里</a>
+                    忘记密码? <a href="/forget">点击这里</a>
                 </p>
             </div>
             <div class="btn_field">
@@ -35,6 +38,7 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
+import { inject,  } from "vue";
 
 export default {
     data() {
@@ -51,10 +55,18 @@ export default {
         };
     },
 
+    setup() {
+        const $http = inject('$http');
+
+        
+    },
+
     methods: {
+
         handlesup() {
             this.$router.push("/register");
         },
+
         handlesin() {
             if (!this.verify_username() || !this.verify_password()) {
                 return;
@@ -63,6 +75,10 @@ export default {
             // if request server is ok
             this.$router.push({ path: '/books', query: { username: this.username } });
             // this.$router.push("/books");
+
+
+            const http = inject($http)
+
         },
 
         hasOnlyNumber(s) {
@@ -127,14 +143,26 @@ export default {
     margin-top: 10px;
 }
 
-.container {
+.bg-image {
+    background-image: url("/assets/img/lib_register.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* .container {
     width: 100%;
     height: 100%;
     background: url("/assets/img/lib_register.png") center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .form {
     width: 400px;

@@ -8,7 +8,9 @@ import Book_detail from '../view/book_detail.vue'
 import Home from '../view/index.vue'
 import User_Management from '../view/user_management.vue';
 import Register from '../view/register.vue';
-import Search from '../view/search.vue'
+import Search from '../view/search.vue';
+import Forget from '../view/forget.vue';
+
 
 const Router = createRouter({
     history: createWebHistory(),
@@ -87,6 +89,14 @@ const Router = createRouter({
                 title: '用户空间'
             }
         },
+        {
+            path: "/forget",
+            name: "forget",
+            component: Forget,
+            meta: {
+                title: '忘记密码'
+            }
+        }
     ]
 })
 

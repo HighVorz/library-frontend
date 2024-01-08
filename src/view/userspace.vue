@@ -3,17 +3,18 @@
     </div>
 
     <audio src="https://game.maj-soul.com/1/v0.10.1.w/audio/sound/yiji/lobby_playerlogin.mp3" autoplay></audio>
+
     <div class="position-absolute top-50 start-50 translate-middle">
         <div class="user-space">
             <div class="sidebar">
                 <ul>
-                    <li :class="{ selected: selectedTab === 'userInfo' }" @click="selectedTab = 'userInfo'">用户信息</li>
-                    <li :class="{ selected: selectedTab === 'borrowInfo' }" @click="selectedTab = 'borrowInfo'">借书情况
+                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)">用户信息</li>
+                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)">借书情况
                     </li>
                 </ul>
             </div>
             <div class="main">
-                <div v-if="selectedTab === 'userInfo'">
+                <div v-if="selectedTab === USERINFO">
                     <div class="avatar-section">
                         <img class="avatar-img" :src="avatar" :title="$route.query.username + '的头像'"
                             @click="showModal = true">
@@ -27,7 +28,7 @@
                         <p>进入时间: {{ new Date().toLocaleString() }}</p>
                     </div>
                 </div>
-                <div v-if="selectedTab === 'borrowInfo'">
+                <div v-else-if="selectedTab === BORROW">
                     <h2>借书情况</h2>
                     <!-- 借书情况列表... -->
                     <table class="styled-table">
@@ -41,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="record in borrowRecords" :key="record.id">
+                            <tr v-for="   record    in    borrowRecords   " :key="record.id">
                                 <td>《{{ record.bookName }}》</td>
                                 <td>{{ record.bookNumber }}</td>
                                 <td>{{ record.borrowDate }}</td>
@@ -71,15 +72,18 @@
 
 <script>
 import { ElPagination } from 'element-plus';
-import { inject, onMounted } from "vue"
+import { inject, onMounted, ref } from "vue"
 
 export default {
     components: {
         ElPagination
     },
+
     data() {
         return {
-            selectedTab: 'userInfo',
+            USERINFO: "enum_userinfo",
+            BORROW: "enum_borrow",
+            selectedTab: "enum_userinfo",
             showModal: false,
             avatar: '/assets/img/avatar.png',
             borrowRecords: [],
@@ -88,6 +92,29 @@ export default {
                 signature: "放浪不羁爱自由",
                 status: "摸鱼中"
             }
+        }
+    },
+
+    methods: {
+        select(tab) {
+            this.selectedTab = tab
+        },
+        returnBook(id) {
+            alert("还书成功");
+        },
+
+        onFileChange(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.avatar = e.target.result;
+                this.showModal = false;  // 关闭弹窗
+            };
+            reader.readAsDataURL(file);
+        },
+
+        renewBook(id) {
+            alert("续借成功");
         }
     },
 
@@ -105,26 +132,6 @@ export default {
                 });
         });
     },
-   
-
-
-    methods: {
-        returnBook(id) {
-            alert("还书成功");
-        },
-        renewBook(id) {
-            alert("续借成功");
-        },
-        onFileChange(e) {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.avatar = e.target.result;
-                this.showModal = false;  // 关闭弹窗
-            };
-            reader.readAsDataURL(file);
-        },
-    }
 }
 
 </script>
