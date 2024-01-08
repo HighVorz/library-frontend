@@ -8,7 +8,7 @@
         <div class="user-space">
             <div class="sidebar">
                 <ul>
-                    <li :class="{ selected: selectedTab === 'userInfo' }" @click="selectedTab = 'userInfo'">用户情况</li>
+                    <li :class="{ selected: selectedTab === 'userInfo' }" @click="selectedTab = 'userInfo'">用户信息</li>
                     <li :class="{ selected: selectedTab === 'borrowInfo' }" @click="selectedTab = 'borrowInfo'">借书情况
                     </li>
                 </ul>
@@ -20,11 +20,11 @@
                             @click="showModal = true">
                     </div>
                     <div class="basicinfo">
-                        <h2>当前用户：{{ $route.query.username }}</h2>
-                        <p>用户签名: {{ userInfo.userSignature }}</p>
-                        <p>用户邮箱: {{ userInfo.userMail }}</p>
-                        <p>借书数量: {{ userInfo.userTotalborrow }}</p>
-                        <p>用户状态: {{ userInfo.userStatus }}</p>
+                        <h2>{{ userInfo.username }}</h2>
+                        <p>{{ userInfo.signature }}</p>
+                        <p>{{ userInfo.userMail }}</p>
+                        <!-- <p>借书数量: {{ userInfo.userTotalborrow }}</p> -->
+                        <p>{{ userInfo.status }}</p>
                         <p>进入时间: {{ new Date().toLocaleString() }}</p>
                     </div>
                 </div>
@@ -83,19 +83,23 @@ export default {
             showModal: false,
             avatar: '/assets/img/avatar.png',
             borrowRecords: [],
-            userInfo: {}
+            userInfo: {
+                username: "1337",
+                signature: "放浪不羁爱自由",
+                status: "摸鱼中"
+            }
         }
     },
-    async created() {
-        const response = await fetch('/userspbr.json');
-        if (response.ok) {
-            const data = await response.json();
-            this.userInfo = data.user;
-            this.borrowRecords = data.userborrow;
-        } else {
-            console.error('Failed to load userspbr.json:', response.status, response.statusText);
-        }
-    },
+    // async created() {
+    //     const response = await fetch('/userspbr.json');
+    //     if (response.ok) {
+    //         const data = await response.json();
+    //         this.userInfo = data.user;
+    //         this.borrowRecords = data.userborrow;
+    //     } else {
+    //         console.error('Failed to load userspbr.json:', response.status, response.statusText);
+    //     }
+    // },
     methods: {
         returnBook(id) {
             alert("还书成功");
