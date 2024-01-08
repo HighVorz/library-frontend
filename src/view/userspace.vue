@@ -1,11 +1,16 @@
 <template>
+
+    <div class="bg-image">
+    </div>
+
     <audio src="https://game.maj-soul.com/1/v0.10.1.w/audio/sound/yiji/lobby_playerlogin.mp3" autoplay></audio>
-    <div class="container">
+    <div class="position-absolute top-50 start-50 translate-middle">
         <div class="user-space">
             <div class="sidebar">
                 <ul>
                     <li :class="{ selected: selectedTab === 'userInfo' }" @click="selectedTab = 'userInfo'">用户情况</li>
-                    <li :class="{ selected: selectedTab === 'borrowInfo' }" @click="selectedTab = 'borrowInfo'">借书情况</li>
+                    <li :class="{ selected: selectedTab === 'borrowInfo' }" @click="selectedTab = 'borrowInfo'">借书情况
+                    </li>
                 </ul>
             </div>
             <div class="main">
@@ -113,14 +118,27 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.bg-image {
+    background-image: url("/assets/img/claim.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* 
+.z-container {
     width: 100%;
     height: 100%;
     background: url("/assets/img/claim.jpg") center/cover no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .user-space {
     display: flex;
@@ -255,12 +273,15 @@ input[type="file"] {
     font-size: 16px;
     margin: 4px 8px;
 }
+
 .styled-table button:hover {
     animation: bounce 0.3s forwards;
 }
+
 .retbk {
     background-color: rgba(231, 185, 19, 0.7);
 }
+
 .retbk:hover {
     background-color: rgba(231, 185, 19, 1);
 }
@@ -268,9 +289,11 @@ input[type="file"] {
 .kepbk {
     background-color: rgba(139, 26, 157, 0.7);
 }
+
 .kepbk:hover {
     background-color: rgba(139, 26, 157, 1);
 }
+
 @keyframes bounce {
     0% {
         transform: translateY(0);

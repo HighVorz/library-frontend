@@ -1,7 +1,7 @@
 <template>
-    <div class="header">
+    <!-- <div class="header">
         <h1>用户管理界面</h1>
-    </div>
+    </div> -->
     <hr>
     <!-- 弹窗1 -->
     <div v-if="showModal" class="modal">

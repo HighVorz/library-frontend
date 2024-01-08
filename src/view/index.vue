@@ -63,5 +63,5 @@ import "bootstrap/dist/js/bootstrap.js";
 </script>
 
 <style scoped>
-@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+
 </style>

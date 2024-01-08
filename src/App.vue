@@ -1,7 +1,6 @@
 <template>
     <!-- release 仅需下面的代码 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <router-view></router-view>
 </template>
 
@@ -15,7 +14,14 @@ export default {
 };
 </script>
 
+
+
 <style>
+
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+
 html,
 body,
 #app {

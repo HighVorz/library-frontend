@@ -1,4 +1,17 @@
 <template>
+	<nav class="navbar bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand">Navbar</a>
+			<form class="d-flex ms-auto me-2" role="search">
+				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success" type="submit">Search</button>
+			</form>
+			<a class="ms-2" href="user">
+				<img src="/assets/img/avatar.png" class="rounded-circle" alt="Avatar" width="30" height="30">
+			</a>
+		</div>
+	</nav>
+
 	<div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
 		<div class="container">
 			<div class="row">
@@ -78,7 +91,7 @@
 
 <script>
 
-import "bootstrap/dist/js/bootstrap.js";
+import "bootstrap/dist/js/bootstrap.bundle.js"
 
 export default {
 	data() {
@@ -144,43 +157,10 @@ export default {
 
 		}
 	},
-	async created() {
-		const response = await fetch('/data.json');
-		if (response.ok) {
-			this.bookTotal = await response.json();
-		} else {
-			console.error('Failed to load data.json:', response.status, response.statusText);
-		}
-	},
+
 	methods: {
-		handleimgClick(book) {
-			if (book.bookStatus === '否') {
-				alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
-				return;
-			}
-			alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
-			this.showChoose = true;
-			this.selectedBook = book;
-		},
-		handleLogout() {
-			this.$router.push('/login')
-		},
-		keepBook() {
-			this.erjishowkp = "true";
-		},
-		borrowBook() {
-			this.erjishowbr = "true";
-		},
-		borrowBookfin() {
-			alert("借阅成功");
-		},
-		keepBookfin() {
-			alert("续借成功");
-		},
-		// getResults(page) {
-		//     this.page = page;
-		//     this.pages = _.chunk(this.bookTotal, this.perPage);
-		// }
+
+
 	},
 	watch: {
 		showModal(val) {
@@ -202,8 +182,15 @@ export default {
 }
 </script>
 
+
+
+
+<!-- ⚠️ not scoped -->
+<style module>
+
+</style>
+
 <style scoped>
-	@import "bootstrap/dist/css/bootstrap.css";
-	@import "../css/plugins.css";
-	@import "../css/style.css";
+@import "../css/plugins.css";
+@import "../css/style.css";
 </style>
