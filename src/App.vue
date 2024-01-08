@@ -17,10 +17,7 @@ export default {
 
 
 <style>
-
-
 @import "bootstrap/dist/css/bootstrap.min.css";
-
 
 html,
 body,
@@ -41,7 +38,7 @@ body {
 }
 
 a:hover {
-    cursor: url("/assets/img/help.ico"), auto;
+    cursor: url("/assets/img/help.ico"), auto !important; 
 }
 
 img {
@@ -53,7 +50,7 @@ input:hover {
 }
 
 button {
-    cursor: url("/assets/img/alternate.ico"), auto;
+    cursor: url("/assets/img/alternate.ico"), auto !important;
 }
 
 </style>
