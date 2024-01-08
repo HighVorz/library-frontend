@@ -13,7 +13,7 @@ app.use(Router);
 // axios
 // 设置json-server 的域名
 const api = axios.create({
-    baseURL: 'http://localhost:5555',
+    baseURL: import.meta.env.VITE_APP_URL
 });
 
 
