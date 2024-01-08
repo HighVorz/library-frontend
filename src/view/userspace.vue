@@ -1,5 +1,4 @@
 <template>
-
     <div class="bg-image">
     </div>
 
@@ -72,6 +71,7 @@
 
 <script>
 import { ElPagination } from 'element-plus';
+import { inject, onMounted } from "vue"
 
 export default {
     components: {
@@ -90,16 +90,24 @@ export default {
             }
         }
     },
-    // async created() {
-    //     const response = await fetch('/userspbr.json');
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         this.userInfo = data.user;
-    //         this.borrowRecords = data.userborrow;
-    //     } else {
-    //         console.error('Failed to load userspbr.json:', response.status, response.statusText);
-    //     }
-    // },
+
+    setup() {
+        const http = inject('$http');
+
+        onMounted(() => {
+            // 使用 $http 发送请求
+            http.get('/users')
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    },
+   
+
+
     methods: {
         returnBook(id) {
             alert("还书成功");

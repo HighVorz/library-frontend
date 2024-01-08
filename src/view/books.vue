@@ -107,8 +107,8 @@ export default {
 			erjishowkp: false,
 			brnum: '',
 			selectedBook: [],
-			// 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
-			bookTotal: [],
+			
+
 			bookList: [{
 				id: 1,
 				bookid: "1",
@@ -164,7 +164,7 @@ export default {
 	},
 
 	methods: {
-
+		
 
 	},
 	watch: {

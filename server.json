@@ -1,0 +1,79 @@
+{
+    "users": [
+        {
+            "uid": 1,
+            "name": "jack"
+        },
+        {
+            "uid": 2,
+            "name": "tom"
+        }
+    ],
+
+    "books": [
+        {
+            "bookid": 1,
+            "bookName": "计算机体系结构",
+            "bookAuthor": "钱璟丰",
+            "bookPublisher": "机械工业出版社",
+            "bookDate": "2023-12-27",
+            "bookStatus": "是",
+            "bookNumber": "1",
+            "bookRef": "/assets/img/计算机体系结构.jpg",
+            "bookLocate": "图书馆1楼"
+        },
+        {
+            "bookid": 2,
+            "bookName": "算法导论",
+            "bookAuthor": "钱璟丰",
+            "bookPublisher": "MIT Press",
+            "bookDate": "2023-12-27",
+            "bookStatus": "是",
+            "bookNumber": "2",
+            "bookRef": "/assets/img/算法导论.jpg",
+            "bookLocate": "图书馆2楼"
+        },
+        {
+            "bookid": 3,
+            "bookName": "计算机网络",
+            "bookAuthor": "钱璟丰",
+            "bookPublisher": "清华大学出版社",
+            "bookDate": "2023-12-27",
+            "bookStatus": "是",
+            "bookNumber": "3",
+            "bookRef": "/assets/img/计算机网络.jpg",
+            "bookLocate": "图书馆3楼"
+        }
+    ],
+
+    "borrow": [
+        {
+            "bookid": 1,
+            "bookName": "计算机体系结构",
+            "bookNumber": "1",
+            "borrowDate": "2023-12-27",
+            "returnDate": "2024-1-27"
+        },
+        {
+            "bookid": 2,
+            "bookName": "算法导论",
+            "bookNumber": "2",
+            "borrowDate": "2023-12-25",
+            "returnDate": "2024-1-25"
+        },
+        {
+            "bookid": 3,
+            "bookName": "计算机网络",
+            "bookNumber": "3",
+            "borrowDate": "2023-3-27",
+            "returnDate": "2023-4-27"
+        },
+        {
+            "bookid": 4,
+            "bookName": "计算机图形学",
+            "bookNumber": "6",
+            "borrowDate": "2023-5-2",
+            "returnDate": "2023-6-2"
+        }
+    ]
+}
