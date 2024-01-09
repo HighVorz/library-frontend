@@ -10,7 +10,7 @@ import User_Management from '../view/user_management.vue';
 import Register from '../view/register.vue';
 import Search from '../view/search.vue';
 import Forget from '../view/forget.vue';
-
+import BookManagement from '../view/book_management.vue';
 
 const Router = createRouter({
     history: createWebHistory(),
@@ -95,6 +95,14 @@ const Router = createRouter({
             component: Forget,
             meta: {
                 title: '忘记密码'
+            }
+        }, 
+        {
+            path: "/manage/book",
+            name: "book_manage",
+            component: BookManagement,
+            meta: {
+                title: '图书管理'
             }
         }
     ]

@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="   record    in    borrowRecords   " :key="record.id">
+                            <tr v-for="record in borrowRecords   " :key="record.id">
                                 <td>《{{ record.bookName }}》</td>
                                 <td>{{ record.bookNumber }}</td>
                                 <td>{{ record.borrowDate }}</td>
@@ -122,7 +122,7 @@ export default {
         const http = inject('$http');
 
         onMounted(() => {
-            // 使用 $http 发送请求
+            // 使用 $http 发送请求 axios
             http.get('/users')
                 .then(response => {
                     console.log(response.data);

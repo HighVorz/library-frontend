@@ -163,7 +163,7 @@ export default {
             // 删除操作...
         }, // 到时候记得删掉，只是为了测试删除
         handleReturn() {
-            this.$router.push('/detail')
+            this.$router.push('/manage/book')
         },
         handleLogout() {
             this.$router.push('/login')
