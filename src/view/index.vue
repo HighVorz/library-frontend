@@ -38,7 +38,7 @@
     </nav>
 
     <section id="intro">
-        <dic class="container-lg">
+        <div class="container-lg">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-5 text-center text-md-start">
                     <h1>
@@ -54,7 +54,7 @@
                     <img class="img-fluid" src="/assets/ebook-cover.png" alt="ebook cover" />
                 </div>
             </div>
-        </dic>
+        </div>
     </section>
 </template>
 

@@ -79,9 +79,6 @@ export default {
             handlefnsup,
             handleprereg,
 
-
-            // variable
-            // ft: "form_title",
             username: '',
             useremail: '',
             usercertify: '',
@@ -89,22 +86,14 @@ export default {
             emailError: false,
             certifyError: false,
             selectedError: false,
-            // fm: "form",
-            // cnr: "container",
-            // fuf: "form_user_field",
-            // uinput: "username_input",
-            // minput: "mail_input",
-            // fct: "form_certify_field",
-            // cinput: "certify_input",
-            // btn: "btn_field",
-            // sup: "signup",
-            // sin: "signin",
-            // selectedOption: ""
+            
         }
     },
 
     data() {
-
+        return{
+            
+        }
     },
     methods: {
 

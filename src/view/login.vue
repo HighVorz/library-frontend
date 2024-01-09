@@ -19,7 +19,7 @@
                     {{ password_errors }}
                 </p>
             </div>
-            <div>
+            <div class="z-remember">
                 <el-checkbox>记住密码</el-checkbox>
             </div>
             <div class="tips_field">
@@ -138,6 +138,7 @@ export default {
     margin: 0;
     padding: 0;
 }
+
 
 .el-checkbox {
     margin-top: 10px;

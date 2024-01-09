@@ -2,13 +2,22 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import Router from "./router";
 import axios from "axios"
+import {createPinia} from 'pinia'
+
+
+// css
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 
 
+
+
 const app = createApp(App);
-app.use(ElementPlus);
+const pinia = createPinia()
+
 app.use(Router);
+app.use(pinia)
+app.use(ElementPlus);
 
 // axios
 // 设置json-server 的域名

@@ -9,7 +9,9 @@ import { RouterView, RouterLink } from "vue-router";
 
 export default {
     data() {
-        
+        return{
+            
+        }
     },
 };
 </script>
@@ -38,6 +40,10 @@ body {
 }
 
 a:hover {
+    cursor: url("/assets/img/help.ico"), auto !important; 
+}
+
+.z-remember{
     cursor: url("/assets/img/help.ico"), auto !important; 
 }
 

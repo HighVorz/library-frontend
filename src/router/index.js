@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
+// auth.js
+import { useAuthStore } from '@/script/auth'
+
+// view
 import Login from '../view/login.vue'
 import Books from '../view/books.vue'
 import Userspace from '../view/userspace.vue'
@@ -20,7 +25,8 @@ const Router = createRouter({
             name: 'home',
             component: Home,
             meta: {
-                title: '首页'
+                title: '首页',
+                requiresAuth: false,
             }
         },
         {
@@ -29,7 +35,8 @@ const Router = createRouter({
             component: Login,
             props: true,
             meta: {
-                title: '登录'
+                title: '登录',
+                requiresAuth: false,
             }
         },
         {
@@ -37,7 +44,8 @@ const Router = createRouter({
             name: 'register',
             component: Register,
             meta: {
-                title: '注册'
+                title: '注册',
+                requiresAuth: false,
             }
         },
         {
@@ -45,7 +53,8 @@ const Router = createRouter({
             name: 'detail',
             component: Book_detail,
             meta: {
-                title: '详情'
+                title: '详情',
+                requiresAuth: false,
             }
         },
         {
@@ -54,7 +63,8 @@ const Router = createRouter({
             component: Books,
             props: true,
             meta: {
-                title: '书目'
+                title: '书目',
+                requiresAuth: false,
             }
         },
         {
@@ -62,7 +72,8 @@ const Router = createRouter({
             name: 'administer',
             component: Administer,
             meta: {
-                title: '后台管理界面'
+                title: '后台管理界面',
+                requiresAuth: true,
             }
         },
         {
@@ -70,7 +81,8 @@ const Router = createRouter({
             name: 'usercontrol',
             component: User_Management,
             meta: {
-                title: '用户管理'
+                title: '用户管理',
+                requiresAuth: true,
             }
         },
         {
@@ -78,7 +90,8 @@ const Router = createRouter({
             name: 'search',
             component: Search,
             meta: {
-                title: '搜索'
+                title: '搜索',
+                requiresAuth: true,
             }
         },
         {
@@ -86,7 +99,8 @@ const Router = createRouter({
             name: 'user',
             component: Userspace,
             meta: {
-                title: '用户空间'
+                title: '用户空间',
+                requiresAuth: true,
             }
         },
         {
@@ -94,7 +108,8 @@ const Router = createRouter({
             name: "forget",
             component: Forget,
             meta: {
-                title: '忘记密码'
+                title: '忘记密码',
+                requiresAuth: false,
             }
         }, 
         {
@@ -102,10 +117,23 @@ const Router = createRouter({
             name: "book_manage",
             component: BookManagement,
             meta: {
-                title: '图书管理'
+                title: '图书管理',
+                requiresAuth: true
             }
         }
     ]
+})
+
+Router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    const isAuthenticated = !!authStore.user;
+
+    if(to.meta.requiresAuth && !isAuthenticated){
+        next({name: 'login'});
+    }
+    else{
+        next();
+    }
 })
 
 export default Router
