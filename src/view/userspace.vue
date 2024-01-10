@@ -78,7 +78,16 @@ export default {
     components: {
         ElPagination
     },
-
+    async created() {
+        const response = await fetch('/userspbr.json');
+        if (response.ok) {
+            const data = await response.json();
+            this.userInfo = data.user;
+            this.borrowRecords = data.userborrow;
+        } else {
+            console.error('Failed to load userspbr.json:', response.status, response.statusText);
+        }
+    },
     data() {
         return {
             USERINFO: "enum_userinfo",
