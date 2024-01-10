@@ -17,3 +17,81 @@ emoji	English	Chinese
 
 #### Change
 - 弃用json-server, 改用mirageJs
+
+
+#### Vue 3 databinding
+
+我们希望展示一个BookList
+那么根据js的对象(类似于字典)语法
+
+``` js
+const BookList = [
+    {},
+    {},
+]
+```
+
+将数据BookList放在\<script>区, 如下
+
+注意: 统一用Vue3语法 \<script>区域格式为
+``` js
+<script setup>
+
+    // data
+    // 原本需要写data(), 现在不需要了
+    // components 也不需要写
+    const BookList = ref([
+        {bookname: "哈利波特"},
+        {bookname: "三国演义"},
+    ])
+
+    // 函数
+    function setBookList(){
+        // 想要在函数中修改, 需要用.value
+        BookList.value = [
+            {bookname: "红楼梦"}
+        ]
+    };
+
+    // 不用写data(), 但需要写return
+    // 函数也需要写在return
+    return {
+        BookList,
+        setBookList
+    }
+</script>
+```
+
+
+
+在template区用绑定语法即可, 具体可参考userspace.vue中的代码
+
+``` html
+<template>
+   <tr v-for="book in BookList   " :key="record.id">
+        <td>《{{ book.bookname }}》</td>
+    </tr>
+</template>
+```
+
+
+总的来说, 需要写的包括
+
+``` js
+// script 区
+const age = ref(32)
+
+function setAge(){
+    age.value = 18
+}
+
+return{
+    age
+}
+```
+
+template区
+``` html
+    <button @click="setAge">age</div>
+```
+
