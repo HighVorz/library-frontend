@@ -62,8 +62,6 @@ function signin() {
     if (!verify_username() || !verify_password()) {
         return;
     }
-    console.log("right");
-
     http.post("/api/login", {
         username: username.value,
         password: password.value
@@ -71,7 +69,6 @@ function signin() {
         console.log(response.data)
         if (response.data.status === "ok") {
             auth.login(response.data.userInfo)
-
             const redirectPath = sessionStorage.getItem('redirectPath') || '/'
             // 重定向到之前想要登录的页面
             router.replace(redirectPath)
@@ -79,8 +76,6 @@ function signin() {
     }).catch(error => {
         console.log(error)
     })
-
-
 };
 
 function signup() {
