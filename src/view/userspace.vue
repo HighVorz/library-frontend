@@ -26,6 +26,7 @@
                         <!-- <p>借书数量: {{ userInfo.userTotalborrow }}</p> -->
                         <p>{{ userInfo.status }}</p>
                         <p>进入时间: {{ new Date().toLocaleString() }}</p>
+                        <button @click="exit">退出</button>
                     </div>
                 </div>
                 <div v-else-if="selectedTab === BORROW">
@@ -74,9 +75,14 @@
 <script setup>
 import { ElPagination } from 'element-plus';
 import { inject, onMounted, ref } from "vue"
+import { useAuthStore } from "../script/auth.js"
+
+
+const auth = useAuthStore();
 
 // inject
 const http = inject('$http');
+const router = inject('$router')
 
 // data
 const USERINFO = ref("enum_userinfo")
@@ -135,6 +141,12 @@ function onFileChange(e) {
 function renewBook(id) {
     alert("续借成功");
 }
+
+function exit(){
+    auth.logout()
+    router.replace('/')
+}
+
 </script>
 
 <style>
