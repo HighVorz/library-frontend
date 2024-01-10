@@ -1,18 +1,18 @@
 
 <template>
-    <div :class="cnr">
-        <form :class="fm" @submit.prevent="">
-            <div :class="ft">用户注册</div>
-            <div :class="fuf">
-                <input type="text" :class="uinput" v-model="username" placeholder="请输入用户名...">
+    <div class="container">
+        <form class="form" @submit.prevent="">
+            <div class="form_title">用户注册</div>
+            <div class="form_user_field">
+                <input type="text" class="username_input" v-model="username" placeholder="请输入用户名...">
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
-            <div :class="fuf">
-                <input type="text" :class="minput" v-model="useremail" placeholder="请输入邮箱...">
+            <div class="form_user_field">
+                <input type="text" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
-            <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="userpassword" placeholder="请在此处输入密码...">
+            <div class="form_password_field">
+                <input type="password" class="password_input" v-model="userpassword" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <div class="identity">
@@ -22,9 +22,9 @@
                 </el-select>
                 <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
             </div>
-            <div :class="btn">
-                <button :class="sin" @click="handlefnsup">返回登录</button>
-                <button :class="sup" @click="handleprereg">点击注册</button>
+            <div class="btn_field">
+                <button class="signin" @click="handlefnsup">返回登录</button>
+                <button class="signup" @click="handleprereg">点击注册</button>
             </div>
         </form>
     </div>
@@ -34,7 +34,7 @@
 export default {
     data() {
         return {
-            ft: "form_title",
+            // ft: "form_title",
             username: '',
             useremail: '',
             userpassword: '',
@@ -42,16 +42,16 @@ export default {
             emailError: false,
             passwordError: false,
             selectedError: false,
-            fm: "form",
-            cnr: "container",
-            fuf: "form_user_field",
-            uinput: "username_input",
-            minput: "mail_input",
-            fpwd: "form_password_field",
-            pinput: "password_input",
-            btn: "btn_field",
-            sup: "signup",
-            sin: "signin",
+            // fm: "form",
+            // cnr: "container",
+            // fuf: "form_user_field",
+            // uinput: "username_input",
+            // minput: "mail_input",
+            // fpwd: "form_password_field",
+            // pinput: "password_input",
+            // btn: "btn_field",
+            // sup: "signup",
+            // sin: "signin",
             selectedOption: ""
         }
     },
