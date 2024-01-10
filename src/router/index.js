@@ -16,8 +16,9 @@ import Register from '../view/register.vue';
 import Search from '../view/search.vue';
 import Forget from '../view/forget.vue';
 import BookManagement from '../view/book_management.vue';
+import Mock from '../view/mock.vue';
 
-const Router = createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
@@ -120,13 +121,22 @@ const Router = createRouter({
                 title: '图书管理',
                 requiresAuth: true
             }
+        },
+        {
+            path: "/mock",
+            name: "mock",
+            component: Mock,
+            meta: {
+                title: 'Mock',
+                requiresAuth: false
+            }
         }
     ]
 })
 
-Router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
-    const isAuthenticated = !!authStore.user;
+    const isAuthenticated = !!authStore.userInfo;
 
     if(to.meta.requiresAuth && !isAuthenticated){
         next({name: 'login'});
@@ -136,4 +146,4 @@ Router.beforeEach((to, from, next) => {
     }
 })
 
-export default Router
+export default router

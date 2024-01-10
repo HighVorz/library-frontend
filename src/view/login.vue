@@ -28,108 +28,101 @@
                 </p>
             </div>
             <div class="btn_field">
-                <button class="signup" @click="handlesup">注册</button>
-                <button class="signin" @click="handlesin">登录</button>
+                <button class="signup" @click="signup">注册</button>
+                <button class="signin" @click="signin">登录</button>
             </div>
         </form>
     </div>
 </template>
 
-<script>
+
+
+<script setup>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
-import { inject,  } from "vue";
+import { inject, ref } from "vue";
+import {useAuthStore} from "../script/auth.js"
 
-export default {
-    data() {
-        return {
-            username_has_error: false,
-            password_has_error: false,
-            username_errors: "",
-            password_errors: "",
+const auth = useAuthStore();
 
-            mmtrue: "false",
-            //
-            username: "",
-            password: "",
-        };
-    },
-
-    setup() {
-        const $http = inject('$http');
-
-        
-    },
-
-    methods: {
-
-        handlesup() {
-            this.$router.push("/register");
-        },
-
-        handlesin() {
-            if (!this.verify_username() || !this.verify_password()) {
-                return;
-            }
-            console.log("right");
-            // if request server is ok
-            this.$router.push({ path: '/books', query: { username: this.username } });
-            // this.$router.push("/books");
+// data
+const username_has_error = ref(false)
+const password_has_error = ref(false)
+const username_errors = ref("")
+const password_errors = ref("")
+const username = ref("")
+const password = ref("")
 
 
-            const http = inject($http)
+// inject
+const http = inject('$http');
+const router = inject('$router')
 
-        },
+function signin() {
+    if (!verify_username() || !verify_password()) {
+        return;
+    }
+    console.log("right");
 
-        hasOnlyNumber(s) {
-            var pattern = /^\d+$/; // 使用正则表达式匹配数字字符
-            return pattern.test(s);
-        },
+    http.post("/api/login", {
+        username: username.value,
+        password: password.value
+    }).then(response => {
+        console.log(response.data)
+        if (response.data.status === "ok") {
+            auth.login(response.data.userInfo)
+            router.push({
+                path: '/user', userInfo: response.data.userInfo
+            });
+        }
+    }).catch(error => {
+        console.log(error)
+    })
 
-        verify_username() {
-            // 判断是否为空
-            if (this.username.length === 0) {
-                this.username_has_error = true;
-                this.username_errors = "用户名不能为空";
-                return false;
-            }
 
-            if (!this.hasOnlyNumber(this.username)) {
-                this.username_has_error = true;
-                this.username_errors = "用户名非法";
-                return false;
-            }
-
-            // 其他规则
-            this.username_has_error = false;
-            return true;
-        },
-
-        verify_password() {
-            if (this.password.length === 0) {
-                this.password_has_error = true;
-                this.password_errors = "密码不能为空";
-                return false;
-            } else {
-                this.password_has_error = false;
-            }
-
-            return true;
-        },
-
-        // 🚩
-        check_table() { },
-
-        // 🚩
-        login() { },
-    },
-    mounted() {
-        document.body.style.overflow = "hidden";
-    },
-    beforeDestroy() {
-        document.body.style.overflow = "";
-    },
 };
+
+function signup() {
+    router.push("/register");
+};
+
+function verify_username() {
+    // 判断是否为空
+    if (username.value.length === 0) {
+        username_has_error.value = true;
+        username_errors.value = "用户名不能为空";
+        return false;
+    }
+
+    if (!hasOnlyNumber(username.value)) {
+        console.log(username.value)
+        username_has_error.value = true;
+        username_errors.value = "用户名非法";
+        return false;
+    }
+
+    // 其他规则
+    username_has_error.value = false;
+    return true;
+};
+
+function verify_password() {
+    if (password.value.length === 0) {
+        password_has_error.value = true;
+        password_errors.value = "密码不能为空";
+        return false;
+    } else {
+        password_has_error.value = false;
+    }
+
+    return true;
+};
+
+function hasOnlyNumber(str){
+    return /^\d+$/.test(str);
+}
+
+
 </script>
 
 <style scoped>

@@ -13,3 +13,7 @@ emoji	English	Chinese
 ⭐	important	重要
 ✒️	editable	允许修改
 ❓	can't understand the code	无法理解
+
+
+#### Change
+- 弃用json-server, 改用mirageJs
