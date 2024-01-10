@@ -41,7 +41,7 @@
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { inject, ref } from "vue";
-import {useAuthStore} from "../script/auth.js"
+import { useAuthStore } from "../script/auth.js"
 
 const auth = useAuthStore();
 
@@ -71,9 +71,13 @@ function signin() {
         console.log(response.data)
         if (response.data.status === "ok") {
             auth.login(response.data.userInfo)
-            router.push({
-                path: '/user', userInfo: response.data.userInfo
-            });
+
+            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+            // 重定向到之前想要登录的页面
+            router.replace(redirectPath)
+
+            
+            
         }
     }).catch(error => {
         console.log(error)
@@ -118,7 +122,7 @@ function verify_password() {
     return true;
 };
 
-function hasOnlyNumber(str){
+function hasOnlyNumber(str) {
     return /^\d+$/.test(str);
 }
 

@@ -139,6 +139,7 @@ router.beforeEach((to, from, next) => {
     const isAuthenticated = !!authStore.userInfo;
 
     if(to.meta.requiresAuth && !isAuthenticated){
+        sessionStorage.setItem('redirectPath', to.fullPath)
         next({name: 'login'});
     }
     else{
