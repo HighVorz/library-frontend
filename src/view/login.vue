@@ -75,9 +75,6 @@ function signin() {
             const redirectPath = sessionStorage.getItem('redirectPath') || '/'
             // 重定向到之前想要登录的页面
             router.replace(redirectPath)
-
-            
-            
         }
     }).catch(error => {
         console.log(error)

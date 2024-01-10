@@ -15,5 +15,8 @@ export const useAuthStore = defineStore('auth', {
             this.loggedIn = false;
             this.userInfo = null;
         },
-    }
+    },
+    
+    persist: true
 });
+

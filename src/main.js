@@ -3,6 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios"
 import { createPinia } from 'pinia'
+
+import piniaPluginPersistedstate  from 'pinia-plugin-persistedstate'
 import { makeServer } from './mirage.js'
 
 // css
@@ -14,10 +16,14 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const app = createApp(App);
-const pinia = createPinia()
 
 app.use(router);
+
+
+const pinia = createPinia()
 app.use(pinia)
+pinia.use(piniaPluginPersistedstate)
+
 app.use(ElementPlus);
 
 // axios
