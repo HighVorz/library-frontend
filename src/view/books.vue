@@ -94,97 +94,67 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 
 import "bootstrap/dist/js/bootstrap.bundle.js"
+import { ref } from "vue";
 
-export default {
-	data() {
-		return {
-			showModal: false,
-			showChoose: false,
-			erjishowbr: false,
-			erjishowkp: false,
-			brnum: '',
-			selectedBook: [],
-			
-
-			bookList: [{
-				id: 1,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			},
-			{
-				id: 2,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			},
-			{
-				id: 3,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			},
-			{
-				id: 4,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			},
-			{
-				id: 5,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			},
-			{
-				id: 6,
-				bookid: "1",
-				first_img: "/assets/img/books/1.jpg",
-				second_img: "/assets/img/books/2.jpg",
-				label: "Hot",
-				bookname: "Strive Shoulder Pack"
-			}
-
-			]
-
-		}
-	},
-
-	methods: {
-		
-
-	},
-	watch: {
-		showModal(val) {
-			if (val) {
-				document.body.style.overflow = 'hidden'
-			} else {
-				document.body.style.overflow = 'auto'
-			}
-		},
-		showChoose(val) {
-			if (val) {
-				document.body.style.overflow = 'hidden'
-			} else {
-				document.body.style.overflow = 'auto'
-			}
-		},
-
-	}
+// data
+const erjishowbr = ref(false)
+const erjishowkp = ref(false)
+const selectedBook = ref([])
+const bookList = ref([{
+	id: 1,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
+},
+{
+	id: 2,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
+},
+{
+	id: 3,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
+},
+{
+	id: 4,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
+},
+{
+	id: 5,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
+},
+{
+	id: 6,
+	bookid: "1",
+	first_img: "/assets/img/books/1.jpg",
+	second_img: "/assets/img/books/2.jpg",
+	label: "Hot",
+	bookname: "Strive Shoulder Pack"
 }
+
+])
+
+
 </script>
 
 
@@ -195,4 +165,5 @@ export default {
 
 <style scoped>
 @import "../css/plugins.css";
-@import "../css/style.css";</style>
+@import "../css/style.css";
+</style>

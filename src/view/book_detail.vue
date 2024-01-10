@@ -212,84 +212,37 @@
     </div>
 </template>
 
-<script>
+<script setup>
 
 import "bootstrap/dist/js/bootstrap.js";
+import { ref, onMounted } from "vue"
 
-export default {
-    data() {
-        return {
-            showModal: false,
-            showModal2: false,
-            bookTotal: [],
-            bookid: "",
-            book: {
-                bookid: "1",
-                bookname: "Chaz Kangeroo Hoodie",
-                author: "nobody",
-                availability: "In stock",
-                price: "52.00",
-                overview: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promisessuperior warmth with every wear. Thick material blocks out the wind as ribbedcuffs and bottom band seal in body heat.",
-                description: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superiorwarmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superior warmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather"
-            }
-        }
-    },
+// data
+const showModal = ref(false)
+const showModal2 = ref(false)
+const bookTotal = ref([])
+const bookid = ref("")
+const book = ref({
+    bookid: "1",
+    bookname: "Chaz Kangeroo Hoodie",
+    author: "nobody",
+    availability: "In stock",
+    price: "52.00",
+    overview: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promisessuperior warmth with every wear. Thick material blocks out the wind as ribbedcuffs and bottom band seal in body heat.",
+    description: "Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superiorwarmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superior warmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat.Ideal for cold-weather"
+})
 
-    mounted() {
-        this.bookid = this.$route.params.id;
-        // 使用 id 进行相关操作
-        console.log(this.bookid);
-        // set book by bookid
-    },
 
-    async created() {
-        const response = await fetch('/data.json');
-        if (response.ok) {
-            this.bookTotal = await response.json();
-        } else {
-            console.error('Failed to load data.json:', response.status, response.statusText);
-        }
-    },
-    methods: {
-        handleSubmit(event) {
-            event.preventDefault();
-            // 删除操作...
-        }, // 到时候记得删掉，只是为了测试删除
-        showAlertadd() {
-            alert('添加成功');
-        },
-        deleteItem(item) {
-            alert('删除成功');
-            const index = this.bookTotal.indexOf(item);
-            console.log(index);
-            if (index !== -1) {
-                this.bookTotal.splice(index, 1);
-            }
-        },
-        handleLogout() {
-            this.$router.push('/login')
-        },
-        handleReader() {
-            this.$router.push('/administer/usercontrol')
-        }
-    },
-    watch: {
-        showModal(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        },
-        showModal2(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        }
-    }
-}
+// 🚩
+onMounted(() => {
+    this.bookid = this.$route.params.id;
+    // 使用 id 进行相关操作
+    console.log(this.bookid);
+    // set book by bookid
+});
+
+
+
 </script>
 
 <style scoped>
@@ -596,4 +549,5 @@ hr {
 .del:hover {
     animation: bounce 0.3s forwards;
     background-color: rgba(220, 53, 69, 1);
-}</style>
+}
+</style>

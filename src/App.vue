@@ -4,16 +4,9 @@
     <router-view></router-view>
 </template>
 
-<script>
+<script setup>
 import { RouterView, RouterLink } from "vue-router";
-
-export default {
-    data() {
-        return{
-            
-        }
-    },
-};
+import {ref} from 'vue'
 </script>
 
 

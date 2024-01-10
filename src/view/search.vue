@@ -1,5 +1,4 @@
 <template>
-    
     <div v-if="showModal" class="modal">
         <div class="search-container">
             <form class="search-form">
@@ -109,101 +108,22 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ElPagination } from 'element-plus';
-export default {
-    components: {
-        ElPagination
-    },
-    data() {
-        return {
-            showModal: false,
-            showChoose: false,
-            erjishowbr: false,
-            erjishowkp: false,
-            brnum: '',
-            selectedBook: [],
-            // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
-            bookTotal: [],
-            currentPage: 1,
-            pageSize: 15,
-            paginatedData: [],
-        }
-    },
-    async created() {
-        document.body.style.overflow = 'auto'
-        const response = await fetch('/data.json');
-        if (response.ok) {
-            this.bookTotal = await response.json();
-        } else {
-            console.error('Failed to load data.json:', response.status, response.statusText);
-        }
-    },
-    methods: {
-        handleSizeChange(val) {
-            this.pageSize = val;
-            this.updatePaginatedData();
-        },
-        handleCurrentChange(val) {
-            this.currentPage = val;
-            this.updatePaginatedData();
-        },
-        updatePaginatedData() {
-            const start = (this.currentPage - 1) * this.pageSize;
-            const end = start + this.pageSize;
-            this.paginatedData = this.bookTotal.slice(start, end);
-        },
-        handleimgClick(book) {
-            if (book.bookStatus === '否') {
-                alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
-                return;
-            }
-            alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
-            this.showChoose = true;
-            this.selectedBook = book;
-        },
-        handleLogout() {
-            this.$router.push('/login')
-        },
-        handleSpace() {
-            this.$router.push({ path: '/user', query: { username: this.$route.query.username } })
-        },
-        keepBook() {
-            this.erjishowkp = "true";
-        },
-        borrowBook() {
-            this.erjishowbr = "true";
-        },
-        // borrowBookfin() {
-        //     alert("借阅成功");
-        // },
-        // keepBookfin() {
-        //     alert("续借成功");
-        // },
-    },
-    watch: {
-        showModal(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        },
-        showChoose(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        },
-        bookTotal: {
-            deep: true,
-            handler() {
-                this.updatePaginatedData();
-            }
-        }
-    },
-}
+import { ref } from 'vue';
+const showModal = ref(false)
+const showChoose = ref(false)
+const erjishowbr = ref(false)
+const erjishowkp = ref(false)
+const brnum = ref('')
+const selectedBook = ref([])
+// 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
+const bookTotal = ref([])
+const currentPage = ref(1)
+const pageSize = ref(15)
+const paginatedData = ref([])
+
+
 </script>
 
 <style scoped>
@@ -307,6 +227,7 @@ export default {
         transform: translateY(-5px);
     }
 }
+
 .spacebk {
     position: absolute;
     right: 27%;
@@ -329,6 +250,7 @@ export default {
     color: #ffffff;
     animation: bounce 0.3s forwards;
 }
+
 .mixed {
     background-attachment: fixed;
     box-sizing: border-box;
@@ -524,11 +446,13 @@ h3 {
     margin-bottom: 3px;
     color: rgb(56, 56, 56);
 }
+
 .funcbutton {
     margin-top: 30px;
     display: flex;
     justify-content: center;
 }
+
 .form-group input {
     width: 68%;
     height: 32px;

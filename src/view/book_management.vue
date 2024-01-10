@@ -149,96 +149,85 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ElPagination } from 'element-plus';
+import {ref} from 'vue'
 
-export default {
-    components: {
-        ElPagination
-    },
-    data() {
-        return {
-            showModal: false,
-            showModal2: false,
-            showModal3: false,
-            bookTotal: [], // 存储从数据库里面得到的数据
-            currentPage: 1,
-            pageSize: 10,
-            paginatedData: []
-        }
-    },
-    async created() {
-        const response = await fetch('/data.json');
-        if (response.ok) {
-            this.bookTotal = await response.json();
-            this.updatePaginatedData(); //这里多加一句是因为一开始没有数据，所以需要手动调用一下
-        } else {
-            console.error('Failed to load data.json:', response.status, response.statusText);
-        }
-    },
-    methods: {
-        handleSizeChange(val) {
-            this.pageSize = val;
-            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
-        },
-        handleCurrentChange(val) {
-            this.currentPage = val;
-            this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
-        },
-        updatePaginatedData() {
-            const start = (this.currentPage - 1) * this.pageSize;
-            const end = start + this.pageSize;
-            this.paginatedData = this.bookTotal.slice(start, end);
-        },
-        handleSubmit(event) {
-            event.preventDefault();
-            // 删除操作...
-        }, // 到时候记得删掉，只是为了测试删除
-        showAlertadd() {
-            alert('添加成功');
-        },
-        showAlertfix() {
-            alert('修改成功');
-        },
-        deleteItem(item) {
-            alert('删除成功');
-            const index = this.bookTotal.indexOf(item);
-            console.log(index);
-            if (index !== -1) {
-                this.bookTotal.splice(index, 1);
-            }
-        },
-        handleLogout() {
-            this.$router.push('/login')
-        },
-        handleReader() {
-            this.$router.push('/administer/usercontrol')
-        }
-    },
-    watch: {
-        showModal(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        },
-        showModal2(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        },
-        showModal3(val) {
-            if (val) {
-                document.body.style.overflow = 'hidden'
-            } else {
-                document.body.style.overflow = 'auto'
-            }
-        }
-    }
-}
+// data
+const showModal = (false)
+const showModal2 = (false)
+const showModal3 = (false)
+const bookTotal = ref([])
+const currentPage = ref(1)
+const pageSize = (10)
+const paginatedData = ref([])
+
+
+
+
+// methods: {
+//     handleSizeChange(val) {
+//         this.pageSize = val;
+//         this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+//     },
+//     handleCurrentChange(val) {
+//         this.currentPage = val;
+//         this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
+//     },
+//     updatePaginatedData() {
+//         const start = (this.currentPage - 1) * this.pageSize;
+//         const end = start + this.pageSize;
+//         this.paginatedData = this.bookTotal.slice(start, end);
+//     },
+//     handleSubmit(event) {
+//         event.preventDefault();
+//         // 删除操作...
+//     }, // 到时候记得删掉，只是为了测试删除
+//     showAlertadd() {
+//         alert('添加成功');
+//     },
+//     showAlertfix() {
+//         alert('修改成功');
+//     },
+//     deleteItem(item) {
+//         alert('删除成功');
+//         const index = this.bookTotal.indexOf(item);
+//         console.log(index);
+//         if (index !== -1) {
+//             this.bookTotal.splice(index, 1);
+//         }
+//     },
+//     handleLogout() {
+//         this.$router.push('/login')
+//     },
+//     handleReader() {
+//         this.$router.push('/administer/usercontrol')
+//     }
+// },
+// watch: {
+//     showModal(val) {
+//         if (val) {
+//             document.body.style.overflow = 'hidden'
+//         } else {
+//             document.body.style.overflow = 'auto'
+//         }
+//     },
+//     showModal2(val) {
+//         if (val) {
+//             document.body.style.overflow = 'hidden'
+//         } else {
+//             document.body.style.overflow = 'auto'
+//         }
+//     },
+//     showModal3(val) {
+//         if (val) {
+//             document.body.style.overflow = 'hidden'
+//         } else {
+//             document.body.style.overflow = 'auto'
+//         }
+//     }
+// }
+
 </script>
 
 <style scoped>

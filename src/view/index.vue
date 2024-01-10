@@ -58,7 +58,7 @@
     </section>
 </template>
 
-<script>
+<script setup>
 import "bootstrap/dist/js/bootstrap.js";
 </script>
 

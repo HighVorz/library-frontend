@@ -34,71 +34,54 @@
 </template>
 
 
-<script>
-export default {
+<script setup>
 
-    setup() {
-        function handlefnsup() {
-            this.$router.push("/login");
-        };
+// data
+const username = ref('')
+const useremail = ref('')
+const usercertify = ref('')
+const usernameError = ref(false)
+const emailError = ref(false)
+const certifyError = ref(false)
+const selectedError = ref(false)
 
-        function handleprereg() {
-            if (!this.username) {
-                this.usernameError = true;
-            } else {
-                this.usernameError = false;
-            }
-            if (!this.useremail) {
-                this.emailError = true;
-            } else {
-                this.emailError = false;
-            }
-            if (!this.usercertify) {
-                this.certifyError = true;
-            } else {
-                this.certifyError = false;
-            }
-            if (!this.selectedOption) {
-                this.selectedError = true;
-            } else {
-                this.selectedError = false;
-            }
-            if (this.username && this.useremail && this.usercertify && this.selectedOption) {
-                if (this.usercertify != "5374") {
-                    alert("验证码错误");
-                    return;
-                }
-                alert("找回成功，请前往邮箱查看密码");
-                this.$router.push("/login");
-            }
-        };
+function handlefnsup() {
+    this.$router.push("/login");
+};
 
-
-        return {
-            // function
-            handlefnsup,
-            handleprereg,
-
-            username: '',
-            useremail: '',
-            usercertify: '',
-            usernameError: false,
-            emailError: false,
-            certifyError: false,
-            selectedError: false,
-            
-        }
-    },
-
-    data() {
-        return{
-            
-        }
-    },
-    methods: {
-
+function handleprereg() {
+    if (!this.username) {
+        this.usernameError = true;
+    } else {
+        this.usernameError = false;
     }
-}
+    if (!this.useremail) {
+        this.emailError = true;
+    } else {
+        this.emailError = false;
+    }
+    if (!this.usercertify) {
+        this.certifyError = true;
+    } else {
+        this.certifyError = false;
+    }
+    if (!this.selectedOption) {
+        this.selectedError = true;
+    } else {
+        this.selectedError = false;
+    }
+    if (this.username && this.useremail && this.usercertify && this.selectedOption) {
+        if (this.usercertify != "5374") {
+            alert("验证码错误");
+            return;
+        }
+        alert("找回成功，请前往邮箱查看密码");
+        this.$router.push("/login");
+    }
+};
+
+
+
 </script>
 
 

@@ -52,13 +52,6 @@ const BookList = [
             {bookname: "红楼梦"}
         ]
     };
-
-    // 不用写data(), 但需要写return
-    // 函数也需要写在return
-    return {
-        BookList,
-        setBookList
-    }
 </script>
 ```
 
@@ -83,10 +76,6 @@ const age = ref(32)
 
 function setAge(){
     age.value = 18
-}
-
-return{
-    age
 }
 ```
 
