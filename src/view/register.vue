@@ -124,7 +124,7 @@ function register() {
     position: absolute;
     content: "";
     bottom: 0;
-    form_title: 50%;
+    left: 50%;
     transform: translateX(-50%);
     width: 40px;
     height: 4px;
