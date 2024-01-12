@@ -4,7 +4,7 @@
 
     <div class="position-absolute top-50 start-50 translate-middle">
         <form class="form" @submit.prevent="">
-            <div class="form_title">图书管理系统登录</div>
+            <div class="form_title">管理员登录</div>
             <div class="form_user_field">
                 <input type="text" class="username_input" v-model="username" @blur="verify_username"
                     placeholder="Username" />
@@ -134,7 +134,7 @@ function hasOnlyNumber(str) {
 }
 
 .bg-image {
-    background-image: url("/assets/img/lib_register.png");
+    background-image: url("/assets/img/Slam-dunk.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     position: fixed;
@@ -157,7 +157,7 @@ function hasOnlyNumber(str) {
 .form {
     width: 400px;
     height: 520px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 2px;
     box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.08);
     padding: 48px;
@@ -166,7 +166,7 @@ function hasOnlyNumber(str) {
 .form>.form_title {
     font-size: 36px;
     font-weight: bold;
-    color: #3178c6;
+    color: red;
     text-align: center;
     padding-bottom: 10px;
     margin: 30px 0px 40px 0px;
@@ -181,7 +181,7 @@ function hasOnlyNumber(str) {
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background-color: #3178c6;
+    background-color: red;
 }
 
 .form>.form_user_field,
@@ -229,7 +229,7 @@ function hasOnlyNumber(str) {
     text-decoration: none;
     outline: none;
     font-weight: bold;
-    color: #3178c6;
+    color: red;
 }
 
 .tips_field>.forget>a:hover {
@@ -263,7 +263,7 @@ function hasOnlyNumber(str) {
 
 .signin {
     color: #fff;
-    background-color: #3178c6;
+    background-color: red;
     margin-left: 10px;
 }
 
