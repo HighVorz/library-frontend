@@ -1,18 +1,21 @@
 
 <template>
-    <div :class="cnr">
-        <form :class="fm" @submit.prevent="">
-            <div :class="ft">用户注册</div>
-            <div :class="fuf">
-                <input type="text" :class="uinput" v-model="username" placeholder="请输入用户名...">
+    <div class="bg-image">
+    </div>
+
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <form class="form" @submit.prevent="">
+            <div class="form_title">用户注册</div>
+            <div class="form_user_field">
+                <input type="text" class="username_input" v-model="username" placeholder="请输入用户名...">
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
-            <div :class="fuf">
-                <input type="text" :class="minput" v-model="useremail" placeholder="请输入邮箱...">
+            <div class="form_user_field">
+                <input type="text" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
-            <div :class="fpwd">
-                <input type="password" :class="pinput" v-model="userpassword" placeholder="请在此处输入密码...">
+            <div class="form_password_field">
+                <input type="password" class="password_input" v-model="userpassword" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <div class="identity">
@@ -22,80 +25,65 @@
                 </el-select>
                 <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
             </div>
-            <div :class="btn">
-                <button :class="sin" @click="handlefnsup">返回登录</button>
-                <button :class="sup" @click="handleprereg">点击注册</button>
+            <div class="btn_field">
+                <button class="signin" @click="return_sign">返回登录</button>
+                <button class="signup" @click="register">点击注册</button>
             </div>
         </form>
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            ft: "form_title",
-            username: '',
-            useremail: '',
-            userpassword: '',
-            usernameError: false,
-            emailError: false,
-            passwordError: false,
-            selectedError: false,
-            fm: "form",
-            cnr: "container",
-            fuf: "form_user_field",
-            uinput: "username_input",
-            minput: "mail_input",
-            fpwd: "form_password_field",
-            pinput: "password_input",
-            btn: "btn_field",
-            sup: "signup",
-            sin: "signin",
-            selectedOption: ""
-        }
-    },
-    methods: {
-        // 🚩
-        check_table() {},
+<script setup>
+import { ref, inject } from 'vue'
 
-        // 🚩
-        register() {},
-        
-        handlefnsup() {
-            this.$router.push("/login");
-        },
-        handleprereg() {
-            if (!this.username) {
-                this.usernameError = true;
-            } else {
-                this.usernameError = false;
-            }
-            if (!this.useremail) {
-                this.emailError = true;
-            } else {
-                this.emailError = false;
-            }
-            if (!this.userpassword) {
-                this.passwordError = true;
-            } else {
-                this.passwordError = false;
-            }
-            if (!this.selectedOption) {
-                this.selectedError = true;
-            } else {
-                this.selectedError = false;
-            }
-            if (!this.usernameError && !this.emailError && !this.passwordError && !this.selectedError) {
-                // 提交表单的代码...
-            }
-        },
-    },
-}
+const http = inject('$http')
+const router = inject('$router')
+
+// data
+const form_title = ref("form_title")
+const username = ref('')
+const useremail = ref('')
+const userpassword = ref('')
+const usernameError = ref(false)
+const emailError = ref(false)
+const passwordError = ref(false)
+const selectedError = ref(false)
+const selectedOption = ref("")
+
+
+// 🚩
+function check_table() { };
+
+// 🚩
+
+
+function return_sign() {
+    router.push("/login");
+};
+function register() {
+    // 
+
+    
+};
+
+
 </script>
 
 
 <style scoped>
+.bg-image {
+    background-image: url("/assets/img/lib_register.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -136,7 +124,7 @@ export default {
     position: absolute;
     content: "";
     bottom: 0;
-    left: 50%;
+    leform_title: 50%;
     transform: translateX(-50%);
     width: 40px;
     height: 4px;
@@ -197,6 +185,7 @@ export default {
 .form>.btn_field {
     margin-top: 20px;
     display: flex;
+    
 }
 
 .signin,
@@ -210,7 +199,6 @@ export default {
     opacity: 0.8;
 }
 
-
 .signin:hover {
     opacity: 1;
 }
@@ -219,13 +207,13 @@ export default {
     opacity: 1;
 }
 
-.signup {
+.signin {
     color: #fff;
-    background-color: #64f625;
+    background-color: #3178c6;
     margin-left: 10px;
 }
 
-.signin {
+.signup {
     color: #000;
     margin-right: 10px;
 }
