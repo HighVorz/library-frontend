@@ -2,22 +2,91 @@ import { createServer, Model } from "miragejs"
 
 const users = [
   { uid: 1, username: "1234", password: "1234" },
-  { uid: 2, username: "4321",  password: "4321"}
+  { uid: 2, username: "4321", password: "4321" }
 ];
 
 const userInfo = [
-  {uid: 1, name: "1337", status: "摸鱼中", signature: "放浪不羁爱自由"}
+  { uid: 1, name: "1337", status: "摸鱼中~", signature: "放浪不羁爱自由" }
 ]
 
 const borrowlist = [
   {
     uid: 1,
-    borrowlist:[
+    borrowlist: [
       {
-        bookname: "哈利波特",
+        "bookName": "哈利波特",
+        "borrowDate": "2021-06-01",
+        "returnDate": "2021-06-02"
       },
       {
-        bookname: "else"
+        "bookName": "计算机体系结构",
+        "borrowDate": "2023-12-27",
+        "returnDate": "2024-1-27"
+      },
+      {
+        "bookName": "算法导论",
+        "borrowDate": "2023-12-25",
+        "returnDate": "2024-1-25"
+      },
+      {
+        "bookName": "计算机网络",
+        "borrowDate": "2023-3-27",
+        "returnDate": "2023-4-27"
+      },
+      {
+        "bookName": "计算机图形学",
+        "borrowDate": "2023-5-2",
+        "returnDate": "2023-6-2"
+      },
+      {
+        "bookName": "哈利波特",
+        "borrowDate": "2021-06-01",
+        "returnDate": "2021-06-02"
+      },
+      {
+        "bookName": "计算机体系结构",
+        "borrowDate": "2023-12-27",
+        "returnDate": "2024-1-27"
+      },
+      {
+        "bookName": "算法导论",
+        "borrowDate": "2023-12-25",
+        "returnDate": "2024-1-25"
+      },
+      {
+        "bookName": "计算机网络",
+        "borrowDate": "2023-3-27",
+        "returnDate": "2023-4-27"
+      },
+      {
+        "bookName": "计算机图形学",
+        "borrowDate": "2023-5-2",
+        "returnDate": "2023-6-2"
+      },
+      {
+        "bookName": "哈利波特",
+        "borrowDate": "2021-06-01",
+        "returnDate": "2021-06-02"
+      },
+      {
+        "bookName": "计算机体系结构",
+        "borrowDate": "2023-12-27",
+        "returnDate": "2024-1-27"
+      },
+      {
+        "bookName": "算法导论",
+        "borrowDate": "2023-12-25",
+        "returnDate": "2024-1-25"
+      },
+      {
+        "bookName": "计算机网络",
+        "borrowDate": "2023-3-27",
+        "returnDate": "2023-4-27"
+      },
+      {
+        "bookName": "计算机图形学",
+        "borrowDate": "2023-5-2",
+        "returnDate": "2023-6-2"
       }
     ]
   },
@@ -54,7 +123,7 @@ export function makeServer({ environment = "development" } = {}) {
 
         const user = users.find((u) => u.username === username && u.password === password);
 
-        if(user){
+        if (user) {
           return {
             status: 'ok',
             userInfo: {
@@ -63,7 +132,7 @@ export function makeServer({ environment = "development" } = {}) {
             },
           };
         }
-        else{
+        else {
           return { status: 'wrong' };
         }
       })
@@ -71,8 +140,8 @@ export function makeServer({ environment = "development" } = {}) {
 
       // 用户借书列表
       this.post("/borrowlist", (schema, request) => {
-        const {uid} = JSON.parse(request.requestBody)
-        const res =  borrowlist.find((item) => item.uid === uid);
+        const { uid } = JSON.parse(request.requestBody)
+        const res = borrowlist.find((item) => item.uid === uid);
         return {
           result: res
         }
@@ -80,7 +149,7 @@ export function makeServer({ environment = "development" } = {}) {
 
       // 用户个人信息
       this.post("/userinfo", (schema, request) => {
-        const {uid} = JSON.parse(request.requestBody)
+        const { uid } = JSON.parse(request.requestBody)
         console.log(uid)
         const res = userInfo.find((item) => item.uid === uid)
 
