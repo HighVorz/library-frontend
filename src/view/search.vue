@@ -552,7 +552,7 @@ function borrowBook() {
 }
 
 .input_part {
-    background-color: #dde5e7;
+    background-color: rgba(221, 229, 231, 0.5);
     height: 38px;
     position: relative;
     box-shadow: inset 0px 6px 4px -6px rgba(200, 200, 200, 0.75);
