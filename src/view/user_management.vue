@@ -116,7 +116,9 @@
 
 <script setup>
 import { ElPagination } from 'element-plus';
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+
+const router = inject('$router')
 
 // data
 const userTotal = ref([])
@@ -127,43 +129,49 @@ const pageSize = ref(10)
 const paginatedData = ref([])
 
 
-// methods: {
-//     handleSizeChange(val) {
-//         this.pageSize = val;
-//         this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
-//     },
-//     handleCurrentChange(val) {
-//         this.currentPage = val;
-//         this.updatePaginatedData();  // 更新数据的方法，需要你自己实现
-//     },
-//     updatePaginatedData() {
-//         const start = (this.currentPage - 1) * this.pageSize;
-//         const end = start + this.pageSize;
-//         this.paginatedData = this.userTotal.slice(start, end);
-//     },
-//     showAlertmodify() {
-//         alert('修改成功');
-//         this.showModal2 = false;
-//     },
-//     handleSubmit(event) {
-//         event.preventDefault();
-//         // 删除操作...
-//     }, // 到时候记得删掉，只是为了测试删除
-//     handleReturn() {
-//         this.$router.push('/manage/book')
-//     },
-//     handleLogout() {
-//         this.$router.push('/login')
-//     },
-//     deleteItem(item) {
-//         alert('删除成功');
-//         const index = this.userTotal.indexOf(item);
-//         console.log(index);
-//         if (index !== -1) {
-//             this.userTotal.splice(index, 1);
-//         }
-//     }
-// }
+
+
+
+function handleSizeChange(val) {
+    pageSize,value = val;
+    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+};
+
+function handleCurrentChange(val) {
+    currentPage.value = val;
+    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+};
+
+function updatePaginatedData() {
+    const start = (currentPage.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    paginatedData.value = userTotal.value.slice(start, end);
+};
+
+function showAlertmodify() {
+    alert('修改成功');
+    showModal2.value = false;
+};
+
+function handleSubmit(event) {
+    event.preventDefault();
+    // 删除操作...
+};// 到时候记得删掉，只是为了测试删除
+function handleReturn() {
+    router.push('/manage/book')
+};
+function handleLogout() {
+    router.push('/login')
+};
+function deleteItem(item) {
+    alert('删除成功');
+    const index = userTotal.value.indexOf(item);
+    console.log(index);
+    if (index !== -1) {
+        userTotal.value.splice(index, 1);
+    }
+}
+
 
 </script>
 
