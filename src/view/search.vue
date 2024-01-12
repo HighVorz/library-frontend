@@ -75,9 +75,18 @@
         <h2>可借阅图书列表</h2>
         <!-- <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
         <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
-        <button class="spacebk" @click="handleSpace"><i class="fas fa-user"></i> 用户空间</button>
         <button class="search_book" @click="showModel = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
+
+        <el-dropdown trigger="click">
+            <span class="el-avatar el-avatar--large">
+                <img src="/assets/img/avatar.png" alt="Avatar">
+            </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item @click.native="goToUserSpace">用户空间</el-dropdown-item>
+                <el-dropdown-item @click.native="handleLogout">注销账户</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
         <!-- <div class="container">
             <div class="book" v-for="item in paginatedData">
                 <h3 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName }}》</h3>
@@ -94,24 +103,12 @@
             :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="bookTotal.length">
         </ElPagination> -->
     </div>
-    <hr>
-    <div class="footer">
-        <div class="contact">
-            <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
-            <p style="color:#6e6969;">点击下方图标与我联系</p>
-        </div>
-        <div class="icon_set">
-            <a href="tencent://message/?uin=2055318980&Site=qq&Menu=yes"><img src="/assets/img/QQ.png" width="50px"
-                    height="50px"></a>
-            <a href="mailto:2055318980@qq.com"><img src="/assets/img/mail.png" width="50px" height="50px"></a>
-        </div>
-    </div>
 </template>
 
-<script setup>
-import { ElPagination } from 'element-plus';
+<script>
+import { ElDropdown, ElDropdownItem, ElAvatar, ElPagination } from 'element-plus';
 import { ref } from 'vue';
-const showModel = ref(true)
+const showModel = ref(false)
 const showChoose = ref(false)
 const erjishowbr = ref(false)
 const erjishowkp = ref(false)
@@ -122,11 +119,25 @@ const bookTotal = ref([])
 const currentPage = ref(1)
 const pageSize = ref(15)
 const paginatedData = ref([])
-
+function goToUserSpace() {
+    // 在这里添加跳转到用户空间的代码
+}
+function handleLogout() {
+    // 在这里添加注销账户的代码
+}
 
 </script>
 
 <style scoped>
+/* .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+}
+
+.el-icon-arrow-down {
+    font-size: 12px;
+} */
+
 .header {
     background: url('/assets/img/cloud.jpg') center/cover no-repeat;
     color: rgb(36, 93, 116);
@@ -226,29 +237,6 @@ const paginatedData = ref([])
     100% {
         transform: translateY(-5px);
     }
-}
-
-.spacebk {
-    position: absolute;
-    right: 27%;
-    margin-top: 20px;
-    width: 8%;
-    height: 36px;
-    background-color: rgba(8, 226, 19, 0.8);
-    color: #f1ecec;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.spacebk:hover {
-    background-color: rgba(8, 226, 19, 1);
-    color: #ffffff;
-    animation: bounce 0.3s forwards;
 }
 
 .mixed {
