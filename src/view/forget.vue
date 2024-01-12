@@ -35,6 +35,7 @@
 
 
 <script setup>
+import {ref, inject} from 'vue'
 
 // data
 const username = ref('')
