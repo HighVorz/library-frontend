@@ -18,13 +18,13 @@
                 <input type="password" class="password_input" v-model="userpassword" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
-            <div class="identity">
+            <!-- <div class="identity">
                 <el-select class="csidentity" v-model="selectedOption" placeholder="请选择身份">
                     <el-option label="用户" value="user"></el-option>
                     <el-option label="管理员" value="admin"></el-option>
                 </el-select>
                 <p v-if="selectedError" class="error" style="font-size: small;color: red;position: absolute;">身份还未选择</p>
-            </div>
+            </div> -->
             <div class="btn_field">
                 <button class="signin" @click="return_sign">返回登录</button>
                 <button class="signup" @click="register">点击注册</button>
