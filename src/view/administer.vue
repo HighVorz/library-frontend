@@ -7,13 +7,13 @@
                             class="fas fa-book"></i> 管理书目</button></li>
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
                             class="fas fa-users"></i> 管理用户</button></li>
-                <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn"
-                        @click="selectedMenu = 'exit'"><i class="fas fa-sign-out-alt"></i> 退出系统</button></li>
+                <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
+                            class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
         </div>
         <div class="content">
             <h1 v-if="selectedMenu === 'books'">书目管理</h1>
-            
+
             <h1 v-else-if="selectedMenu === 'users'">用户管理</h1>
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
@@ -140,7 +140,7 @@ const router = inject('$router')
 
 // data
 const userTotal = ref([
-{
+    {
         "userName": "钱璟丰",
         "userMail": "2055318980@qq.com",
         "userBorrow": "计算机体系结构",
@@ -354,6 +354,10 @@ onMounted(() => {
     updatePaginatedData();
 
 });
+
+function exit() {
+    router.replace('/login')
+}
 
 // function 
 function handleSizeChange(val) {
