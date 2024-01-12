@@ -30,7 +30,7 @@
                 <div v-if="selectedTab === USERINFO">
                     <div class="avatar-section">
                         <img class="avatar-img" :src="avatar" :title="$route.query.username + '的头像'"
-                            @click="showModal = true">
+                            @click="showModel = true">
                     </div>
                     <div class="basicinfo">
                         <h2>{{ userInfo.name }}</h2>
@@ -74,9 +74,9 @@
                     </el-pagination>
                 </div>
                 <!-- 弹窗代码 -->
-                <div v-if="showModal" class="modal">
+                <div v-if="showModel" class="modal">
                     <div class="modal-content">
-                        <span class="close" @click="showModal = false">&times;</span>
+                        <span class="close" @click="showModel = false">&times;</span>
                         <p>请点击以下按钮选择一个新的头像：</p>
                         <input type="file" @change="onFileChange">
                     </div>
@@ -106,6 +106,7 @@ const selectedTab = ref("enum_userinfo")
 const keepborrow = ref(false)
 const avatar = ref('/assets/img/avatar.png')
 const borrowRecords = ref([])
+const showModel = ref(false)
 const userInfo = ref({})
 const currentPage = ref(1)
 const pageSize = ref(6)
@@ -150,7 +151,7 @@ function onFileChange(e) {
     const reader = new FileReader();
     reader.onload = (e) => {
         avatar.value = e.target.result;
-        showModal.value = false;  // 关闭弹窗
+        showModel.value = false;  // 关闭弹窗
     };
     reader.readAsDataURL(file);
 };
