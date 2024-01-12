@@ -2,7 +2,8 @@ import { createServer, Model } from "miragejs"
 
 const users = [
   { uid: 1, username: "1234", password: "1234" },
-  { uid: 2, username: "4321", password: "4321" }
+  { uid: 2, username: "4321", password: "4321" },
+  { uid: 3, username: "Tom", password: "12345678" }
 ];
 
 const userInfo = [
@@ -125,7 +126,7 @@ export function makeServer({ environment = "development" } = {}) {
 
         if (user) {
           return {
-            status: 'ok',
+            msg: 'Success',
             userInfo: {
               uid: user.uid,
               name: user.username,
@@ -133,7 +134,7 @@ export function makeServer({ environment = "development" } = {}) {
           };
         }
         else {
-          return { status: 'wrong' };
+          return { msg: 'Fail' };
         }
       })
 

@@ -11,9 +11,9 @@ import { makeServer } from './mirage.js'
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 
-if (import.meta.env.VITE_APP_API_URL === "development") {
+if (process.env.NODE_ENV === 'development') {
     makeServer()
-}
+  }
 
 const app = createApp(App);
 

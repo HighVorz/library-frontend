@@ -67,12 +67,10 @@ function signin() {
         password: password.value
     }).then(response => {
         console.log(response.data)
-        if (response.data.status === "ok") {
-
-            // auth.login(response.data.userInfo)
-            // const redirectPath = sessionStorage.getItem('redirectPath') || '/'
-            // 重定向到之前想要登录的页面
-            // router.replace(redirectPath)
+        if (response.data.msg === "Success") {
+            auth.login(response.data.userInfo)
+            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+            router.replace(redirectPath)
         }
     }).catch(error => {
         console.log(error)
@@ -113,6 +111,7 @@ function verify_password() {
     if (password.value.length < 8) {
         password_has_error.value = true;
         password_errors.value = "密码不小于8位"
+        return false;
     }
 
     password_has_error.value = false;
