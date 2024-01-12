@@ -77,16 +77,18 @@
         <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
         <button class="search_book" @click="showModel = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
-
         <el-dropdown trigger="click">
-            <span class="el-avatar el-avatar--large">
+            <span class="head-img">
                 <img src="/assets/img/avatar.png" alt="Avatar">
             </span>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="goToUserSpace">用户空间</el-dropdown-item>
-                <el-dropdown-item @click.native="handleLogout">注销账户</el-dropdown-item>
-            </el-dropdown-menu>
+            <template #dropdown>
+                <el-dropdown-menu>
+                    <el-dropdown-item @click.native="goToUserSpace">用户空间</el-dropdown-item>
+                    <el-dropdown-item @click.native="handleLogout">注销账户</el-dropdown-item>
+                </el-dropdown-menu>
+            </template>
         </el-dropdown>
+
         <!-- <div class="container">
             <div class="book" v-for="item in paginatedData">
                 <h3 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName }}》</h3>
@@ -106,7 +108,7 @@
 </template>
 
 <script>
-import { ElDropdown, ElDropdownItem, ElAvatar, ElPagination } from 'element-plus';
+// import { ElPagination } from 'element-plus';
 import { ref } from 'vue';
 const showModel = ref(false)
 const showChoose = ref(false)
@@ -129,14 +131,12 @@ function handleLogout() {
 </script>
 
 <style scoped>
-/* .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
+.head-img,
+.head-img>img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
 }
-
-.el-icon-arrow-down {
-    font-size: 12px;
-} */
 
 .header {
     background: url('/assets/img/cloud.jpg') center/cover no-repeat;
