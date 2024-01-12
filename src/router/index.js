@@ -103,7 +103,7 @@ const router = createRouter({
             component: Search,
             meta: {
                 title: '搜索',
-                requiresAuth: true,
+                requiresAuth: false,
             }
         },
         {
