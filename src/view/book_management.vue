@@ -4,7 +4,7 @@
     </div>
     <hr>
     <!-- 弹窗1 -->
-    <div v-if="showModal" class="modal">
+    <div v-if="showModel" class="Model">
         <div class="search-container">
             <form class="search-form">
                 <p>图书搜索</p>
@@ -30,14 +30,14 @@
                 </div>
                 <div class="form-group">
                     <button class="searchbk">查找</button>
-                    <button @click="showModal = false" class="quit">关闭</button>
+                    <button @click="showModel = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 弹窗2 -->
-    <div v-if="showModal2" class="modal">
+    <div v-if="showModel2" class="Model">
         <div class="search-container">
             <form class="search-form2" @submit.prevent="">
                 <p>添加图书</p>
@@ -68,14 +68,14 @@
                 <!-- 其实也能放入图片 -->
                 <div class="form-group">
                     <button class="addbk" @click="showAlertadd">添加</button>
-                    <button @click="showModal2 = false" class="quit">关闭</button>
+                    <button @click="showModel2 = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 弹窗3 -->
-    <div v-if="showModal3" class="modal">
+    <div v-if="showModel3" class="Model">
         <div class="search-container">
             <form class="search-form3" @submit.prevent="">
                 <p>修改信息</p>
@@ -106,7 +106,7 @@
                 <!-- 其实也能放入图片 -->
                 <div class="form-group">
                     <button class="fixbk" @click="showAlertfix">修改</button>
-                    <button @click="showModal3 = false" class="quit">关闭</button>
+                    <button @click="showModel3 = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
@@ -115,8 +115,8 @@
     <div class="container">
         <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>退出账户</button>
         <button class="reader-button" @click="handleReader"><i class="fas fa-users"></i> 读者管理</button>
-        <button class="add-button" @click="showModal2 = true"><i class="fas fa-book"></i> 添加图书</button>
-        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
+        <button class="add-button" @click="showModel2 = true"><i class="fas fa-book"></i> 添加图书</button>
+        <button class="search-button" @click="showModel = true"><i class="fas fa-search"></i> 搜索一下</button>
 
         <table>
             <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
@@ -137,7 +137,7 @@
                 <td>{{ item.bookStatus }}</td>
                 <td>
                     <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showModal3 = true">修改</button>&nbsp&nbsp&nbsp<button
+                        <button class="act addin" @click="showModel3 = true">修改</button>&nbsp&nbsp&nbsp<button
                             class="act del" @click="deleteItem(item)">删除</button>
                     </form>
                 </td>
@@ -154,12 +154,12 @@ import { ElPagination } from 'element-plus';
 import {ref} from 'vue'
 
 // data
-const showModal = (false)
-const showModal2 = (false)
-const showModal3 = (false)
+const showModel = ref(false)
+const showModel2 = ref(false)
+const showModel3 = ref(false)
 const bookTotal = ref([])
 const currentPage = ref(1)
-const pageSize = (10)
+const pageSize = ref(10)
 const paginatedData = ref([])
 
 
@@ -205,21 +205,21 @@ const paginatedData = ref([])
 //     }
 // },
 // watch: {
-//     showModal(val) {
+//     showModel(val) {
 //         if (val) {
 //             document.body.style.overflow = 'hidden'
 //         } else {
 //             document.body.style.overflow = 'auto'
 //         }
 //     },
-//     showModal2(val) {
+//     showModel2(val) {
 //         if (val) {
 //             document.body.style.overflow = 'hidden'
 //         } else {
 //             document.body.style.overflow = 'auto'
 //         }
 //     },
-//     showModal3(val) {
+//     showModel3(val) {
 //         if (val) {
 //             document.body.style.overflow = 'hidden'
 //         } else {
@@ -383,7 +383,7 @@ hr {
 
 }
 
-.modal {
+.Model {
     position: fixed;
     z-index: 1;
     left: 0;
