@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showModal" class="modal">
+    <div v-if="showModel" class="Model">
         <div class="search-container">
             <form class="search-form">
                 <p>图书搜索</p>
@@ -21,14 +21,14 @@
                 </div>
                 <div class="form-group">
                     <button class="addbk">查找</button>
-                    <button @click="showModal = false" class="quit">关闭</button>
+                    <button @click="showModel = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 弹窗二 -->
-    <div v-if="showChoose" class="modal2">
+    <div v-if="showChoose" class="Model2">
         <div class="search-container2">
             <form class="search-form2">
                 <p class="choosebook">《{{ selectedBook.bookName }}》详情</p>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- 弹窗二-1 -->
-    <div v-if="erjishowbr" class="modal2-1">
+    <div v-if="erjishowbr" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
                 <input type="number" class="userbr" v-model="brnum" placeholder="请输入借阅个数..." required>
@@ -58,7 +58,7 @@
         </div>
     </div>
     <!-- 弹窗二-2 -->
-    <div v-if="erjishowkp" class="modal2-1">
+    <div v-if="erjishowkp" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
                 <input type="date" class="userbr" v-model="brnum" required>
@@ -76,7 +76,7 @@
         <!-- <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
         <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
         <button class="spacebk" @click="handleSpace"><i class="fas fa-user"></i> 用户空间</button>
-        <button class="search_book" @click="showModal = true"><i class="fas fa-search"></i> 搜索书籍</button>
+        <button class="search_book" @click="showModel = true"><i class="fas fa-search"></i> 搜索书籍</button>
         <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
         <!-- <div class="container">
             <div class="book" v-for="item in paginatedData">
@@ -90,9 +90,9 @@
         </div> -->
 
 
-        <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        <!-- <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
             :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="bookTotal.length">
-        </ElPagination>
+        </ElPagination> -->
     </div>
     <hr>
     <div class="footer">
@@ -111,7 +111,7 @@
 <script setup>
 import { ElPagination } from 'element-plus';
 import { ref } from 'vue';
-const showModal = ref(false)
+const showModel = ref(true)
 const showChoose = ref(false)
 const erjishowbr = ref(false)
 const erjishowkp = ref(false)
@@ -379,7 +379,7 @@ h3 {
     margin: 6px;
 }
 
-.modal {
+.Model {
     position: fixed;
     z-index: 1;
     left: 0;
@@ -501,7 +501,7 @@ h3 {
     background-color: #b02a37;
 }
 
-.modal2 {
+.Model2 {
     position: fixed;
     z-index: 1;
     left: 0;
@@ -623,7 +623,7 @@ button:hover {
     background-color: #d39e00;
 }
 
-.modal2-1 {
+.Model2-1 {
     z-index: 2;
     position: fixed;
     left: 0;
