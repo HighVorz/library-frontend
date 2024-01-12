@@ -11,8 +11,6 @@ import { makeServer } from './mirage.js'
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 
-
-
 if (process.env.NODE_ENV === 'development') {
     // makeServer()
 }

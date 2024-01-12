@@ -1,32 +1,4 @@
 <template>
-    <div v-if="showModel" class="Model">
-        <div class="search-container">
-            <form class="search-form">
-                <p>图书搜索</p>
-                <div class="form-group">
-                    <label for="name">书名:</label>
-                    <input type="text" id="name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="au">作者:</label>
-                    <input type="text" id="au" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="time">出版时间:</label>
-                    <input type="date" id="time" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="pub">出版社:</label>
-                    <input type="text" id="pub" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button class="addbk">查找</button>
-                    <button @click="showModel = false" class="quit">关闭</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- 弹窗二 -->
     <div v-if="showChoose" class="Model2">
         <div class="search-container2">
@@ -44,27 +16,26 @@
             </form>
         </div>
     </div>
-
     <!-- 弹窗二-1 -->
-    <div v-if="erjishowbr" class="Model2-1">
+    <div v-if="secondborrow" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
                 <input type="number" class="userbr" v-model="brnum" placeholder="请输入借阅个数..." required>
                 <div class="funcbutton">
                     <button class="form-button borrow-btn" @click="borrowBookfin">借阅</button>
-                    <button class="form-button" @click="erjishowbr = false">关闭</button>
+                    <button class="form-button" @click="secondborrow = false">关闭</button>
                 </div>
             </form>
         </div>
     </div>
     <!-- 弹窗二-2 -->
-    <div v-if="erjishowkp" class="Model2-1">
+    <div v-if="secondkeep" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
                 <input type="date" class="userbr" v-model="brnum" required>
                 <div class="funcbutton">
                     <button class="form-button keep-btn" @click="keepBookfin">续借</button>
-                    <button class="form-button" @click="erjishowkp = false">关闭</button>
+                    <button class="form-button" @click="secondkeep = false">关闭</button>
                 </div>
             </form>
         </div>
@@ -72,86 +43,557 @@
 
     <!-- 主页面 -->
     <div class="mixed">
-        <h2>可借阅图书列表</h2>
-        <!-- <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
-        <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
-        <button class="spacebk" @click="handleSpace"><i class="fas fa-user"></i> 用户空间</button>
-        <button class="search_book" @click="showModel = true"><i class="fas fa-search"></i> 搜索书籍</button>
-        <button class="exitbk" @click="handleLogout"><i class="fas fa-sign-out-alt"></i>注销账户</button>
-        <!-- <div class="container">
-            <div class="book" v-for="item in paginatedData">
-                <h3 style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName }}》</h3>
-                <img :src="item.bookRef" @click="handleimgClick(item)">
-                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">作者:<a :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
-                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版社:<a :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
-                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版日期:{{ item.bookDate }}</p>
-                <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">可借阅状态:{{ item.bookStatus }}</p>
+        <div class="header" style="">
+            <div class="tx">
+                <el-dropdown trigger="click">
+                    <span class="head-img">
+                        <img src="/assets/img/avatar.png" alt="Avatar">
+                    </span>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click.native="goToUserSpace">用户空间</el-dropdown-item>
+                            <el-dropdown-item @click.native="handleLogout">注销账户</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </div>
-        </div> -->
+            <h2>图书借阅</h2>
+            <!-- <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
+        <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
+
+        </div>
+        <hr class="divider">
+        <form class="search_bar" :class="{ focused: isFocused }">
+            <div class="input_part">
+                <input @focus="isFocused = true" @blur="isFocused = false" type="text" maxlength="200"
+                    placeholder="按名称、作者、ISBN、出版社、MD5...搜索。">
+            </div>
+            <button class="search_book" type="submit"><i class="fas fa-search"></i></button>
+        </form>
+        <div class="container">
+            <div class="book" v-for="item in paginatedData">
+                <img :src="item.bookRef" @click="handleimgClick(item)" title="点击查看图书详情">
+                <td>
+                    <p class="bigt" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName
+                    }}》</p>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">作者:<a
+                            :href="'/?/' + item.bookAuthor" title="搜索该作者的书">{{ item.bookAuthor }}</a></p>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版社:<a
+                            :href="'/?/' + item.bookPublisher" title="搜索该出版社的书">{{ item.bookPublisher }}</a></p>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">出版日期:{{ item.bookDate }}</p>
+                    <p style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">可借阅状态:{{ item.bookStatus }}</p>
+                </td>
+            </div>
+        </div>
 
 
-        <!-- <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        <ElPagination class="pagination-container" @size-change="handleSizeChange" @current-change="handleCurrentChange"
             :current-page="currentPage" :page-size="pageSize" layout="prev, pager, next" :total="bookTotal.length">
-        </ElPagination> -->
-    </div>
-    <hr>
-    <div class="footer">
-        <div class="contact">
-            <p style="color:#6e6969;">QQ：2055318980 / Mail：2055318980@qq.com / Tel：15257896475</p>
-            <p style="color:#6e6969;">点击下方图标与我联系</p>
-        </div>
-        <div class="icon_set">
-            <a href="tencent://message/?uin=2055318980&Site=qq&Menu=yes"><img src="/assets/img/QQ.png" width="50px"
-                    height="50px"></a>
-            <a href="mailto:2055318980@qq.com"><img src="/assets/img/mail.png" width="50px" height="50px"></a>
-        </div>
+        </ElPagination>
     </div>
 </template>
 
 <script setup>
-import { ElPagination } from 'element-plus';
-import { ref } from 'vue';
-const showModel = ref(true)
+// import { ElPagination } from 'element-plus';
+import { ref, onMounted } from 'vue';
+const showModel = ref(false)
 const showChoose = ref(false)
-const erjishowbr = ref(false)
-const erjishowkp = ref(false)
+const secondborrow = ref(false)
+const secondkeep = ref(false)
+const isFocused = ref(false)
 const brnum = ref('')
 const selectedBook = ref([])
 // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
-const bookTotal = ref([])
+const bookTotal = ref([
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+])
 const currentPage = ref(1)
-const pageSize = ref(15)
+const pageSize = ref(7)
 const paginatedData = ref([])
+// function goToUserSpace() {
+//     // 在这里添加跳转到用户空间的代码
+// }
+// function handleLogout() {
+//     // 在这里添加注销账户的代码
+// }
 
+//lifetime
+onMounted(() => {
+    console.log(bookTotal.value);
+    updatePaginatedData();
+});
 
+// function 
+function handleSizeChange(val) {
+    pageSize.value = val;
+    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+};
+
+function handleCurrentChange(val) {
+    currentPage.value = val;
+    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+};
+
+function updatePaginatedData() {
+    const start = (currentPage.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    paginatedData.value = bookTotal.value.slice(start, end);
+};
+
+function handleimgClick(book) {
+    if (book.bookStatus === '否') {
+        alert("《" + book.bookName + "》已被借完o（＞︿＜）o");
+        return;
+    }
+    alert("即将为你展示《" + book.bookName + "》的详情<(￣︶￣)↗[GO!]");
+    showChoose.value = true;
+    selectedBook.value = book;
+}
+
+function keepBook() {
+    secondkeep.value = "true";
+}
+
+function borrowBook() {
+    secondborrow.value = "true";
+}
 </script>
 
 <style scoped>
-.header {
-    background: url('/assets/img/cloud.jpg') center/cover no-repeat;
-    color: rgb(36, 93, 116);
-    font-size: large;
-    text-align: center;
-    text-shadow: -2px 0 rgb(255, 0, 0), 0 2px rgb(255, 0, 0), 2px 0 rgb(255, 0, 0), 0 -2px rgb(255, 0, 0);
-}
-
-.mixed>.bar {
+.search_bar {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto 40px auto;
+    border: solid 1px #000000;
+    width: 70%;
+    height: 38px;
+    background-color: rgba(218, 228, 226, 0.8);
+    color: #f1ecec;
     font-weight: bold;
-    font-size: large;
-    background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
-    background-size: 800% 800%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: auto;
-    width: 30%;
+    /* border: none; */
+    border-radius: 8px;
+    font-size: 16px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    animation: AnimationName 3s ease infinite;
+}
+
+.search_bar.focused {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.input_part {
+    background-color: rgba(221, 229, 231, 0.5);
+    height: 38px;
+    position: relative;
+    box-shadow: inset 0px 6px 4px -6px rgba(200, 200, 200, 0.75);
+    width: 85%;
+}
+
+.input_part input {
+    background: none repeat scroll 0 0 transparent;
+    border: none;
+    border-right: 1px solid #000000;
+    color: #333333;
+    display: block;
+    margin: 0;
+    outline: 0 none;
+    padding: 7px 38px 7px 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    padding: 5px 13px 5px 13px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 19px;
+    background: linear-gradient(89.99deg, #234D49 0.46%, #495F86 24.82%, #25A6BB 44.52%, #0ABAD4 62.67%, #03AAC0 82.36%, #058490 99.99%) #495F86;
+    font-size: large;
+}
+
+.tx {
+    float: right;
+}
+
+.head-img,
+.head-img>img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
 }
 
 .divider {
+    margin: 0;
     height: 3px;
     background: linear-gradient(270deg, #d53369, #daae51, #e91e63, #283c86);
     background-size: 800% 800%;
@@ -173,16 +615,12 @@ const paginatedData = ref([])
 }
 
 .search_book {
-    position: absolute;
-    right: 15%;
-    margin-top: 20px;
-    width: 8%;
-    height: 36px;
+
+    width: 15%;
     background-color: rgba(0, 123, 255, 0.8);
     color: #f1ecec;
     font-weight: bold;
     border: none;
-    border-radius: 8px;
     font-size: 16px;
     overflow: hidden;
     white-space: nowrap;
@@ -192,110 +630,68 @@ const paginatedData = ref([])
 .search_book:hover {
     background-color: rgba(0, 123, 255, 1);
     color: #ffffff;
-    animation: bounce 0.3s forwards;
 }
 
-.exitbk {
-    position: absolute;
-    right: 3%;
-    margin-top: 20px;
-    width: 8%;
-    height: 36px;
-    background-color: rgba(255, 0, 0, 0.8);
-    color: #f1ecec;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+.search_book i {
+    /* 其他样式 */
+    transition: transform 0.3s ease;
 }
 
-.exitbk:hover {
-    background-color: rgba(255, 0, 0, 1);
-    color: #ffffff;
-    animation: bounce 0.3s forwards;
-}
-
-@keyframes bounce {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(-5px);
-    }
-}
-
-.spacebk {
-    position: absolute;
-    right: 27%;
-    margin-top: 20px;
-    width: 8%;
-    height: 36px;
-    background-color: rgba(8, 226, 19, 0.8);
-    color: #f1ecec;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.spacebk:hover {
-    background-color: rgba(8, 226, 19, 1);
-    color: #ffffff;
-    animation: bounce 0.3s forwards;
+.search_book:hover i {
+    transform: scale(1.2);
 }
 
 .mixed {
     background-attachment: fixed;
+    background: url("/assets/img/cloud.jpg") no-repeat center center fixed;
     box-sizing: border-box;
+    min-height: 100%;
 }
 
 
-.mixed h2 {
-    margin: 10px;
+.header h2 {
     width: 300px;
-    display: inline-block;
+    margin: auto;
     font-size: 36px;
-    color: #d6a8a8;
-    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    color: #000000;
+    text-shadow: -1px 0 rgb(25, 161, 182), 0 1px rgb(25, 161, 182), 1px 0 rgb(25, 161, 182), 0 -1px rgb(25, 161, 182);
 }
 
 .book {
-    width: 16%;
-    height: 300px;
+    width: 100%;
+    height: 180px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
-    margin: 10px 2% 10px 2%;
+    margin: 0px 2% 0px 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     background-color: rgb(255, 255, 255, 0.8);
     box-sizing: border-box;
     overflow: hidden;
+    transition: box-shadow 0.3s ease;
 }
 
 .book:hover {
     background-color: rgb(255, 255, 255, 1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .pagination-container {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
 }
 
+td {
+    position: relative;
+    left: 4%;
+}
+
 .book p {
     margin: 2px;
-    font-size: small;
+    font-size: normal;
 }
 
 .book a {
@@ -310,9 +706,10 @@ const paginatedData = ref([])
 
 .book img {
     position: relative;
-    left: 10%;
-    width: 80%;
-    height: 60%;
+    left: 1%;
+    margin-top: 5px;
+    width: 130px;
+    height: 149px;
     border-radius: 8px;
     transition: transform 0.3s ease;
 }
@@ -321,17 +718,16 @@ const paginatedData = ref([])
     transform: scale(1.1);
 }
 
+.bigt {
+    font-size: large;
+    font-weight: bold;
+}
+
 .leader {
     padding-left: 10px;
     color: #333;
 }
 
-
-h3 {
-    text-align: center;
-    margin: 8px;
-    font-size: 16px;
-}
 
 .borrow-btn {
     background-color: #008CBA;
@@ -516,7 +912,7 @@ h3 {
     width: 100%;
     margin: auto;
     border: none;
-    margin-top: 10%;
+    margin-top: 8%;
 }
 
 .search-form2 {
