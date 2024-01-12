@@ -68,10 +68,11 @@ function signin() {
     }).then(response => {
         console.log(response.data)
         if (response.data.status === "ok") {
-            auth.login(response.data.userInfo)
-            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+
+            // auth.login(response.data.userInfo)
+            // const redirectPath = sessionStorage.getItem('redirectPath') || '/'
             // 重定向到之前想要登录的页面
-            router.replace(redirectPath)
+            // router.replace(redirectPath)
         }
     }).catch(error => {
         console.log(error)
@@ -90,12 +91,12 @@ function verify_username() {
         return false;
     }
 
-    if (!hasOnlyNumber(username.value)) {
-        console.log(username.value)
-        username_has_error.value = true;
-        username_errors.value = "用户名非法";
-        return false;
-    }
+    // if (!hasOnlyNumber(username.value)) {
+    //     console.log(username.value)
+    //     username_has_error.value = true;
+    //     username_errors.value = "用户名非法";
+    //     return false;
+    // }
 
     // 其他规则
     username_has_error.value = false;
@@ -107,9 +108,14 @@ function verify_password() {
         password_has_error.value = true;
         password_errors.value = "密码不能为空";
         return false;
-    } else {
-        password_has_error.value = false;
     }
+
+    if (password.value.length < 8) {
+        password_has_error.value = true;
+        password_errors.value = "密码不小于8位"
+    }
+
+    password_has_error.value = false;
 
     return true;
 };
