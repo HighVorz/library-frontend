@@ -13,6 +13,8 @@
         </div>
         <div class="content">
             <h1 v-if="selectedMenu === 'books'">书目管理</h1>
+            
+            <h1 v-else-if="selectedMenu === 'users'">用户管理</h1>
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
                 <div class="search-container">
@@ -87,8 +89,11 @@
                     </form>
                 </div>
             </div>
-            <div v-if="selectedMenu === 'books'">
+            <div v-if="selectedMenu === 'users'">
                 <div class="container">
+                    <div class="bg-image">
+                    </div>
+
                     <button class="search-button" @click="showModel = true"><i class="fas fa-search"></i> 搜索一下</button>
 
                     <table>
@@ -122,7 +127,6 @@
                     </el-pagination>
                 </div>
             </div>
-            <h1 v-else-if="selectedMenu === 'users'">用户管理</h1>
             <h1 v-else-if="selectedMenu === 'exit'">退出系统</h1>
         </div>
     </div>
@@ -130,18 +134,228 @@
   
 <script setup>
 import { ElPagination } from 'element-plus';
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted } from 'vue'
 
 const router = inject('$router')
 
 // data
-const userTotal = ref([])
+const userTotal = ref([
+{
+        "userName": "钱璟丰",
+        "userMail": "2055318980@qq.com",
+        "userBorrow": "计算机体系结构",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小明",
+        "userMail": "666666666@qq.com",
+        "userBorrow": "计算机网络",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小红",
+        "userMail": "233465654756@qq.com",
+        "userBorrow": "计算机图形学",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-1",
+        "userReturntime": "2023-1-2"
+    },
+    {
+        "userName": "张三",
+        "userMail": "zhangsan@example.com",
+        "userBorrow": "数据库系统原理",
+        "borrowNum": "3",
+        "userBorrowtime": "2023-12-28",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "李四",
+        "userMail": "lisi@example.com",
+        "userBorrow": "操作系统概念",
+        "borrowNum": "2",
+        "userBorrowtime": "2023-2-1",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "王五",
+        "userMail": "wangwu@example.com",
+        "userBorrow": "算法设计与分析",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-7",
+        "userReturntime": "2024-1-1"
+    },
+    {
+        "userName": "赵六",
+        "userMail": "zhaoliu@example.com",
+        "userBorrow": "计算机组成与设计",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-15",
+        "userReturntime": "2023-1-20"
+    },
+    {
+        "userName": "陈七",
+        "userMail": "chenqi@example.com",
+        "userBorrow": "计算机体系结构",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-29"
+    },
+    {
+        "userName": "张十",
+        "userMail": "zhangshi@example.com",
+        "userBorrow": "数据结构与算法",
+        "borrowNum": "5",
+        "userBorrowtime": "2023-1-20",
+        "userReturntime": "2023-1-25"
+    },
+    {
+        "userName": "钱璟丰",
+        "userMail": "2055318980@qq.com",
+        "userBorrow": "计算机体系结构",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小明",
+        "userMail": "666666666@qq.com",
+        "userBorrow": "计算机网络",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小红",
+        "userMail": "233465654756@qq.com",
+        "userBorrow": "计算机图形学",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-1",
+        "userReturntime": "2023-1-2"
+    },
+    {
+        "userName": "张三",
+        "userMail": "zhangsan@example.com",
+        "userBorrow": "数据库系统原理",
+        "borrowNum": "3",
+        "userBorrowtime": "2023-12-28",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "李四",
+        "userMail": "lisi@example.com",
+        "userBorrow": "操作系统概念",
+        "borrowNum": "2",
+        "userBorrowtime": "2023-2-1",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "王五",
+        "userMail": "wangwu@example.com",
+        "userBorrow": "算法设计与分析",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-7",
+        "userReturntime": "2024-1-1"
+    },
+    {
+        "userName": "赵六",
+        "userMail": "zhaoliu@example.com",
+        "userBorrow": "计算机组成与设计",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-15",
+        "userReturntime": "2023-1-20"
+    },
+    {
+        "userName": "陈七",
+        "userMail": "chenqi@example.com",
+        "userBorrow": "计算机体系结构",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-29"
+    },
+    {
+        "userName": "张十",
+        "userMail": "zhangshi@example.com",
+        "userBorrow": "数据结构与算法",
+        "borrowNum": "5",
+        "userBorrowtime": "2023-1-20",
+        "userReturntime": "2023-1-25"
+    },
+    {
+        "userName": "钱璟丰",
+        "userMail": "2055318980@qq.com",
+        "userBorrow": "计算机体系结构",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小明",
+        "userMail": "666666666@qq.com",
+        "userBorrow": "计算机网络",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-27",
+        "userReturntime": "2023-12-28"
+    },
+    {
+        "userName": "小红",
+        "userMail": "233465654756@qq.com",
+        "userBorrow": "计算机图形学",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-1",
+        "userReturntime": "2023-1-2"
+    },
+    {
+        "userName": "张三",
+        "userMail": "zhangsan@example.com",
+        "userBorrow": "数据库系统原理",
+        "borrowNum": "3",
+        "userBorrowtime": "2023-12-28",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "李四",
+        "userMail": "lisi@example.com",
+        "userBorrow": "操作系统概念",
+        "borrowNum": "2",
+        "userBorrowtime": "2023-2-1",
+        "userReturntime": "null"
+    },
+    {
+        "userName": "王五",
+        "userMail": "wangwu@example.com",
+        "userBorrow": "算法设计与分析",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-12-7",
+        "userReturntime": "2024-1-1"
+    },
+    {
+        "userName": "赵六",
+        "userMail": "zhaoliu@example.com",
+        "userBorrow": "计算机组成与设计",
+        "borrowNum": "1",
+        "userBorrowtime": "2023-1-15",
+        "userReturntime": "2023-1-20"
+    },
+])
+
 const selectedMenu = ref('books')
 const showModel = ref(false)
 const showModel2 = ref(false)
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(7)
 const paginatedData = ref([])
+
+//lifetime
+onMounted(() => {
+    updatePaginatedData();
+
+});
+
+// function 
 function handleSizeChange(val) {
     pageSize, value = val;
     updatePaginatedData();  // 更新数据的方法，需要你自己实现
@@ -191,7 +405,8 @@ function deleteItem(item) {
 }
 
 .sidebar {
-    width: 240px;
+    /* position: fixed; */
+    width: 16%;
     border-right: 1px solid #ccc;
     padding: 20px 0 20px 0;
     background-color: #007bff;
@@ -234,12 +449,8 @@ function deleteItem(item) {
     transition-duration: 0.4s;
 }
 
-.sidebar>ul>li>.exit-btn {
-    background-color: #dc3545;
-}
-
 .sidebar>ul>li>.exit-btn:hover {
-    background-color: #9a1825;
+    background-color: #dc3545;
 }
 
 .sidebar>ul>li>.exit-btn.selected {
@@ -270,17 +481,23 @@ function deleteItem(item) {
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 }
 
-.container::before {
-    content: "";
-    background: url('/assets/img/master2.jpg') center/cover no-repeat;
+.bg-image {
+    background-image: url("/assets/img/master2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     opacity: 0.5;
     position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    left: 16%;
+    width: 90%;
+    height: 100%;
     z-index: -1;
 }
+
+/* .container {
+    position: fixed;
+    left: 16%;
+} */
 
 .search-button {
     margin: 20px 0px 20px 0px;
@@ -437,6 +654,7 @@ hr {
     cursor: url('/assets/img/alternate.ico'), auto;
     font-size: 16px;
     font-weight: bold;
+    margin-left: 20px;
     margin-right: 5px;
     margin-top: 8px;
     margin-bottom: 3px;
@@ -444,10 +662,11 @@ hr {
 }
 
 .form-group input {
-    width: 58%;
+    display: inline-block;
+    width: 68%;
     height: 32px;
     padding: 0 12px;
-    margin-right: 5px;
+    margin-left: 5px;
     outline: none;
     border: none;
     border-radius: 8px;
@@ -502,7 +721,7 @@ hr {
 }
 
 .pagination-container {
-    margin-top: 10px;
+    margin-top: 30px;
     display: flex;
     justify-content: center;
 }
