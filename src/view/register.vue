@@ -95,8 +95,8 @@ function register() {
     height: 100%;
     background: url('/assets/img/lib_register.png') center/cover no-repeat;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
 }
 
 .form {
@@ -208,14 +208,14 @@ function register() {
 }
 
 .signin {
-    color: #fff;
-    background-color: #3178c6;
-    margin-left: 10px;
+    color: #000;
+    margin-right: 10px;
 }
 
 .signup {
-    color: #000;
-    margin-right: 10px;
+    color: #fff;
+    background-color: #64f625;
+    margin-left: 10px;
 }
 
 /* .animated-background p {
