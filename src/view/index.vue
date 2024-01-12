@@ -15,6 +15,9 @@
                         <a class="nav-link" href="/login" type="button">登录</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin_login" type="button">管理员登录</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/books" type="button">书目</a>
                     </li>
                     <li class="nav-item">

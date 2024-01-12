@@ -7,8 +7,8 @@
                             class="fas fa-book"></i> 管理书目</button></li>
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
                             class="fas fa-users"></i> 管理用户</button></li>
-                <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn"
-                        @click="selectedMenu = 'exit'"><i class="fas fa-sign-out-alt"></i> 退出系统</button></li>
+                <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
+                            class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
         </div>
         <div class="content">
@@ -869,6 +869,10 @@ const paginatedData2 = ref([])
 onMounted(() => {
     updatePaginatedData();
 });
+
+function exit() {
+    router.replace('/login')
+}
 
 // function 
 function handleSizeChange(val) {

@@ -17,6 +17,7 @@ import Search from '../view/search.vue';
 import Forget from '../view/forget.vue';
 import BookManagement from '../view/book_management.vue';
 import Mock from '../view/mock.vue';
+import Admin_login from '../view/admin_login.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -37,6 +38,16 @@ const router = createRouter({
             props: true,
             meta: {
                 title: '登录',
+                requiresAuth: false,
+            }
+        },
+        {
+            path: "/admin_login",
+            name: 'admin_login',
+            component: Admin_login,
+            props: true,
+            meta: {
+                title: '管理员登录',
                 requiresAuth: false,
             }
         },
