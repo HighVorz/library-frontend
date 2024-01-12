@@ -15,7 +15,7 @@
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
             <div class="form_password_field">
-                <input type="password" class="password_input" v-model="userpassword" placeholder="请在此处输入密码...">
+                <input type="password" class="password_input" v-model="password" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
             </div>
             <!-- <div class="identity">
@@ -43,7 +43,7 @@ const router = inject('$router')
 const form_title = ref("form_title")
 const username = ref('')
 const useremail = ref('')
-const userpassword = ref('')
+const password = ref('')
 const usernameError = ref(false)
 const emailError = ref(false)
 const passwordError = ref(false)
@@ -60,10 +60,24 @@ function check_table() { };
 function return_sign() {
     router.push("/login");
 };
-function register() {
-    // 
 
-    
+function register() {
+
+    http.post('/api/register', {
+        username: username.value,
+        password: password.value
+    })
+        .then(response => {
+            console.log(response.data)
+            //等待3秒
+            setTimeout(() => {
+                // 在这里写需要延时执行的代码
+                router.replace('/login')
+            }, 3000)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 };
 
 
@@ -185,7 +199,7 @@ function register() {
 .form>.btn_field {
     margin-top: 20px;
     display: flex;
-    
+
 }
 
 .signin,

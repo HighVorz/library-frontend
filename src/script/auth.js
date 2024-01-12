@@ -4,16 +4,18 @@ export const useAuthStore = defineStore('auth', {
     state: () => ({
         userInfo: null,
         loggedIn: false,
+        token: null,
     }),
 
     actions: {
-        login(userInfo) {
-            this.loggedIn = true;
-            this.userInfo = userInfo;
+        login(userInfo, token) {
+            this.loggedIn = true
+            this.userInfo = userInfo
+            this.token = token
         },
         logout() {
-            this.loggedIn = false;
-            this.userInfo = null;
+            this.loggedIn = false
+            this.userInfo = null
         },
     },
     

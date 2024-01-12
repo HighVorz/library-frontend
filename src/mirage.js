@@ -130,6 +130,7 @@ export function makeServer({ environment = "development" } = {}) {
             userInfo: {
               uid: user.uid,
               name: user.username,
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsicm9sZSI6InJlYWRlciIsImlkIjoiMTEiLCJ1c2VybmFtZSI6Imxpc2kifSwiZXhwIjoxNzA1MDY2NjM5fQ.KeniQEUJLEBqhFSU15IrPNC7v_IlZ1zkfdSYRCVrw9c"
             },
           };
         }
@@ -149,7 +150,7 @@ export function makeServer({ environment = "development" } = {}) {
       })
 
       // 用户个人信息
-      this.post("/userinfo", (schema, request) => {
+      this.post("/userInfo", (schema, request) => {
         const { uid } = JSON.parse(request.requestBody)
         console.log(uid)
         const res = userInfo.find((item) => item.uid === uid)

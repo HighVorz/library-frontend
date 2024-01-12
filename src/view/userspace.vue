@@ -114,7 +114,12 @@ const paginatedData = ref([])
 
 onMounted(() => {
     // 使用 $http 发送请求 axios
-    http.post('/api/userinfo', { uid: 1 })
+    http.post('/api/userInfo', { uid: 1 }, {
+        headers: {
+            'Authorization': auth.token,
+            'Access-Control-Allow-Origin': '*'
+        }
+    },)
         .then(response => {
             console.log(response.data);
             userInfo.value = response.data.userInfo
@@ -211,6 +216,7 @@ function updatePaginatedData() {
     display: flex;
     justify-content: center;
 }
+
 .user-space {
     display: flex;
     width: 900px;

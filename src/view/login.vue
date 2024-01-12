@@ -59,6 +59,7 @@ const http = inject('$http');
 const router = inject('$router')
 
 function signin() {
+
     if (!verify_username() || !verify_password()) {
         return;
     }
@@ -68,9 +69,12 @@ function signin() {
     }).then(response => {
         console.log(response.data)
         if (response.data.msg === "Success") {
-            auth.login(response.data.userInfo)
+            auth.login(response.data.userInfo, response.data.token)
             const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+            console.log(redirectPath)
             router.replace(redirectPath)
+
+            console.log(auth.userInfo)
         }
     }).catch(error => {
         console.log(error)
