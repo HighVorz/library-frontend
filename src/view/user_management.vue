@@ -4,7 +4,7 @@
     </div> -->
     <hr>
     <!-- 弹窗1 -->
-    <div v-if="showModal" class="modal">
+    <div v-if="showModel" class="Model">
         <div class="search-container">
             <form class="search-form">
                 <p>用户搜索</p>
@@ -34,14 +34,14 @@
                 </div>
                 <div class="form-group">
                     <button class="searchbk">查找</button>
-                    <button @click="showModal = false" class="quit">关闭</button>
+                    <button @click="showModel = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- 弹窗2 -->
-    <div v-if="showModal2" class="modal">
+    <div v-if="showModel2" class="Model">
         <div class="search-container">
             <form class="search-form2" @submit.prevent="">
                 <p>修改信息</p>
@@ -72,7 +72,7 @@
                 <!-- 其实也能放入图片 -->
                 <div class="form-group">
                     <button class="addbk" @click="showAlertmodify">修改</button>
-                    <button @click="showModal2 = false" class="quit">关闭</button>
+                    <button @click="showModel2 = false" class="quit">关闭</button>
                 </div>
             </form>
         </div>
@@ -81,7 +81,7 @@
     <div class="container">
         <button class="return-button" @click="handleReturn"><i class="fas fa-arrow-left"></i> 返回图书管理界面</button>
         <button class="exit-button" @click="handleLogout"><i class="fas fa-sign-out-alt"></i> 退出账户</button>
-        <button class="search-button" @click="showModal = true"><i class="fas fa-search"></i> 搜索一下</button>
+        <button class="search-button" @click="showModel = true"><i class="fas fa-search"></i> 搜索一下</button>
 
         <table>
             <tr style="font-weight: bold;background-color: rgba(103, 57, 202, 0.5);">
@@ -102,7 +102,7 @@
                 <td>{{ item.userMail }}</td>
                 <td>
                     <form action="" @submit="handleSubmit">
-                        <button class="act addin" @click="showModal2 = true">修改</button>&nbsp&nbsp&nbsp<button
+                        <button class="act addin" @click="showModel2 = true">修改</button>&nbsp&nbsp&nbsp<button
                             class="act del" @click="deleteItem(item)">删除</button>
                     </form>
                 </td>
@@ -122,8 +122,8 @@ const router = inject('$router')
 
 // data
 const userTotal = ref([])
-const showModal = ref(false)
-const showModal2 = ref(false)
+const showModel = ref(false)
+const showModel2 = ref(false)
 const currentPage = ref(1)
 const pageSize = ref(10)
 const paginatedData = ref([])
@@ -150,7 +150,7 @@ function updatePaginatedData() {
 
 function showAlertmodify() {
     alert('修改成功');
-    showModal2.value = false;
+    showModel2.value = false;
 };
 
 function handleSubmit(event) {
@@ -323,7 +323,7 @@ hr {
     background-color: rgba(220, 53, 69, 1);
 }
 
-.modal {
+.Model {
     position: fixed;
     z-index: 1;
     left: 0;
