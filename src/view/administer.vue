@@ -876,13 +876,13 @@ function exit() {
 
 // function 
 function handleSizeChange(val) {
-    pageSize, value = val;
-    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+    pageSize.value = val;
+    updatePaginatedData();  // 更新数据的方法
 };
 
 function handleCurrentChange(val) {
     currentPage.value = val;
-    updatePaginatedData();  // 更新数据的方法，需要你自己实现
+    updatePaginatedData();  // 更新数据的方法
 };
 
 function updatePaginatedData() {
