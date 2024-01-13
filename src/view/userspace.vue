@@ -131,8 +131,9 @@ import { useAuthStore } from "../script/auth.js"
 const auth = useAuthStore();
 
 // inject
-const http = inject('$http');
 const router = inject('$router')
+const http = inject('$http');
+http.defaults.headers.common['Authorization'] = auth.token
 
 // data
 const USERINFO = ref("enum_userinfo")
@@ -155,11 +156,7 @@ onMounted(async () => {
 
 // 🚩
 async function get_userInfo() {
-    http.get('/api/userInfo', {
-        headers: {
-            'Authorization': auth.token,
-        }
-    }).then(response => {
+    http.get('/api/userInfo', ).then(response => {
         console.log(response.data)
         const data = response.data.data
         userInfo.value = data
@@ -179,10 +176,6 @@ async function getBorrowlist() {
         state: null,
         returnTime: null,
         borrowId: null,},
-   
-        headers: {
-            'Authorization': auth.token,
-        },
     }).then(response => {
         console.log(response.data)
         borrowRecords.value = response.data.result.borrowlist

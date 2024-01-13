@@ -215,7 +215,7 @@
 <script setup>
 
 import "bootstrap/dist/js/bootstrap.js";
-import { ref, onMounted } from "vue"
+import { ref, onMounted,  } from "vue"
 
 // data
 const showModal = ref(false)
@@ -240,6 +240,10 @@ onMounted(() => {
     console.log(this.bookid);
     // set book by bookid
 });
+
+
+
+
 
 
 

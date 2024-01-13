@@ -43,7 +43,7 @@ import { required, email } from "@vuelidate/validators";
 import { inject, ref } from "vue";
 import { useAuthStore } from "../script/auth.js"
 
-const auth = useAuthStore();
+
 
 // data
 const username_has_error = ref(false)
@@ -54,24 +54,30 @@ const username = ref("")
 const password = ref("")
 
 
-// inject
+// object
+const auth = useAuthStore();
 const http = inject('$http');
 const router = inject('$router')
+http.defaults.headers.common['Authorization'] = auth.token
 
 function signin() {
-    if (!verify_username() || !verify_password()) {
-        return;
-    }
+    // if (!verify_username() || !verify_password()) {
+    //     return;
+    // }
     http.post("/api/login", {
         username: username.value,
         password: password.value
     }).then(response => {
-        console.log(response.data)
-        if (response.data.status === "ok") {
-            auth.login(response.data.userInfo)
-            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
-            // 重定向到之前想要登录的页面
-            router.replace(redirectPath)
+        console.log("signin: ", response.data)
+        if (response.data.msg === "Success") {
+            const data = response.data.data;
+            auth.login(data.userinfo, data.token)
+
+            http.defaults.headers.common['Authorization'] = auth.token
+            console.log("http.header.token:", http.defaults.headers.common['Authorization'])
+
+            // go to administer
+            router.replace('/administer')
         }
     }).catch(error => {
         console.log(error)

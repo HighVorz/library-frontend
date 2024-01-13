@@ -67,6 +67,8 @@ function return_sign() {
     router.push("/login");
 };
 
+
+// 🚩
 function register() {
 
     http.post('/api/register', {

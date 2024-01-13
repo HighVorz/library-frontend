@@ -46,7 +46,7 @@
     <div v-if="secondorder" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
-                <input type="number" class="userod" v-model="ornum"  placeholder="请输入预约个数..." required>
+                <input type="number" class="userod" v-model="ornum" placeholder="请输入预约个数..." required>
                 <div class="funcbutton">
                     <button class="form-button order-btn" @click="orderBookfin">预约</button>
                     <button class="form-button" @click="secondorder = false">关闭</button>
@@ -72,6 +72,13 @@
                 </el-dropdown>
             </div>
             <h2>图书借阅</h2>
+
+            <!-- for dev -->
+            <button @click="req_borrowBook">req_borrowBook</button>
+            <button @click="req_returnBook">req_returnBook</button>
+            <!-- for dev -->
+
+
             <!-- <span style="margin-right: 3%;">当前用户:{{ $route.query.username }}</span>
         <p class="bar" style="display: inline-block;">需要借阅书籍的点击书本图片进入书本详情进行借阅即可</p> -->
 
@@ -109,7 +116,18 @@
 
 <script setup>
 // import { ElPagination } from 'element-plus';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
+
+import { useAuthStore } from "../script/auth.js"
+
+
+// object
+const auth = useAuthStore();
+const http = inject('$http')
+http.defaults.headers.common['Authorization'] = auth.token
+
+
+// data
 const showChoose = ref(false)
 const secondborrow = ref(false)
 const secondkeep = ref(false)
@@ -119,6 +137,7 @@ const brnum = ref('')
 const brdate = ref('')
 const ornum = ref('')
 const selectedBook = ref([])
+
 // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
 const bookTotal = ref([
     {
@@ -492,6 +511,8 @@ const bookTotal = ref([
         "bookLocate": "图书馆借阅室"
     },
 ])
+
+
 const currentPage = ref(1)
 const pageSize = ref(7)
 const paginatedData = ref([])
@@ -507,6 +528,48 @@ onMounted(() => {
     // console.log(bookTotal.value);
     updatePaginatedData();
 });
+
+
+// 🚩
+function req_borrowBook(isbn, num) {
+    console.log("req_borrowBook")
+    console.log(http.defaults.headers.common['Authorization'])
+
+    http.put('/api/bookBorrow/borrowBook', {
+        "dueTime": "2024-01-15T22:18:26.625Z",
+        "librarianJobNumber": 1,
+        "readerId": 1,
+        "bookId": null
+    }, {
+        params: {
+            isbn: "9786269736676",
+            borrowNum: 1
+        },
+    }).then(response => {
+        console.log(response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+// 
+function req_returnBook(borrowId) {
+    console.log("req_returnBook")
+    http.patch('/api/bookBorrow/returnBook', {
+        params: {
+            borrowId: 2
+        },
+        headers: {
+            'Authorization': auth.token
+        }
+    }).then(response => {
+        console.log(response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+
 
 // function 
 function handleSizeChange(val) {
@@ -545,7 +608,7 @@ function borrowBook() {
 
 
 // 🚩
-function queryBookCatalog(){
+function queryBookCatalog() {
 
 }
 
@@ -1041,6 +1104,7 @@ button:hover {
 .order-btn:hover {
     background-color: #a45d1b;
 }
+
 .keep-btn {
     background-color: #ffc107;
 }
@@ -1048,6 +1112,7 @@ button:hover {
 .keep-btn:hover {
     background-color: #d39e00;
 }
+
 .orderbk {
     margin-top: 15px;
     margin-bottom: 0px;
@@ -1058,7 +1123,8 @@ button:hover {
     color: #007bff;
     text-decoration: none;
 }
-.orderbk a:hover{
+
+.orderbk a:hover {
     color: #155faf;
     text-decoration: underline;
 }

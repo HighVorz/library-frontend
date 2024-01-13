@@ -67,12 +67,14 @@ function signin() {
         username: username.value,
         password: password.value
     }).then(response => {
-        console.log(response.data)
+        console.log("signin: ", response.data)
         if (response.data.msg === "Success") {
             const data = response.data.data;
             auth.login(data.userinfo, data.token)
 
             http.defaults.headers.common['Authorization'] = auth.token
+            console.log("http.header.token:", http.defaults.headers.common['Authorization'])
+
             const redirectPath = sessionStorage.getItem('redirectPath') || '/'
             router.replace(redirectPath)
         }

@@ -158,11 +158,6 @@ const bookList = ref([{
 </script>
 
 
-
-
-<!-- ⚠️ not scoped -->
-<style module></style>
-
 <style scoped>
 @import "../css/plugins.css";
 @import "../css/style.css";
