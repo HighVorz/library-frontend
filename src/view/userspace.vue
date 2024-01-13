@@ -92,10 +92,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="record in paginatedData" :key="record.id">
-                                <td>《{{ record.bookName }}》</td>
+                            <tr v-for="record in paginatedData2" :key="record.id">
+                                <td>《{{ record.userOrder }}》</td>
                                 <!-- <td>{{ record.bookNumber }}</td> -->
-                                <td>{{ record.orderDate }}</td>
+                                <td>{{ record.userOrdertime }}</td>
                                 <td>{{ record.orderNum }}</td>
                                 <td>
                                     <button @click="orderBook(record.id)" class="odbk">取消预约</button>
@@ -252,7 +252,7 @@ async function get_userInfo() {
 
 
 
-async function getBorrowlist() {
+function getBorrowlist() {
     http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
         params: {
             dueTime: null,
@@ -263,10 +263,11 @@ async function getBorrowlist() {
             returnTime: null,
             borrowId: null,
         },
-    }).then(response => {
+    }).then( async response =>  {
         console.log(response.data)
         borrowRecords.value = response.data.result.borrowlist
-        updatePaginatedData();
+        
+        console.log('execute updatePaginatedData');
 
     }).catch(error => console.log(error))
 };
@@ -275,6 +276,11 @@ function select(tab) {
     selectedTab.value = tab
     if (tab === BORROW.value) {
         getBorrowlist()
+    }
+
+    if(tab === ORDER.value){
+        updatePaginatedData();
+        getOrderlist()
     }
 };
 
@@ -309,7 +315,7 @@ function handleCurrentChange(val) {
     currentPage.value = val;
     updatePaginatedData();
 }
-function updatePaginatedData() {
+async function updatePaginatedData() {
     console.log('updatePaginatedData');
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
