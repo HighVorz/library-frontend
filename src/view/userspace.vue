@@ -27,7 +27,7 @@
                         借书情况
                     </li>
                     <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)"><i
-                            class="fas fa-calendar-check"></i>预约情况</li>
+                            class="fas fa-calendar-check"></i> 预约情况</li>
                 </ul>
             </div>
             <div class="main">
@@ -139,6 +139,7 @@ http.defaults.headers.common['Authorization'] = auth.token
 // data
 const USERINFO = ref("enum_userinfo")
 const BORROW = ref("enum_borrow")
+const ORDER = ref("enum_order")
 const selectedTab = ref("enum_userinfo")
 const keepborrow = ref(false)
 const keepdate = ref([])
