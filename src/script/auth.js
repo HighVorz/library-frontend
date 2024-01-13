@@ -6,7 +6,8 @@ export const useAuthStore = defineStore('auth', {
         loggedIn: false,
         token: null,
         identity: null,
-        redirectPath: null
+        redirectPath: null,
+        openAuth: false,
     }),
 
     actions: {

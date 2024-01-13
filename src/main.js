@@ -12,7 +12,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 
 if (process.env.NODE_ENV === 'development') {
-    makeServer()
+    // makeServer()
 }
 
 const app = createApp(App);

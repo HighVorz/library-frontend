@@ -32,9 +32,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/detail" type="button">详情</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="/administer/usercontrol" type="button">用户管理</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manage/book" type="button">图书管理</a>
+                    </li> -->
                 </ul>
             </div>
         </div>

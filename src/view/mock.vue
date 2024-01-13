@@ -1,5 +1,20 @@
 <template>
     <h1>Api</h1>
+
+    <h3>link</h3>
+    <td>
+
+        <a href="/administer" style="display: block;">administer</a>
+        <a href="/user" style="display: block;">userspace</a>
+        <a href="/search" style="display: block;">search</a>
+       
+    </td>
+
+
+
+    <button @click="openAuth">openAuth</button>
+    <button @click="closeAuth">closeAuth</button>
+
     <h3></h3>
     <button @click="click_users">Api users</button>
     <button @click="click_borrowlist">borrowlist</button>
@@ -13,10 +28,13 @@
 
 <script setup>
 import { inject } from "vue"
+import { useAuthStore } from "../script/auth.js"
+
+const auth = useAuthStore();
 const http = inject('$http')
 const router = inject('$router')
 
-function to_admin_login(){
+function to_admin_login() {
     router.push('/admin_login')
 }
 
@@ -54,6 +72,14 @@ function updataBorrowBookList() {
 // 🚩
 function deleteBorrowBookList() {
 
+}
+
+
+function openAuth() {
+    auth.openAuth = true;
+}
+function closeAuth() {
+    auth.openAuth = false;
 }
 
 

@@ -152,6 +152,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const auth = useAuthStore();
 
+    // openAuth
+    console.log("openAuth:", auth.openAuth)
+    if(!auth.openAuth){
+        console.log("open auth ...")
+        next()
+        return;
+    }
+
     const identity = auth.identity
 
     console.log("auth.redirectPath: ", auth.redirectPath)
@@ -167,8 +175,6 @@ router.beforeEach((to, from, next) => {
     else if (to.fullPath != auth.redirectPath) {
         auth.redirectPath = to.fullPath
     }
-
-
 
     // admin
     if (to.meta.requiresAuth && to.meta.type !== identity) {
