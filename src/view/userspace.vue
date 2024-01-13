@@ -77,7 +77,7 @@
                     </el-pagination>
                 </div>
                 <div v-else-if="selectedTab === ORDER">
-                    <!-- 这个order要怎么放入 -->
+                    <!-- 这个order要怎么放入,以下都是用来放用户预约列表的 -->
                     <h2>预约情况</h2>
                     <!-- 预约情况列表... -->
                     <table class="styled-table">
@@ -86,7 +86,7 @@
                                 <th>书名</th>
                                 <!-- <th>数量</th> -->
                                 <th>预约时间</th>
-                                <th>还书期限</th>
+                                <th>预约数量</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -94,10 +94,10 @@
                             <tr v-for="record in paginatedData" :key="record.id">
                                 <td>《{{ record.bookName }}》</td>
                                 <!-- <td>{{ record.bookNumber }}</td> -->
-                                <td>{{ record.borrowDate }}</td>
-                                <td>{{ record.returnDate }}</td>
+                                <td>{{ record.orderDate }}</td>
+                                <td>{{ record.orderNum }}</td>
                                 <td>
-                                    <button @click="orderBook(record.id)" class="retbk">取消预约</button>
+                                    <button @click="orderBook(record.id)" class="odbk">取消预约</button>
                                     <!-- <button @click="keepborrow = true" class="kepbk">续借</button> -->
                                 </td>
                             </tr>
@@ -105,7 +105,7 @@
                     </table>
                     <el-pagination class="pagination-container" @size-change="handleSizeChange"
                         @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-                        layout="prev, pager, next" :total="borrowRecords.length">
+                        layout="prev, pager, next" :total="orderRecords.length">
                     </el-pagination>
                 </div>
                 <!-- 弹窗代码 -->
@@ -141,11 +141,13 @@ const selectedTab = ref("enum_userinfo")
 const keepborrow = ref(false)
 const avatar = ref('/assets/img/avatar.png')
 const borrowRecords = ref([])
+const orderRecords = ref([])
 const showModel = ref(false)
 const userInfo = ref({})
 const currentPage = ref(1)
 const pageSize = ref(6)
 const paginatedData = ref([])
+const paginatedData2 = ref([])
 
 onMounted(() => {
     // 使用 $http 发送请求 axios
@@ -218,8 +220,9 @@ function updatePaginatedData() {
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
     paginatedData.value = borrowRecords.value.slice(start, end);
-    console.log("----");
-    console.log(paginatedData.value);
+    paginatedData2.value = orderRecords.value.slice(start, end);
+    // console.log("----");
+    // console.log(paginatedData.value);
 }
 </script>
 
@@ -404,6 +407,14 @@ input[type="file"] {
 
 .kepbk:hover {
     background-color: rgba(139, 26, 157, 1);
+}
+
+.odbk {
+    background-color: rgba(19, 129, 231, 0.7);
+}
+
+.odbk:hover {
+    background-color: rgba(19, 129, 231, 1);
 }
 
 @keyframes bounce {
