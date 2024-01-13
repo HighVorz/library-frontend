@@ -18,30 +18,30 @@
             <!-- 弹窗1 -->
             <div v-if="showModel3" class="Model">
                 <div class="search-container">
-                    <form class="search-form">
+                    <form class="search-form" @submit.prevent="">
                         <p>图书搜索</p>
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="searchbook.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control">
+                            <input type="text" id="au" class="form-control" v-model="searchbook.bookauthor">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版社:</label>
-                            <input type="text" id="pub" class="form-control">
+                            <input type="text" id="pub" class="form-control" v-model="searchbook.bookpublisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control">
+                            <input type="date" id="time" class="form-control" v-model="searchbook.bookdate">
                         </div>
                         <div class="form-group">
                             <label for="restnum">剩余数量:</label>
-                            <input type="number" id="restnum" class="form-control">
+                            <input type="number" id="restnum" class="form-control" v-model="searchbook.booknumber">
                         </div>
                         <div class="form-group">
-                            <button class="searchbk">查找</button>
+                            <button class="searchbk" @click="showsearchbook()">查找</button>
                             <button @click="showModel3 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -55,31 +55,31 @@
                         <p>添加图书</p>
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="addbook.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control">
+                            <input type="text" id="au" class="form-control" v-model="addbook.bookauthor">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版社:</label>
-                            <input type="text" id="pub" class="form-control">
+                            <input type="text" id="pub" class="form-control" v-model="addbook.bookpublisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control">
+                            <input type="date" id="time" class="form-control" v-model="addbook.bookdate">
                         </div>
                         <div class="form-group">
                             <label for="restbk">剩余数量:</label>
-                            <input type="number" id="restbk" class="form-control">
+                            <input type="number" id="restbk" class="form-control" v-model="addbook.booknumber">
                         </div>
                         <div class="form-group">
                             <label for="status">借阅状态:</label>
-                            <input type="text" id="status" class="form-control">
+                            <input type="text" id="status" class="form-control" v-model="addbook.bookstatus">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="addbk2" @click="showAlertadd">添加</button>
+                            <button class="addbk2" @click="showbookadd()">添加</button>
                             <button @click="showModel4 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -93,31 +93,31 @@
                         <p>修改信息</p>
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="modifybkinfo.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control">
+                            <input type="text" id="au" class="form-control" v-model="modifybkinfo.bookauthor">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版社:</label>
-                            <input type="text" id="pub" class="form-control">
+                            <input type="text" id="pub" class="form-control" v-model="modifybkinfo.bookpublisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control">
+                            <input type="date" id="time" class="form-control" v-model="modifybkinfo.bookdate">
                         </div>
                         <div class="form-group">
                             <label for="restbk">剩余数量:</label>
-                            <input type="number" id="restbk" class="form-control">
+                            <input type="number" id="restbk" class="form-control" v-model="modifybkinfo.booknumber">
                         </div>
                         <div class="form-group">
                             <label for="status">借阅状态:</label>
-                            <input type="text" id="status" class="form-control">
+                            <input type="text" id="status" class="form-control" v-model="modifybkinfo.bookstatus">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="fixbk" @click="showAlertfix">修改</button>
+                            <button class="fixbk" @click="showmodifybkinfo()">修改</button>
                             <button @click="showModel5 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -163,34 +163,34 @@
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
                 <div class="search-container">
-                    <form class="search-form">
+                    <form class="search-form" @submit.prevent="">
                         <p>用户搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="searchuser.username">
                         </div>
                         <div class="form-group">
                             <label for="au">借书名:</label>
-                            <input type="text" id="au" class="form-control">
+                            <input type="text" id="au" class="form-control" v-model="searchuser.userborrow">
                         </div>
                         <div class="form-group">
                             <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control">
+                            <input type="number" id="bknum" class="form-control" v-model="searchuser.borrownum">
                         </div>
                         <div class="form-group">
                             <label for="time">借书时间:</label>
-                            <input type="date" id="time" class="form-control">
+                            <input type="date" id="time" class="form-control" v-model="searchuser.userborrowtime">
                         </div>
                         <div class="form-group">
                             <label for="ret">还书时间:</label>
-                            <input type="date" id="ret" class="form-control">
+                            <input type="date" id="ret" class="form-control" v-model="searchuser.userreturntime">
                         </div>
                         <div class="form-group">
                             <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control">
+                            <input type="email" id="mail" class="form-control" v-model="searchuser.usermail">
                         </div>
                         <div class="form-group">
-                            <button class="searchbk">查找</button>
+                            <button class="searchbk" @click="showsearchuser()">查找</button>
                             <button @click="showModel = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -204,31 +204,31 @@
                         <p>修改信息</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="modifyuserinfo.username">
                         </div>
                         <div class="form-group">
                             <label for="au">用户借书:</label>
-                            <input type="text" id="au" class="form-control">
+                            <input type="text" id="au" class="form-control" v-model="modifyuserinfo.userborrow">
                         </div>
                         <div class="form-group">
                             <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control">
+                            <input type="number" id="bknum" class="form-control"  v-model="modifyuserinfo.borrownum">
                         </div>
                         <div class="form-group">
                             <label for="time">借书时间:</label>
-                            <input type="date" id="time" class="form-control">
+                            <input type="date" id="time" class="form-control" v-model="modifyuserinfo.userborrowtime">
                         </div>
                         <div class="form-group">
                             <label for="ret">还书时间:</label>
-                            <input type="date" id="ret" class="form-control">
+                            <input type="date" id="ret" class="form-control" v-model="modifyuserinfo.userreturntime">
                         </div>
                         <div class="form-group">
                             <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control">
+                            <input type="email" id="mail" class="form-control" v-model="modifyuserinfo.usermail">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="addbk" @click="showAlertmodify">修改</button>
+                            <button class="addbk" @click="showmodifyuserinfo()">修改</button>
                             <button @click="showModel2 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -276,31 +276,31 @@
             <!-- 弹窗3-1 -->
             <div v-if="showModel6" class="Model">
                 <div class="search-container">
-                    <form class="search-form">
+                    <form class="search-form"  @submit.prevent="">
                         <p>预约搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
-                            <input type="text" name="username" id="name" class="form-control">
+                            <input type="text" id="name" class="form-control" v-model="searchorder.username">
                         </div>
                         <div class="form-group">
                             <label for="bkname">申请书名:</label>
-                            <input type="text" name="ordername" id="bkname" class="form-control">
+                            <input type="text" id="bkname" class="form-control" v-model="searchorder.userorder">
                         </div>
                         <div class="form-group">
                             <label for="ordertime">申请时间:</label>
-                            <input type="date" name="ordertime" id="ordertime" class="form-control">
+                            <input type="date" id="ordertime" class="form-control" v-model="searchorder.userordertime">
                         </div>
 
                         <div class="form-group">
                             <label for="mail">用户邮箱:</label>
-                            <input type="email" name="email" id="mail" class="form-control">
+                            <input type="email" id="mail" class="form-control" v-model="searchorder.usermail">
                         </div>
                         <div class="form-group">
                             <label for="ordernum">申请数量:</label>
-                            <input type="number" name="number" id="ordernum" class="form-control">
+                            <input type="number" id="ordernum" class="form-control" v-model="searchorder.ordernum">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="searchbk">查找</button>
+                            <button class="searchbk" @click="showsearchorder">查找</button>
                             <button @click="showModel6 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -1002,7 +1002,12 @@ const pageSize = ref(7)
 const paginatedData = ref([])
 const paginatedData2 = ref([])
 const paginatedData3 = ref([])
-
+const addbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
+const searchbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',booknumber:''})
+const searchuser = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
+const modifybkinfo = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
+const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
+const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
 //lifetime
 onMounted(() => {
 
@@ -1055,10 +1060,7 @@ function updatePaginatedData() {
     paginatedData3.value = orderTotal.value.slice(start, end);
 };
 
-function showAlertmodify() {
-    alert('修改成功');
-    showModel2.value = false;
-};
+
 
 function handleSubmit(event) {
     event.preventDefault();
@@ -1078,6 +1080,71 @@ function deleteItem(item) {
     if (index !== -1) {
         userTotal.value.splice(index, 1);
     }
+}
+function showbookadd() {
+    console.log('添加成功');
+    console.log(addbook.value.bookname);
+    console.log(addbook.value.bookauthor);
+    console.log(addbook.value.bookpublisher);
+    console.log(addbook.value.bookdate);
+    console.log(addbook.value.bookstatus);
+    console.log(addbook.value.booknumber);
+    reset(addbook.value);
+}
+function showsearchbook() {
+    console.log('搜索成功');
+    console.log(searchbook.value.bookname);
+    console.log(searchbook.value.bookauthor);
+    console.log(searchbook.value.bookpublisher);
+    console.log(searchbook.value.bookdate);
+    console.log(searchbook.value.booknumber);
+    reset(searchbook.value);
+}
+function showsearchuser() {
+    console.log('搜索成功');
+    console.log(searchuser.value.username);
+    console.log(searchuser.value.userborrow);
+    console.log(searchuser.value.borrownum);
+    console.log(searchuser.value.userborrowtime);
+    console.log(searchuser.value.userreturntime);
+    console.log(searchuser.value.usermail);
+    reset(searchuser.value);
+}
+function showmodifybkinfo() {
+    alert('修改成功');
+    console.log(modifybkinfo.value.bookname);
+    console.log(modifybkinfo.value.bookauthor);
+    console.log(modifybkinfo.value.bookpublisher);
+    console.log(modifybkinfo.value.bookdate);
+    console.log(modifybkinfo.value.booknumber);
+    console.log(modifybkinfo.value.bookstatus);
+    // showModel5.value = false;
+    reset(modifybkinfo.value);
+};
+function showmodifyuserinfo() {
+    alert('修改成功');
+    console.log(modifyuserinfo.value.username);
+    console.log(modifyuserinfo.value.userborrow);
+    console.log(modifyuserinfo.value.borrownum);
+    console.log(modifyuserinfo.value.userborrowtime);
+    console.log(modifyuserinfo.value.userreturntime);
+    console.log(modifyuserinfo.value.usermail);
+    // showModel6.value = false;
+    reset(modifyuserinfo.value);
+};
+function showsearchorder() {
+    console.log('搜索成功');
+    console.log(searchorder.value.username);
+    console.log(searchorder.value.userorder);
+    console.log(searchorder.value.userordertime);
+    console.log(searchorder.value.usermail);
+    console.log(searchorder.value.ordernum);
+    reset(searchorder.value);
+}
+function reset(obj) {
+    Object.keys(obj).forEach(key => {
+        obj[key] = '';
+    });
 }
 </script>
   
