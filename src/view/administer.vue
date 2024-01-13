@@ -4,11 +4,11 @@
             <h2><i class="fas fa-user-tie"></i> 图书管理员</h2>
             <ul>
                 <li><button :class="{ selected: selectedMenu === 'books' }" @click="selectedMenu = 'books'"><i
-                            class="fas fa-book"></i> 管理书目</button></li>
+                            class="fas fa-book"></i> 书目详情</button></li>
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
-                            class="fas fa-users"></i> 管理用户</button></li>
+                            class="fas fa-users"></i> 借阅情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="selectedMenu = 'orders'"><i
-                            class="fas fa-users"></i> 管理预约</button></li>
+                            class="fas fa-users"></i> 预约管理</button></li>
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
@@ -313,8 +313,12 @@
 <script setup>
 import { ElPagination } from 'element-plus';
 import { ref, inject, onMounted } from 'vue'
+import { useAuthStore } from "../script/auth.js"
 
+// object
 const router = inject('$router')
+const auth = useAuthStore();
+
 
 // data
 const userTotal = ref([
@@ -963,8 +967,25 @@ onMounted(() => {
     updatePaginatedData();
 });
 
+// 🚩
+function getBorrowBookList(){
+    
+}
+
+// 🚩
+function updataBorrowBookList(){
+
+}
+
+// 🚩
+function deleteBorrowBookList(){
+
+}
+
+
 function exit() {
-    router.replace('/login')
+    auth.logout()
+    router.replace('/admin_login')
 }
 
 // function 

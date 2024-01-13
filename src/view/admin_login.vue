@@ -75,8 +75,10 @@ function signin() {
             auth.login(data.userinfo, data.token, 'admin')
             console.log("http.header.token:", http.defaults.headers.common['Authorization'])
 
-            // go to administer
-            router.replace('/administer')
+            const redirectPath = auth.redirectPath || '/'
+
+            console.log(redirectPath)
+            router.replace(redirectPath)
         }
     }).catch(error => {
         console.log(error)

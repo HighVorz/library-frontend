@@ -126,7 +126,7 @@ const router = createRouter({
                 title: '忘记密码',
                 requiresAuth: false,
             }
-        }, 
+        },
         {
             path: "/manage/book",
             name: "book_manage",
@@ -150,19 +150,40 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore();
+    const auth = useAuthStore();
 
-    const identity = authStore.identity
+    const identity = auth.identity
+
+    console.log("auth.redirectPath: ", auth.redirectPath)
+    console.log("to: ", to.fullPath)
+    console.log("from: ", from.fullPath)
+
+    // redircet
+    if(to.fullPath === '/login' || to.fullPath === '/admin_login') {
+        if(auth.redirectPath === to.fullPath){
+            auth.redirectPath = '/'
+        }
+    }
+    else if (to.fullPath != auth.redirectPath) {
+        auth.redirectPath = to.fullPath
+    }
+
+
 
     // admin
-    if(to.meta.requiresAuth && to.meta.type !== identity){
-        sessionStorage.setItem('redirectPath', to.fullPath)
-        if(to.meta.requiresAuth === 'admin')
-            next({name: 'admin_login'});
-        if(to.meta.requiresAuth === 'user')
-            next({name: 'login'})
+    if (to.meta.requiresAuth && to.meta.type !== identity) {
+
+
+        if (to.meta.type === 'admin') {
+
+            next('/admin_login')
+        }
+
+        else if (to.meta.type === 'user') {
+            next('/login')
+        }
     }
-    else{
+    else {
         next();
     }
 })

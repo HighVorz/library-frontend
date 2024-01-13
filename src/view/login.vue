@@ -75,7 +75,7 @@ function signin() {
             http.defaults.headers.common['Authorization'] = auth.token
             console.log("http.header.token:", http.defaults.headers.common['Authorization'])
 
-            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+            const redirectPath = auth.redirectPath || '/'
             router.replace(redirectPath)
         }
     }).catch(error => {
