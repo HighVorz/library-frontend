@@ -354,7 +354,9 @@ import { useAuthStore } from "../script/auth.js"
 
 // object
 const router = inject('$router')
+const http = inject('$http')
 const auth = useAuthStore();
+
 http.defaults.headers.common['Authorization'] = auth.token
 
 // data
@@ -1009,8 +1011,10 @@ const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',o
 //lifetime
 onMounted(() => {
 
-    if(router.query.selected){
-        selectedMenu.value = router.query.selected
+    const selected = router.query.selected || null
+    
+    if(selected){
+        selectedMenu.value = selected
     }
    
     updatePaginatedData();
