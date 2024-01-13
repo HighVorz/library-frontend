@@ -280,27 +280,27 @@
                         <p>预约搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control">
+                            <input type="text" name="username" id="name" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="bkname">申请书名:</label>
-                            <input type="text" id="bkname" class="form-control">
+                            <input type="text" name="ordername" id="bkname" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="ordertime">申请时间:</label>
-                            <input type="date" id="ordertime" class="form-control">
+                            <input type="date" name="ordertime" id="ordertime" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control">
+                            <input type="email" name="email" id="mail" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="ordernum">申请数量:</label>
-                            <input type="number" id="ordernum" class="form-control">
+                            <input type="number" name="number" id="ordernum" class="form-control">
                         </div>
                         <div class="form-group">
-                            <button class="searchbk">查找</button>
+                            <button type="submit" class="searchbk">查找</button>
                             <button @click="showModel6 = false" class="quit">关闭</button>
                         </div>
                     </form>
