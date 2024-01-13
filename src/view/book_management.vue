@@ -2,6 +2,11 @@
     <div class="header">
         <h1>综合图书管理</h1>
     </div>
+
+    <!-- for dev -->
+        <button @click="addBookCatalog">addBookCatalog</button>
+    <!-- for dev -->
+
     <hr>
     <!-- 弹窗1 -->
     <div v-if="showModel" class="Model">
@@ -151,7 +156,9 @@
 
 <script setup>
 import { ElPagination } from 'element-plus';
-import {ref} from 'vue'
+import { ref, inject } from 'vue'
+
+const http = inject('$http')
 
 // data
 const showModel = ref(false)
@@ -162,6 +169,27 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 const paginatedData = ref([])
 
+
+function addBookCatalog() {
+    http.put('/api/bookCatalog/admin/addBookCatalog', {
+        bookName: "我家有個小小哲學家",
+        author: "史考特.赫修維茲",
+        publisher: "采實文化",
+        publishDate: null,
+        isbn: "9786263495630",
+        unitPrice: null
+    }).then(response => {
+        if(response.data.msg === 'Success'){
+
+        }
+        else{
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+
+}
 
 
 

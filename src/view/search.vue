@@ -488,7 +488,7 @@ const paginatedData = ref([])
 
 //lifetime
 onMounted(() => {
-    console.log(bookTotal.value);
+    // console.log(bookTotal.value);
     updatePaginatedData();
 });
 
@@ -526,6 +526,13 @@ function keepBook() {
 function borrowBook() {
     secondborrow.value = "true";
 }
+
+
+// 🚩
+function queryBookCatalog(){
+
+}
+
 </script>
 
 <style scoped>

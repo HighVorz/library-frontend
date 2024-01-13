@@ -14,6 +14,10 @@
                 <input type="text" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
+            <div class="form_user_field">
+                <input type="text" class="mail_input" v-model="useremail" placeholder="请输入手机号...">
+                <p v-if="phoneError" class="error" style="font-size: small;color: red;position: absolute;">手机号不能为空</p>
+            </div>
             <div class="form_password_field">
                 <input type="password" class="password_input" v-model="password" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>
@@ -47,15 +51,12 @@ const password = ref('')
 const usernameError = ref(false)
 const emailError = ref(false)
 const passwordError = ref(false)
+const phoneError = ref(false)
 const selectedError = ref(false)
 const selectedOption = ref("")
 
-
-// 🚩
-function check_table() { };
-
-// 🚩
-
+const email = ref("")
+const phone = ref("")
 
 function return_sign() {
     router.push("/login");
@@ -65,7 +66,9 @@ function register() {
 
     http.post('/api/register', {
         username: username.value,
-        password: password.value
+        password: password.value,
+        telephoneNumber: phone.value,
+        email: email.value
     })
         .then(response => {
             console.log(response.data)

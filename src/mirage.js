@@ -3,7 +3,8 @@ import { createServer, Model } from "miragejs"
 const users = [
   { uid: 1, username: "1234", password: "1234" },
   { uid: 2, username: "4321", password: "4321" },
-  { uid: 3, username: "Tom", password: "12345678" }
+  { uid: 3, username: "Tom", password: "12345678" },
+  { uid: 3, username: "Bob", password: "12345678" }
 ];
 
 const userInfo = [
@@ -127,11 +128,13 @@ export function makeServer({ environment = "development" } = {}) {
         if (user) {
           return {
             msg: 'Success',
-            userInfo: {
-              uid: user.uid,
-              name: user.username,
+            data: {
+              userinfo: {
+                uid: user.uid,
+                name: user.username,
+              },
               token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGFpbXMiOnsicm9sZSI6InJlYWRlciIsImlkIjoiMTEiLCJ1c2VybmFtZSI6Imxpc2kifSwiZXhwIjoxNzA1MDY2NjM5fQ.KeniQEUJLEBqhFSU15IrPNC7v_IlZ1zkfdSYRCVrw9c"
-            },
+            }
           };
         }
         else {
@@ -151,12 +154,25 @@ export function makeServer({ environment = "development" } = {}) {
 
       // 用户个人信息
       this.post("/userInfo", (schema, request) => {
-        const { uid } = JSON.parse(request.requestBody)
-        console.log(uid)
+        const headers = request.requestHeaders;
+        console.log("headers:")
+        console.log(headers)
         const res = userInfo.find((item) => item.uid === uid)
 
         return {
           userInfo: res
+        }
+      })
+
+      this.post("/register", (schema, request) => {
+        const { username, password, telephoneNumber, email} = JSON.parse(request.requestBody)
+        
+        return {
+          msg: "Success",
+          code: 200,
+          data: {
+
+          }
         }
       })
 

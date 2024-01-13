@@ -33,7 +33,7 @@
                             @click="showModel = true">
                     </div>
                     <div class="basicinfo">
-                        <h2>{{ userInfo.name }}</h2>
+                        <h2>{{ userInfo.userName }}</h2>
                         <p>{{ userInfo.signature }}</p>
                         <p>{{ userInfo.userMail }}</p>
                         <!-- <p>借书数量: {{ userInfo.userTotalborrow }}</p> -->
@@ -110,34 +110,48 @@ const showModel = ref(false)
 const userInfo = ref({})
 const currentPage = ref(1)
 const pageSize = ref(6)
-const paginatedData = ref([])
+const paginatedData = ref([]);
 
-onMounted(() => {
-    // 使用 $http 发送请求 axios
-    http.post('/api/userInfo', { uid: 1 }, {
-        headers: {
-            'Authorization': auth.token,
-            'Access-Control-Allow-Origin': '*'
-        }
-    },)
-        .then(response => {
-            console.log(response.data);
-            userInfo.value = response.data.userInfo
-        })
-        .catch(error => {
-            console.error(error);
-        });
+onMounted(async () => {
+    await get_userInfo()
 });
 
-async function getBorrowlist() {
-    http.post("/api/borrowlist", { uid: 1 })
-        .then(response => {
-            console.log(response.data)
-            borrowRecords.value = response.data.result.borrowlist
-            updatePaginatedData();
+// 🚩
+async function get_userInfo() {
+    http.get('/api/userInfo', {
+        headers: {
+            'Authorization': auth.token,
+        }
+    }).then(response => {
+        console.log(response.data)
+        const data = response.data.data
+        userInfo.value = data
+    }).catch(error => {
+        console.log(error);
+    });
+}
 
-        })
-        .catch(error => console.log(error))
+
+
+async function getBorrowlist() {
+    http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
+        params: {dueTime: null,
+        borrowTime: null,
+        librarianJobNumber: null,
+        bookId: null,
+        state: null,
+        returnTime: null,
+        borrowId: null,},
+   
+        headers: {
+            'Authorization': auth.token,
+        },
+    }).then(response => {
+        console.log(response.data)
+        borrowRecords.value = response.data.result.borrowlist
+        updatePaginatedData();
+
+    }).catch(error => console.log(error))
 };
 
 function select(tab) {

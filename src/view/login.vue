@@ -4,7 +4,7 @@
 
     <div class="position-absolute top-50 start-50 translate-middle">
         <form class="form" @submit.prevent="">
-            <div class="form_title">图书管理系统登录</div>
+            <div class="form_title">读者登录</div>
             <div class="form_user_field">
                 <input type="text" class="username_input" v-model="username" @blur="verify_username"
                     placeholder="Username" />
@@ -58,33 +58,35 @@ const password = ref("")
 const http = inject('$http');
 const router = inject('$router')
 
+// 🚩
 function signin() {
-
-    if (!verify_username() || !verify_password()) {
-        return;
-    }
+    // if (!verify_username() || !verify_password()) {
+    //     return;
+    // }
     http.post("/api/login", {
         username: username.value,
         password: password.value
     }).then(response => {
         console.log(response.data)
         if (response.data.msg === "Success") {
-            auth.login(response.data.userInfo, response.data.token)
-            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
-            console.log(redirectPath)
-            router.replace(redirectPath)
+            const data = response.data.data;
+            auth.login(data.userinfo, data.token)
 
-            console.log(auth.userInfo)
+            http.defaults.headers.common['Authorization'] = auth.token
+            const redirectPath = sessionStorage.getItem('redirectPath') || '/'
+            router.replace(redirectPath)
         }
     }).catch(error => {
         console.log(error)
     })
 };
 
+// 🚩
 function signup() {
     router.push("/register");
 };
 
+// 🚩
 function verify_username() {
     // 判断是否为空
     if (username.value.length === 0) {
@@ -93,18 +95,12 @@ function verify_username() {
         return false;
     }
 
-    // if (!hasOnlyNumber(username.value)) {
-    //     console.log(username.value)
-    //     username_has_error.value = true;
-    //     username_errors.value = "用户名非法";
-    //     return false;
-    // }
-
     // 其他规则
     username_has_error.value = false;
     return true;
 };
 
+// 🚩
 function verify_password() {
     if (password.value.length === 0) {
         password_has_error.value = true;
@@ -123,10 +119,11 @@ function verify_password() {
     return true;
 };
 
+
+
 function hasOnlyNumber(str) {
     return /^\d+$/.test(str);
 }
-
 
 </script>
 
