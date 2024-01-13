@@ -319,7 +319,7 @@ import { useAuthStore } from "../script/auth.js"
 // object
 const router = inject('$router')
 const auth = useAuthStore();
-
+http.defaults.headers.common['Authorization'] = auth.token
 
 // data
 const userTotal = ref([
@@ -963,8 +963,14 @@ const pageSize = ref(7)
 const paginatedData = ref([])
 const paginatedData2 = ref([])
 const paginatedData3 = ref([])
+
 //lifetime
 onMounted(() => {
+
+    if(router.query.selected){
+        selectedMenu.value = router.query.selected
+    }
+   
     updatePaginatedData();
 });
 
