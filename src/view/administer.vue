@@ -8,7 +8,7 @@
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
                             class="fas fa-users"></i> 借阅情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="selectedMenu = 'orders'"><i
-                            class="fas fa-users"></i> 预约管理</button></li>
+                            class="fas fa-calendar-check"></i> 预约情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
@@ -272,9 +272,10 @@
                     </el-pagination>
                 </div>
             </div>
+            <h1 v-if="selectedMenu === 'orders'">预约管理</h1>
             <div v-if="selectedMenu === 'orders'">
                 <!-- <button class="search-button2" @click="showModel3 = true"><i class="fas fa-search"></i> 搜索一下</button> -->
-
+                <div class="odimg"></div>
                 <table>
                     <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
                         <td>用户名</td>
@@ -294,7 +295,7 @@
                         <td>{{ item.orderNum }}</td>
                         <td>
                             <form action="" @submit="handleSubmit">
-                                <button class="act addin" @click="showModel5 = true">满足预约</button>&nbsp&nbsp&nbsp<button
+                                <button class="act satis" @click="">满足预约</button>&nbsp&nbsp&nbsp<button
                                     class="act del" @click="deleteItem(item)">取消预约</button>
                             </form>
                         </td>
@@ -1142,6 +1143,20 @@ function deleteItem(item) {
     z-index: -1;
 }
 
+
+.odimg {
+    background-image: url("/assets/img/nekoneko.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+    position: fixed;
+    top: 0;
+    left: 16%;
+    width: 90%;
+    height: 100%;
+    z-index: -1;
+}
+
 /* .container {
     position: fixed;
     left: 16%;
@@ -1252,6 +1267,16 @@ hr {
 .addin:hover {
     animation: bounce 0.3s forwards;
     background-color: rgba(97, 40, 167, 1);
+}
+
+.satis{
+    color: white;
+    background-color: rgba(231, 79, 79, 0.7);
+}
+
+.satis:hover {
+    animation: bounce 0.3s forwards;
+    background-color: rgba(231, 79, 79, 1);
 }
 
 .del {
