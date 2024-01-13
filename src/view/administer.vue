@@ -277,7 +277,7 @@
             <div v-if="showModel6" class="Model">
                 <div class="search-container">
                     <form class="search-form">
-                        <p>用户搜索</p>
+                        <p>预约搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
                             <input type="text" id="name" class="form-control">
