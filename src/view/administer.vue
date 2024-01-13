@@ -286,12 +286,12 @@
                         <td>操作:满足预约 / 取消预约</td>
                     </tr>
                     <tr v-for="item in paginatedData3">
-                        <td>{{ item.bookName }}</td>
-                        <td>{{ item.bookAuthor }}</td>
-                        <td>{{ item.bookPublisher }}</td>
-                        <td>{{ item.bookDate }}</td>
+                        <td>{{ item.userName }}</td>
+                        <td>{{ item.userOrder }}</td>
+                        <td>{{ item.userOrdertime }}</td>
+                        <td>{{ item.userMail }}</td>
                         <!-- <td>{{ item.bookNumber }}</td> -->
-                        <td>{{ item.bookStatus }}</td>
+                        <td>{{ item.orderNum }}</td>
                         <td>
                             <form action="" @submit="handleSubmit">
                                 <button class="act addin" @click="showModel5 = true">满足预约</button>&nbsp&nbsp&nbsp<button
@@ -889,7 +889,64 @@ const bookTotal = ref([{
     "bookRef": "/assets/img/计算机组成与设计.jpg",
     "bookLocate": "图书馆借阅室"
 },])
-const orderTotal = ref([])
+const orderTotal = ref([
+{
+        "userName": "钱璟丰",
+        "userOrder": "计算机体系结构",
+        "userOrdertime": "2023-12-27",
+        "userMail": "2055318980@qq.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "小明",
+        "userOrder": "计算机图形学",
+        "userOrdertime": "2023-1-2",
+        "userMail": "233465654756@qq.com",
+        "orderNum": "5"
+    },
+    {
+        "userName": "张三",
+        "userOrder": "计算机图形学",
+        "userOrdertime": "2023-12-28",
+        "userMail": "zhangsan@example.com",
+        "orderNum": "3"
+    },
+    {
+        "userName": "李四",
+        "userOrder": "操作系统概念",
+        "userOrdertime": "2023-2-1",
+        "userMail": "lisi@example.com",
+        "orderNum": "2"
+    },
+    {
+        "userName": "王五",
+        "userOrder": "算法设计与分析",
+        "userOrdertime": "2024-1-1",
+        "userMail": "wangwu@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "赵六",
+        "userOrder": "计算机组成与设计",
+        "userOrdertime": "2023-1-15",
+        "userMail": "zhaoliu@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "陈七",
+        "userOrder": "计算机体系结构",
+        "userOrdertime": "2023-12-27",
+        "userMail": "chenqi@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "张十",
+        "userOrder": "数据结构与算法",
+        "userOrdertime": "2023-1-20",
+        "userMail": "zhangshi@example.com",
+        "orderNum": "5"
+    }
+])
 const selectedMenu = ref('books')
 const showModel = ref(false)
 const showModel2 = ref(false)
