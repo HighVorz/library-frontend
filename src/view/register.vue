@@ -18,10 +18,6 @@
                 <input type="email" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
-            <div class="form_user_field">
-                <input type="text" class="mail_input" v-model="useremail" placeholder="请输入手机号...">
-                <p v-if="phoneError" class="error" style="font-size: small;color: red;position: absolute;">手机号不能为空</p>
-            </div>
             <div class="form_password_field">
                 <input type="password" class="password_input" v-model="password" placeholder="请在此处输入密码...">
                 <p v-if="passwordError" class="error" style="font-size: small;color: red;position: absolute;">密码不能为空</p>

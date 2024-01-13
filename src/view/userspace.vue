@@ -8,7 +8,7 @@
     <div v-if="keepborrow" class="modalself">
         <div class="search-containerself">
             <form class="search-formself">
-                <input type="Date" class="userbr" v-model="shurubangdingdezhi" required>
+                <input type="Date" class="userbr" v-model="keepdate" required>
                 <div class="funcbutton">
                     <button class="form-button borrow-btn" @click="renewBook(record.id)">续借</button>
                     <button class="form-button" @click="keepborrow = false">关闭</button>
@@ -26,7 +26,8 @@
                     <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)"><i class="fas fa-book"></i>
                         借书情况
                     </li>
-                    <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)">预约情况</li>
+                    <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)"><i
+                            class="fas fa-calendar-check"></i>预约情况</li>
                 </ul>
             </div>
             <div class="main">
@@ -140,9 +141,92 @@ const USERINFO = ref("enum_userinfo")
 const BORROW = ref("enum_borrow")
 const selectedTab = ref("enum_userinfo")
 const keepborrow = ref(false)
+const keepdate = ref([])
 const avatar = ref('/assets/img/avatar.png')
-const borrowRecords = ref([])
-const orderRecords = ref([])
+const borrowRecords = ref([
+{
+            "bookName": "计算机体系结构",
+            "bookNumber": "1",
+            "borrowDate": "2023-12-27",
+            "returnDate": "2024-1-27"
+        },
+        {
+            "bookName": "算法导论",
+            "bookNumber": "2",
+            "borrowDate": "2023-12-25",
+            "returnDate": "2024-1-25"
+        },
+        {
+            "bookName": "计算机网络",
+            "bookNumber": "3",
+            "borrowDate": "2023-3-27",
+            "returnDate": "2023-4-27"
+        },
+        {
+            "bookName": "计算机图形学",
+            "bookNumber": "6",
+            "borrowDate": "2023-5-2",
+            "returnDate": "2023-6-2"
+        }
+])
+const orderRecords = ref([
+{
+        "userName": "钱璟丰",
+        "userOrder": "计算机体系结构",
+        "userOrdertime": "2023-12-27",
+        "userMail": "2055318980@qq.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "小明",
+        "userOrder": "计算机图形学",
+        "userOrdertime": "2023-1-2",
+        "userMail": "233465654756@qq.com",
+        "orderNum": "5"
+    },
+    {
+        "userName": "张三",
+        "userOrder": "计算机图形学",
+        "userOrdertime": "2023-12-28",
+        "userMail": "zhangsan@example.com",
+        "orderNum": "3"
+    },
+    {
+        "userName": "李四",
+        "userOrder": "操作系统概念",
+        "userOrdertime": "2023-2-1",
+        "userMail": "lisi@example.com",
+        "orderNum": "2"
+    },
+    {
+        "userName": "王五",
+        "userOrder": "算法设计与分析",
+        "userOrdertime": "2024-1-1",
+        "userMail": "wangwu@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "赵六",
+        "userOrder": "计算机组成与设计",
+        "userOrdertime": "2023-1-15",
+        "userMail": "zhaoliu@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "陈七",
+        "userOrder": "计算机体系结构",
+        "userOrdertime": "2023-12-27",
+        "userMail": "chenqi@example.com",
+        "orderNum": "1"
+    },
+    {
+        "userName": "张十",
+        "userOrder": "数据结构与算法",
+        "userOrdertime": "2023-1-20",
+        "userMail": "zhangshi@example.com",
+        "orderNum": "5"
+    }
+])
 const showModel = ref(false)
 const userInfo = ref({})
 const currentPage = ref(1)
@@ -156,7 +240,7 @@ onMounted(async () => {
 
 // 🚩
 async function get_userInfo() {
-    http.get('/api/userInfo', ).then(response => {
+    http.get('/api/userInfo',).then(response => {
         console.log(response.data)
         const data = response.data.data
         userInfo.value = data
@@ -169,13 +253,15 @@ async function get_userInfo() {
 
 async function getBorrowlist() {
     http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
-        params: {dueTime: null,
-        borrowTime: null,
-        librarianJobNumber: null,
-        bookId: null,
-        state: null,
-        returnTime: null,
-        borrowId: null,},
+        params: {
+            dueTime: null,
+            borrowTime: null,
+            librarianJobNumber: null,
+            bookId: null,
+            state: null,
+            returnTime: null,
+            borrowId: null,
+        },
     }).then(response => {
         console.log(response.data)
         borrowRecords.value = response.data.result.borrowlist
