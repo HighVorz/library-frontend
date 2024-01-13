@@ -355,7 +355,7 @@ import { useAuthStore } from "../script/auth.js"
 // object
 const router = inject('$router')
 const auth = useAuthStore();
-
+http.defaults.headers.common['Authorization'] = auth.token
 
 // data
 const userTotal = ref([
@@ -1008,6 +1008,11 @@ const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtim
 const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
 //lifetime
 onMounted(() => {
+
+    if(router.query.selected){
+        selectedMenu.value = router.query.selected
+    }
+   
     updatePaginatedData();
 });
 

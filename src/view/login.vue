@@ -58,6 +58,7 @@ const password = ref("")
 const http = inject('$http');
 const router = inject('$router')
 
+
 // 🚩
 function signin() {
     // if (!verify_username() || !verify_password()) {
@@ -83,12 +84,12 @@ function signin() {
     })
 };
 
-// 🚩
+
 function signup() {
     router.push("/register");
 };
 
-// 🚩
+
 function verify_username() {
     // 判断是否为空
     if (username.value.length === 0) {
@@ -102,7 +103,7 @@ function verify_username() {
     return true;
 };
 
-// 🚩
+
 function verify_password() {
     if (password.value.length === 0) {
         password_has_error.value = true;
