@@ -21,9 +21,12 @@
         <div class="user-space">
             <div class="sidebar">
                 <ul>
-                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)">用户信息</li>
-                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)">借书情况
+                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)"><i
+                            class="fas fa-user"></i> 用户信息</li>
+                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)"><i class="fas fa-book"></i>
+                        借书情况
                     </li>
+                    <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)">预约情况</li>
                 </ul>
             </div>
             <div class="main">
@@ -64,6 +67,38 @@
                                 <td>
                                     <button @click="returnBook(record.id)" class="retbk">还书</button>
                                     <button @click="keepborrow = true" class="kepbk">续借</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <el-pagination class="pagination-container" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+                        layout="prev, pager, next" :total="borrowRecords.length">
+                    </el-pagination>
+                </div>
+                <div v-else-if="selectedTab === ORDER">
+                    <!-- 这个order要怎么放入 -->
+                    <h2>预约情况</h2>
+                    <!-- 预约情况列表... -->
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>书名</th>
+                                <!-- <th>数量</th> -->
+                                <th>预约时间</th>
+                                <th>还书期限</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="record in paginatedData" :key="record.id">
+                                <td>《{{ record.bookName }}》</td>
+                                <!-- <td>{{ record.bookNumber }}</td> -->
+                                <td>{{ record.borrowDate }}</td>
+                                <td>{{ record.returnDate }}</td>
+                                <td>
+                                    <button @click="orderBook(record.id)" class="retbk">取消预约</button>
+                                    <!-- <button @click="keepborrow = true" class="kepbk">续借</button> -->
                                 </td>
                             </tr>
                         </tbody>
