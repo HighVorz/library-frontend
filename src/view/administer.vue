@@ -273,38 +273,74 @@
                 </div>
             </div>
             <h1 v-if="selectedMenu === 'orders'">预约管理</h1>
+            <!-- 弹窗3-1 -->
+            <div v-if="showModel6" class="Model">
+                <div class="search-container">
+                    <form class="search-form">
+                        <p>用户搜索</p>
+                        <div class="form-group">
+                            <label for="name">用户名:</label>
+                            <input type="text" id="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="bkname">申请书名:</label>
+                            <input type="text" id="bkname" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordertime">申请时间:</label>
+                            <input type="date" id="ordertime" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mail">用户邮箱:</label>
+                            <input type="email" id="mail" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordernum">申请数量:</label>
+                            <input type="number" id="ordernum" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button class="searchbk">查找</button>
+                            <button @click="showModel6 = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div v-if="selectedMenu === 'orders'">
-                <!-- <button class="search-button2" @click="showModel3 = true"><i class="fas fa-search"></i> 搜索一下</button> -->
-                <div class="odimg"></div>
-                <table>
-                    <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
-                        <td>用户名</td>
-                        <td>申请书名</td>
-                        <td>申请时间</td>
-                        <td>用户邮箱</td>
-                        <td>申请数量</td>
-                        <!-- <td>借阅状态</td> -->
-                        <td>操作:满足预约 / 取消预约</td>
-                    </tr>
-                    <tr v-for="item in paginatedData3">
-                        <td>{{ item.userName }}</td>
-                        <td>{{ item.userOrder }}</td>
-                        <td>{{ item.userOrdertime }}</td>
-                        <td>{{ item.userMail }}</td>
-                        <!-- <td>{{ item.bookNumber }}</td> -->
-                        <td>{{ item.orderNum }}</td>
-                        <td>
-                            <form action="" @submit="handleSubmit">
-                                <button class="act satis" @click="">满足预约</button>&nbsp&nbsp&nbsp<button
-                                    class="act del" @click="deleteItem(item)">取消预约</button>
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-                <el-pagination class="pagination-container" @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-                    layout="prev, pager, next" :total="orderTotal.length">
-                </el-pagination>
+                <button class="search-button" @click="showModel6 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <div class="container">
+                    <div class="odimg"></div>
+                    <table>
+                        <tr style="font-weight: bold;background-color: rgba(59, 215, 59, 0.5);">
+                            <td>用户名</td>
+                            <td>申请书名</td>
+                            <td>申请时间</td>
+                            <td>用户邮箱</td>
+                            <td>申请数量</td>
+                            <!-- <td>借阅状态</td> -->
+                            <td>操作:同意 / 取消</td>
+                        </tr>
+                        <tr v-for="item in paginatedData3">
+                            <td>{{ item.userName }}</td>
+                            <td>{{ item.userOrder }}</td>
+                            <td>{{ item.userOrdertime }}</td>
+                            <td>{{ item.userMail }}</td>
+                            <!-- <td>{{ item.bookNumber }}</td> -->
+                            <td>{{ item.orderNum }}</td>
+                            <td>
+                                <form action="" @submit="handleSubmit">
+                                    <button class="act satis" @click="">同意</button>&nbsp&nbsp&nbsp<button class="act del"
+                                        @click="deleteItem(item)">取消</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <el-pagination class="pagination-container" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+                        layout="prev, pager, next" :total="orderTotal.length">
+                    </el-pagination>
+                </div>
             </div>
             <h1 v-if="selectedMenu === 'exit'">退出系统</h1>
         </div>
@@ -958,6 +994,7 @@ const showModel2 = ref(false)
 const showModel3 = ref(false)
 const showModel4 = ref(false)
 const showModel5 = ref(false)
+const showModel6 = ref(false)
 const currentPage = ref(1)
 const pageSize = ref(7)
 const paginatedData = ref([])
@@ -969,17 +1006,17 @@ onMounted(() => {
 });
 
 // 🚩
-function getBorrowBookList(){
-    
-}
-
-// 🚩
-function updataBorrowBookList(){
+function getBorrowBookList() {
 
 }
 
 // 🚩
-function deleteBorrowBookList(){
+function updataBorrowBookList() {
+
+}
+
+// 🚩
+function deleteBorrowBookList() {
 
 }
 
@@ -1269,7 +1306,7 @@ hr {
     background-color: rgba(97, 40, 167, 1);
 }
 
-.satis{
+.satis {
     color: white;
     background-color: rgba(231, 79, 79, 0.7);
 }
