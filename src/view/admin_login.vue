@@ -58,6 +58,7 @@ const password = ref("")
 const auth = useAuthStore();
 const http = inject('$http');
 const router = inject('$router')
+// need to be set cause refresh
 http.defaults.headers.common['Authorization'] = auth.token
 
 function signin() {
@@ -71,9 +72,7 @@ function signin() {
         console.log("signin: ", response.data)
         if (response.data.msg === "Success") {
             const data = response.data.data;
-            auth.login(data.userinfo, data.token)
-
-            http.defaults.headers.common['Authorization'] = auth.token
+            auth.login(data.userinfo, data.token, 'admin')
             console.log("http.header.token:", http.defaults.headers.common['Authorization'])
 
             // go to administer

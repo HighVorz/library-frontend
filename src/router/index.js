@@ -86,6 +86,7 @@ const router = createRouter({
             meta: {
                 title: '后台管理界面',
                 requiresAuth: true,
+                type: "admin",
             }
         },
         {
@@ -95,6 +96,7 @@ const router = createRouter({
             meta: {
                 title: '用户管理',
                 requiresAuth: true,
+                type: "admin",
             }
         },
         {
@@ -113,6 +115,7 @@ const router = createRouter({
             meta: {
                 title: '用户空间',
                 requiresAuth: true,
+                type: "user",
             }
         },
         {
@@ -130,7 +133,8 @@ const router = createRouter({
             component: BookManagement,
             meta: {
                 title: '图书管理',
-                requiresAuth: true
+                requiresAuth: true,
+                type: "admin",
             }
         },
         {
@@ -147,11 +151,16 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
-    const isAuthenticated = !!authStore.userInfo;
 
-    if(to.meta.requiresAuth && !isAuthenticated){
+    const identity = authStore.identity
+
+    // admin
+    if(to.meta.requiresAuth && to.meta.type !== identity){
         sessionStorage.setItem('redirectPath', to.fullPath)
-        next({name: 'login'});
+        if(to.meta.requiresAuth === 'admin')
+            next({name: 'admin_login'});
+        if(to.meta.requiresAuth === 'user')
+            next({name: 'login'})
     }
     else{
         next();

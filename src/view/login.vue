@@ -70,7 +70,7 @@ function signin() {
         console.log("signin: ", response.data)
         if (response.data.msg === "Success") {
             const data = response.data.data;
-            auth.login(data.userinfo, data.token)
+            auth.login(data.userinfo, data.token, 'user')
 
             http.defaults.headers.common['Authorization'] = auth.token
             console.log("http.header.token:", http.defaults.headers.common['Authorization'])
