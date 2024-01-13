@@ -13,6 +13,7 @@
                     <button class="form-button keep-btn" @click.prevent="keepBook">续借</button>
                     <button class="form-button" @click="showChoose = false">关闭</button>
                 </div>
+                <p class="orderbk">数量不够?<a @click="secondorder = true">点击预约</a></p>
             </form>
         </div>
     </div>
@@ -32,10 +33,23 @@
     <div v-if="secondkeep" class="Model2-1">
         <div class="search-container2-1">
             <form class="search-form2-1">
-                <input type="date" class="userbr" v-model="brnum" required>
+                <input type="date" class="userbr" v-model="brdate" required>
                 <div class="funcbutton">
                     <button class="form-button keep-btn" @click="keepBookfin">续借</button>
                     <button class="form-button" @click="secondkeep = false">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹窗二-3 -->
+    <div v-if="secondorder" class="Model2-1">
+        <div class="search-container2-1">
+            <form class="search-form2-1">
+                <input type="number" class="userod" v-model="ornum"  placeholder="请输入预约个数..." required>
+                <div class="funcbutton">
+                    <button class="form-button order-btn" @click="orderBookfin">预约</button>
+                    <button class="form-button" @click="secondorder = false">关闭</button>
                 </div>
             </form>
         </div>
@@ -96,12 +110,14 @@
 <script setup>
 // import { ElPagination } from 'element-plus';
 import { ref, onMounted } from 'vue';
-const showModel = ref(false)
 const showChoose = ref(false)
 const secondborrow = ref(false)
 const secondkeep = ref(false)
+const secondorder = ref(false)
 const isFocused = ref(false)
 const brnum = ref('')
+const brdate = ref('')
+const ornum = ref('')
 const selectedBook = ref([])
 // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
 const bookTotal = ref([
@@ -919,7 +935,7 @@ td {
     width: 100%;
     margin: auto;
     border: none;
-    margin-top: 8%;
+    margin-top: 6%;
 }
 
 .search-form2 {
@@ -1018,12 +1034,33 @@ button:hover {
     background-color: #1e7e34;
 }
 
+.order-btn {
+    background-color: #e47a18;
+}
+
+.order-btn:hover {
+    background-color: #a45d1b;
+}
 .keep-btn {
     background-color: #ffc107;
 }
 
 .keep-btn:hover {
     background-color: #d39e00;
+}
+.orderbk {
+    margin-top: 15px;
+    margin-bottom: 0px;
+    font-size: small;
+}
+
+.orderbk a {
+    color: #007bff;
+    text-decoration: none;
+}
+.orderbk a:hover{
+    color: #155faf;
+    text-decoration: underline;
 }
 
 .Model2-1 {
@@ -1075,7 +1112,8 @@ button:hover {
     background-color: #0276ea;
 }
 
-.userbr {
+.userbr,
+.userod {
     width: 80%;
     text-align: center;
     height: 40px;

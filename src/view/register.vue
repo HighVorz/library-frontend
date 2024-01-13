@@ -11,7 +11,11 @@
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
             <div class="form_user_field">
-                <input type="text" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
+                <input type="tel" class="mail_input" v-model="userphone" placeholder="请输入手机号...">
+                <p v-if="phoneError" class="error" style="font-size: small;color: red;position: absolute;">手机号不能为空</p>
+            </div>
+            <div class="form_user_field">
+                <input type="email" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
             <div class="form_user_field">
@@ -47,6 +51,7 @@ const router = inject('$router')
 const form_title = ref("form_title")
 const username = ref('')
 const useremail = ref('')
+const userphone = ref('')
 const password = ref('')
 const usernameError = ref(false)
 const emailError = ref(false)
@@ -133,7 +138,7 @@ function register() {
     color: #64f625;
     text-align: center;
     padding-bottom: 10px;
-    margin: 30px 0px 40px 0px;
+    margin: 30px 0px 15px 0px;
     position: relative;
 }
 

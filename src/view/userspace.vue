@@ -21,9 +21,12 @@
         <div class="user-space">
             <div class="sidebar">
                 <ul>
-                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)">用户信息</li>
-                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)">借书情况
+                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)"><i
+                            class="fas fa-user"></i> 用户信息</li>
+                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)"><i class="fas fa-book"></i>
+                        借书情况
                     </li>
+                    <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)">预约情况</li>
                 </ul>
             </div>
             <div class="main">
@@ -73,6 +76,38 @@
                         layout="prev, pager, next" :total="borrowRecords.length">
                     </el-pagination>
                 </div>
+                <div v-else-if="selectedTab === ORDER">
+                    <!-- 这个order要怎么放入,以下都是用来放用户预约列表的 -->
+                    <h2>预约情况</h2>
+                    <!-- 预约情况列表... -->
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>书名</th>
+                                <!-- <th>数量</th> -->
+                                <th>预约时间</th>
+                                <th>预约数量</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="record in paginatedData" :key="record.id">
+                                <td>《{{ record.bookName }}》</td>
+                                <!-- <td>{{ record.bookNumber }}</td> -->
+                                <td>{{ record.orderDate }}</td>
+                                <td>{{ record.orderNum }}</td>
+                                <td>
+                                    <button @click="orderBook(record.id)" class="odbk">取消预约</button>
+                                    <!-- <button @click="keepborrow = true" class="kepbk">续借</button> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <el-pagination class="pagination-container" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+                        layout="prev, pager, next" :total="orderRecords.length">
+                    </el-pagination>
+                </div>
                 <!-- 弹窗代码 -->
                 <div v-if="showModel" class="modal">
                     <div class="modal-content">
@@ -106,11 +141,13 @@ const selectedTab = ref("enum_userinfo")
 const keepborrow = ref(false)
 const avatar = ref('/assets/img/avatar.png')
 const borrowRecords = ref([])
+const orderRecords = ref([])
 const showModel = ref(false)
 const userInfo = ref({})
 const currentPage = ref(1)
 const pageSize = ref(6)
-const paginatedData = ref([]);
+const paginatedData = ref([])
+const paginatedData2 = ref([])
 
 onMounted(async () => {
     await get_userInfo()
@@ -197,8 +234,9 @@ function updatePaginatedData() {
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
     paginatedData.value = borrowRecords.value.slice(start, end);
-    console.log("----");
-    console.log(paginatedData.value);
+    paginatedData2.value = orderRecords.value.slice(start, end);
+    // console.log("----");
+    // console.log(paginatedData.value);
 }
 </script>
 
@@ -383,6 +421,14 @@ input[type="file"] {
 
 .kepbk:hover {
     background-color: rgba(139, 26, 157, 1);
+}
+
+.odbk {
+    background-color: rgba(19, 129, 231, 0.7);
+}
+
+.odbk:hover {
+    background-color: rgba(19, 129, 231, 1);
 }
 
 @keyframes bounce {
