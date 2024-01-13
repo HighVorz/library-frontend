@@ -8,7 +8,7 @@
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
                             class="fas fa-users"></i> 管理用户</button></li>
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="selectedMenu = 'orders'"><i
-                            class="fas fa-users"></i> 管理预约</button></li>
+                            class="fas fa-calendar-check"></i> 管理预约</button></li>
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
@@ -890,7 +890,7 @@ const bookTotal = ref([{
     "bookLocate": "图书馆借阅室"
 },])
 const orderTotal = ref([
-{
+    {
         "userName": "钱璟丰",
         "userOrder": "计算机体系结构",
         "userOrdertime": "2023-12-27",
