@@ -21,19 +21,19 @@
         <div class="user-space">
             <div class="sidebar">
                 <ul>
-                    <li :class="{ selected: selectedTab === USERINFO }" @click="select(USERINFO)"><i
+                    <li :class="{ selected: selectedTab === 'userinfo' }" @click="select('userinfo')"><i
                             class="fas fa-user"></i> 用户信息</li>
-                    <li :class="{ selected: selectedTab === BORROW }" @click="select(BORROW)"><i class="fas fa-book"></i>
+                    <li :class="{ selected: selectedTab === 'borrow' }" @click="select('borrow')"><i class="fas fa-book"></i>
                         借书情况
                     </li>
-                    <li :class="{ selected: selectedTab === ORDER }" @click="select(ORDER)"><i
+                    <li :class="{ selected: selectedTab === 'order' }" @click="select('order')"><i
                             class="fas fa-calendar-check"></i> 预约情况</li>
                 </ul>
             </div>
             <div class="main">
-                <div v-if="selectedTab === USERINFO">
+                <div v-if="selectedTab === 'userinfo'">
                     <div class="avatar-section">
-                        <img class="avatar-img" :src="avatar" :title="$route.query.username + '的头像'"
+                        <img class="avatar-img" :src="userInfo.avatar" alt="头像"
                             @click="showModel = true">
                     </div>
                     <div class="basicinfo">
@@ -46,7 +46,7 @@
                         <button class="form-button exit-btn" @click="exit">退出</button>
                     </div>
                 </div>
-                <div v-else-if="selectedTab === BORROW">
+                <div v-else-if="selectedTab === 'borrow'">
                     <h2>借书情况</h2>
                     <!-- 借书情况列表... -->
                     <table class="styled-table">
@@ -77,7 +77,7 @@
                         layout="prev, pager, next" :total="borrowRecords.length">
                     </el-pagination>
                 </div>
-                <div v-else-if="selectedTab === ORDER">
+                <div v-else-if="selectedTab === 'order'">
                     <!-- 这个order要怎么放入,以下都是用来放用户预约列表的 -->
                     <h2>预约情况</h2>
                     <!-- 预约情况列表... -->
@@ -109,14 +109,19 @@
                         layout="prev, pager, next" :total="orderRecords.length">
                     </el-pagination>
                 </div>
+
+
                 <!-- 弹窗代码 -->
                 <div v-if="showModel" class="modal">
                     <div class="modal-content">
                         <span class="close" @click="showModel = false">&times;</span>
                         <p>请点击以下按钮选择一个新的头像：</p>
-                        <input type="file" @change="onFileChange">
+                        <input type="file" id="input-avatar">
+                        <button @click="submit_avatar">提交</button>
                     </div>
                 </div>
+
+
             </div>
         </div>
 
@@ -137,41 +142,38 @@ const http = inject('$http');
 http.defaults.headers.common['Authorization'] = auth.token
 
 // data
-const USERINFO = ref("enum_userinfo")
-const BORROW = ref("enum_borrow")
-const ORDER = ref("enum_order")
-const selectedTab = ref("enum_userinfo")
+const selectedTab = ref("userinfo")
 const keepborrow = ref(false)
 const keepdate = ref([])
-const avatar = ref('/assets/img/avatar.png')
+// const avatar = ref('/assets/img/avatar.png')
 const borrowRecords = ref([
-{
-            "bookName": "计算机体系结构",
-            "bookNumber": "1",
-            "borrowDate": "2023-12-27",
-            "returnDate": "2024-1-27"
-        },
-        {
-            "bookName": "算法导论",
-            "bookNumber": "2",
-            "borrowDate": "2023-12-25",
-            "returnDate": "2024-1-25"
-        },
-        {
-            "bookName": "计算机网络",
-            "bookNumber": "3",
-            "borrowDate": "2023-3-27",
-            "returnDate": "2023-4-27"
-        },
-        {
-            "bookName": "计算机图形学",
-            "bookNumber": "6",
-            "borrowDate": "2023-5-2",
-            "returnDate": "2023-6-2"
-        }
+    {
+        "bookName": "计算机体系结构",
+        "bookNumber": "1",
+        "borrowDate": "2023-12-27",
+        "returnDate": "2024-1-27"
+    },
+    {
+        "bookName": "算法导论",
+        "bookNumber": "2",
+        "borrowDate": "2023-12-25",
+        "returnDate": "2024-1-25"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookNumber": "3",
+        "borrowDate": "2023-3-27",
+        "returnDate": "2023-4-27"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookNumber": "6",
+        "borrowDate": "2023-5-2",
+        "returnDate": "2023-6-2"
+    }
 ])
 const orderRecords = ref([
-{
+    {
         "userName": "钱璟丰",
         "userOrder": "计算机体系结构",
         "userOrdertime": "2023-12-27",
@@ -236,19 +238,10 @@ const paginatedData = ref([])
 const paginatedData2 = ref([])
 
 onMounted(async () => {
-    await get_userInfo()
+    await getUserInfo()
 });
 
-// 🚩
-async function get_userInfo() {
-    http.get('/api/userInfo',).then(response => {
-        console.log(response.data)
-        const data = response.data.data
-        userInfo.value = data
-    }).catch(error => {
-        console.log(error);
-    });
-}
+
 
 
 
@@ -263,30 +256,34 @@ function getBorrowlist() {
             returnTime: null,
             borrowId: null,
         },
-    }).then( async response =>  {
+    }).then(async response => {
         console.log(response.data)
         borrowRecords.value = response.data.result.borrowlist
-        
+
         console.log('execute updatePaginatedData');
 
     }).catch(error => console.log(error))
 };
 
+// ui
 function select(tab) {
     selectedTab.value = tab
-    if (tab === BORROW.value) {
-        getBorrowlist()
+    if (tab === 'borrow') {
+        getBorrowBookListReader()
     }
 
-    if(tab === ORDER.value){
+    if (tab === 'order') {
         updatePaginatedData();
-        getOrderlist()
+        getReservationReader()
     }
 };
 
-function returnBook(id) {
-    alert("还书成功");
-};
+function submit_avatar(){
+    updateAvatar()
+    showModel.value = false
+}
+
+
 
 function onFileChange(e) {
     const file = e.target.files[0];
@@ -325,6 +322,177 @@ async function updatePaginatedData() {
     // console.log("----");
     // console.log(paginatedData.value);
 }
+
+// region request
+
+
+// user - borrow
+
+function borrowBook() {
+    const path = '/api/bookBorrow/borrowBook?isbn=9786269736676&borrowNum=1'
+    const body = {
+        "dueTime": "2024-01-15T22:18:26.625Z",
+        "librarianJobNumber": 1,
+        "readerId": 1,
+        "bookId": 1
+    }
+    http.post(path, body)
+        .then(response => {
+            console.log("borrowBook: ", response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+function returnBook() {
+    const path = '/api/bookBorrow/returnBook?borrowId=2'
+
+    http.post(path)
+        .then(response => {
+            console.log("returnBook: ", response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+function getBorrowBookListReader() {
+    const path = '/api/bookBorrow/getBorrowBookList?page=1&pageSize=10'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": null,
+        "bookId": null,
+        "state": null,
+        "returnTime": null,
+        "borrowId": null
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('getBorrowBookListReader: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+// user - account
+// 🚩
+
+
+function getUserInfo() {
+    http.get('api/userInfo')
+        .then(response => {
+            console.log("getUserInfo: ", response.data)
+            const data = response.data.data
+            userInfo.value = data
+        })
+        .catch(error => {
+            console.log("getUserInfo request fail: ", error)
+        })
+}
+
+
+function updateAvatar() {
+    var fileInput = document.getElementById('input-avatar');
+    var file = fileInput.files[0];
+    console.log(file)
+    var formData = new FormData();
+    formData.append('file', file);
+
+    http.post('/api/updateAvatar', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(response => {
+        console.log("updateAvatar: ", response.data)
+        userInfo.value.avatar = response.data.data.url
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+// user - reservation
+
+function addReservationReader() {
+    http.post('/api/Reservation/addReservationReader', {
+        "reservationTime": null,
+        "reservationDeadline": "2024-01-15T22:18:26.625Z",
+        "librarianJobNumber": 1,
+        "isbn": "9786263495630"
+    }).then(response => {
+        console.log("addReservationReader: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function getReservationReader() {
+    http.post('/api/Reservation/getReservationReader?page=1&pageSize=10', {
+        "reservationId": null,
+        "reservationTime": null,
+        "reservationDeadline": null,
+        "librarianJobNumber": null,
+        "isbn": null,
+        "state": null
+    }).then(response => {
+        console.log("getReservationReader: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function deleteReservationReader() {
+    http.get('/api/Reservation/deleteReservationReader?reservationId=1')
+        .then(response => {
+            console.log("deleteReservationReader: ", response.data)
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+// user - bookinfo
+
+function getBook_reader() {
+    http.post('/api/bookInfo/getBook?page=1&pageSize=10', {
+        "isbn": null,
+        "location": null,
+        "state": null,
+        "id": null
+    }).then(response => {
+        console.log("getBook_reader: ", response.data)
+    }).catch(error => {
+        console.log("getBook_reader request fail", error)
+    })
+}
+
+
+// user - bookcatalog
+function queryBookCatalog() {
+    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=10', {
+        "bookName": null,
+        "author": null,
+        "publisher": null,
+        "publishDate": null,
+        "isbn": null,
+        "unitPrice": null
+    }).then(response => {
+        console.log("queryBookCatalog: ", response.data)
+        if (response.data.msg === 'Success') {
+
+        }
+        else {
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+// endregion
+
 </script>
 
 <style scoped>

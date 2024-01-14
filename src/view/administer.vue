@@ -3,18 +3,18 @@
         <div class="sidebar">
             <h2><i class="fas fa-user-tie"></i> 图书管理员</h2>
             <ul>
-                <li><button :class="{ selected: selectedMenu === 'books' }" @click="selectedMenu = 'books'"><i
+                <li><button :class="{ selected: selectedMenu === 'books' }" @click="select_menu('books')"><i
                             class="fas fa-book"></i> 书目详情</button></li>
-                <li><button :class="{ selected: selectedMenu === 'users' }" @click="selectedMenu = 'users'"><i
+                <li><button :class="{ selected: selectedMenu === 'users' }" @click="select_menu('users')"><i
                             class="fas fa-users"></i> 借阅情况</button></li>
-                <li><button :class="{ selected: selectedMenu === 'orders' }" @click="selectedMenu = 'orders'"><i
+                <li><button :class="{ selected: selectedMenu === 'orders' }" @click="select_menu('orders')"><i
                             class="fas fa-calendar-check"></i> 预约情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
         </div>
         <div class="content">
-            <h1 v-if="selectedMenu === 'books'">书目管理</h1>
+           
             <!-- 弹窗1 -->
             <div v-if="showModel3" class="Model">
                 <div class="search-container">
@@ -159,7 +159,7 @@
                     layout="prev, pager, next" :total="bookTotal.length">
                 </el-pagination>
             </div>
-            <h1 v-if="selectedMenu === 'users'">用户管理</h1>
+            
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
                 <div class="search-container">
@@ -272,7 +272,7 @@
                     </el-pagination>
                 </div>
             </div>
-            <h1 v-if="selectedMenu === 'orders'">预约管理</h1>
+            
             <!-- 弹窗3-1 -->
             <div v-if="showModel6" class="Model">
                 <div class="search-container">
@@ -1008,30 +1008,33 @@ const searchuser = ref({username:'',userborrow:'',borrownum:'',userborrowtime:''
 const modifybkinfo = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
 const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
 const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
+
 //lifetime
 onMounted(() => {
    
     updatePaginatedData();
 });
 
-// 🚩
-function getBorrowBookList() {
+// ui
+function select_menu(str){
+    selectedMenu.value = str
 
+    if(str === 'books'){
+
+    }
+
+    if(str === 'users'){
+
+    }
+
+    if(str === 'orders'){
+        
+    }
 }
 
-// 🚩
-function updataBorrowBookList() {
-
-}
-
-// 🚩
-function deleteBorrowBookList() {
-
-}
-
-
+// nav
 function exit() {
-    auth.logout()
+    auth.logout() 
     router.replace('/admin_login')
 }
 
@@ -1140,6 +1143,267 @@ function reset(obj) {
         obj[key] = '';
     });
 }
+
+
+// #region request
+
+// administer - Account
+function getAllReader() {
+    http.get('/api/admin/getAllReader?page=1&pageSize=10')
+        .then(response => {
+            console.log("getAllReader: ", response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function deleteReader() {
+
+    const config = {
+        params: {
+            id: 11
+        }
+    }
+
+    http.get('/api/admin/deleteReader', config)
+        .then(response => {
+            console.log("deleteReader: ", response.data)
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+
+
+function updateReader() {
+
+    const body = {
+        name: "zhangsan",
+        telephoneNumber: "1103",
+        email: "1256852079@shu.edu.cn",
+        id: 11
+    }
+
+    http.post('/api/admin/updateReader', body).then(response => {
+        console.log("updateReader: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+// administer - bookinfo
+
+function getBook_admin() {
+    http.post('/api/bookInfo/admin/getBookInfo?page=1&pageSize=10', {
+        "isbn": null,
+        "location": null,
+        "state": null,
+        "id": null
+    }).then(response => {
+        console.log("getBook_admin: ", response.data)
+    }).catch(error => {
+        console.log("getBook_admin request fail", error)
+    })
+}
+
+function addBook_admin() {
+    http.post('/api/bookInfo/admin/addBookInfo', {
+        "isbn": "9786263495630",
+        "location": "图书流通室"
+    }).then(response => {
+        console.log("addBook_admin: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function updateBook_admin() {
+    http.post('/api/bookInfo/admin/updateBookInfo', {
+        "location": null,
+        "id": 35,
+        "librarianJobNumber": 2
+    }).then(response => {
+        console.log("updateBook_admin: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function deleteBook_admin() {
+    http.post('/api/bookInfo/admin/deleteBookInfo', {
+        "isbn": "9789577627452",
+        "location": null,
+        "state": null,
+        "id": null
+    }).then(response => {
+        console.log("deleteBook_admin: ", response.data)
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+
+// administer - BookCatalog
+
+function addBookCatalog() {
+    http.post('/api/bookCatalog/admin/addBookCatalog', {
+        bookName: "我家有個小小哲學家",
+        author: "史考特.赫修維茲",
+        publisher: "采實文化",
+        publishDate: null,
+        isbn: "9786263495630",
+        unitPrice: null
+    }).then(response => {
+        console.log("addBookCatalog: ", response.data)
+        if (response.data.msg === 'Success') {
+
+        }
+        else {
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function deleteBookCatalog() {
+    http.get('/api/bookCatalog/admin/deleteBookCatalog?isbn=9789577627452')
+        .then(response => {
+            console.log("deleteBookCatalog: ", response.data)
+            if (response.data.msg === 'Success') {
+
+            }
+            else {
+                console.log(response.data.msg)
+            }
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+function modifyBookCatalog() {
+    http.post('/api/bookCatalog/admin/modifyBookCatalog', {
+        "bookName": "窗裡有什麼? ",
+        "author": "卡特琳娜.葛蕾克",
+        "publisher": "上誼文化",
+        "publishDate": "",
+        "isbn": "9789577627452",
+        "unitPrice": 20
+    }).then(response => {
+        console.log("modifyBookCatalog: ", response.data)
+        if (response.data.msg === 'Success') {
+
+        }
+        else {
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+function updateBookCatalogCover() {
+
+    var fileInput = document.getElementById('input-cover');
+    var file = fileInput.files[0];
+
+    console.log(file)
+
+    var formData = new FormData();
+    formData.append('file', file);
+
+    http.post('/api/bookCatalog/admin/updateBookCatalogCover?isbn=9789577627452', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(response => {
+        console.log("updateBookCatalogCover: ", response.data)
+        if (response.data.msg === 'Success') {
+            book_cover.value = response.data.data.url
+        }
+        else {
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+// administer - reservation
+
+function addReservation() {
+    const path = '/api/Reservation/admin/addReservation'
+    const body = {
+        "reservationTime": "2016-03-09T22:18:26.625Z",
+        "reservationDeadline": "2016-03-15T22:18:26.625Z",
+        "isbn": "9789577627452",
+        "readerId": 1
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('addReservation: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+function deleteReservation() {
+    const path = '/api/Reservation/admin/deleteReservation?reservationId=1'
+
+    http.get(path)
+        .then(response => {
+            console.log('deleteReservation: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+function queryReservation() {
+    const path = '/api/Reservation/admin/queryReservation?page=1&pageSize=10'
+    const body = {
+        "reservationTime": null,
+        "reservationDeadline": null,
+        "isbn": null,
+        "readerId": null,
+        "state": null,
+        "librarianJobNumber": null,
+        "reservationId": null
+    }
+    http.post(path, body)
+        .then(response => {
+            console.log('queryReservation: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+}
+
+function getReservationBook() {
+    const path = '/api/Reservation/admin/getReservationBook'
+
+    const body = {
+        "dueTime": "2024-01-15T22:18:26.625Z",
+        "readerId": 11,
+        "isbn": 121
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('getReservationBook: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+// #endregion
+
+
 </script>
   
 <style scoped>

@@ -159,18 +159,50 @@ function click_borrowlist() {
 }
 
 // administer - borrow
-
-// 🚩
 function getBorrowBookList() {
+    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=10'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": null,
+        "bookId": null,
+        "state": null,
+        "readerId": null,
+        "returnTime": null,
+        "borrowId": null
+    }
 
+    http.post(path, body)
+        .then(response => {
+            console.log('getBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
 
-// 🚩
+
 function updataBorrowBookList() {
+    const path = '/api/bookBorrow/admin/updateBorrowBookList'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": 1,
+        "state": null,
+        "returnTime": null,
+        "borrowId": 2
+    }
 
+    http.post(path, body)
+        .then(response => {
+            console.log('updataBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
 
-// 🚩
+
 function deleteBorrowBookList() {
     const body = {
         dueTime: null,
@@ -189,53 +221,6 @@ function deleteBorrowBookList() {
         })
 }
 
-// User - Account
-
-// 🚩
-function getAllReader() {
-    http.get('/api/admin/getAllReader?page=1&pageSize=10')
-        .then(response => {
-            console.log("getAllReader: ", response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-}
-
-// 🚩
-function deleteReader() {
-
-    const config = {
-        params: {
-            id: 11
-        }
-    }
-
-    http.get('/api/admin/deleteReader', config)
-        .then(response => {
-            console.log("deleteReader: ", response.data)
-        }).catch(error => {
-            console.log(error)
-        })
-}
-
-
-// 🚩
-function updateReader() {
-
-    const body = {
-        name: "zhangsan",
-        telephoneNumber: "1103",
-        email: "1256852079@shu.edu.cn",
-        id: 11
-    }
-
-    http.post('/api/admin/updateReader', body).then(response => {
-        console.log("updateReader: ", response.data)
-    }).catch(error => {
-        console.log(error)
-    })
-}
 
 // user - borrow
 
@@ -291,7 +276,7 @@ function getBorrowBookListReader() {
 
 // user - account
 
-// 🚩
+
 function getUserInfo() {
     http.get('api/userInfo')
         .then(response => {
@@ -302,7 +287,7 @@ function getUserInfo() {
         })
 }
 
-// 🚩
+
 function updateAvatar() {
 
     var fileInput = document.getElementById('input-avatar');
@@ -326,7 +311,7 @@ function updateAvatar() {
 }
 
 // user - reservation
-// 🚩
+
 function addReservationReader() {
     http.post('/api/Reservation/addReservationReader', {
         "reservationTime": null,
@@ -376,6 +361,76 @@ function getBook_reader() {
         console.log("getBook_reader: ", response.data)
     }).catch(error => {
         console.log("getBook_reader request fail", error)
+    })
+}
+
+
+// user - bookcatalog
+function queryBookCatalog() {
+    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=10', {
+        "bookName": null,
+        "author": null,
+        "publisher": null,
+        "publishDate": null,
+        "isbn": null,
+        "unitPrice": null
+    }).then(response => {
+        console.log("queryBookCatalog: ", response.data)
+        if (response.data.msg === 'Success') {
+
+        }
+        else {
+            console.log(response.data.msg)
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+
+
+// administer - Account
+function getAllReader() {
+    http.get('/api/admin/getAllReader?page=1&pageSize=10')
+        .then(response => {
+            console.log("getAllReader: ", response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function deleteReader() {
+
+    const config = {
+        params: {
+            id: 11
+        }
+    }
+
+    http.get('/api/admin/deleteReader', config)
+        .then(response => {
+            console.log("deleteReader: ", response.data)
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+
+
+function updateReader() {
+
+    const body = {
+        name: "zhangsan",
+        telephoneNumber: "1103",
+        email: "1256852079@shu.edu.cn",
+        id: 11
+    }
+
+    http.post('/api/admin/updateReader', body).then(response => {
+        console.log("updateReader: ", response.data)
+    }).catch(error => {
+        console.log(error)
     })
 }
 
@@ -432,7 +487,7 @@ function deleteBook_admin() {
 
 
 // administer - BookCatalog
-// 🚩
+
 function addBookCatalog() {
     http.post('/api/bookCatalog/admin/addBookCatalog', {
         bookName: "我家有個小小哲學家",
@@ -508,28 +563,6 @@ function updateBookCatalogCover() {
         console.log("updateBookCatalogCover: ", response.data)
         if (response.data.msg === 'Success') {
             book_cover.value = response.data.data.url
-        }
-        else {
-            console.log(response.data.msg)
-        }
-    }).catch(error => {
-        console.log(error)
-    })
-}
-
-// user - bookcatalog
-function queryBookCatalog() {
-    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=10', {
-        "bookName": null,
-        "author": null,
-        "publisher": null,
-        "publishDate": null,
-        "isbn": null,
-        "unitPrice": null
-    }).then(response => {
-        console.log("queryBookCatalog: ", response.data)
-        if (response.data.msg === 'Success') {
-
         }
         else {
             console.log(response.data.msg)
