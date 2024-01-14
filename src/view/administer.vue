@@ -14,7 +14,6 @@
                             class="fas fa-users"></i> 借阅情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="select_menu('orders')"><i
                             class="fas fa-calendar-check"></i> 预约情况</button></li>
-
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
@@ -65,6 +64,7 @@
                 <div class="search-container">
                     <form class="search-form4" @submit.prevent="">
                         <p>添加图书</p>
+                        <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
                             <input type="text" id="name" class="form-control" v-model="addbook.bookname">
@@ -93,14 +93,6 @@
                             <label for="manager">经办人:</label>
                             <input type="text" id="manager" class="form-control" v-model="addbook.manager">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="restbk">册数:</label>
-                            <input type="number" id="restbk" class="form-control" v-model="addbook.number">
-                        </div> -->
-                        <!-- <div class="form-group">
-                            <label for="status">借阅状态:</label>
-                            <input type="text" id="status" class="form-control" v-model="addbook.status">
-                        </div> -->
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
                             <button class="addbk2" @click="addBookCatalog">添加</button>
@@ -115,6 +107,7 @@
                 <div class="search-container">
                     <form class="search-form3" @submit.prevent="">
                         <p>修改信息</p>
+                        <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
                             <input type="text" id="name" class="form-control" v-model="modifybkinfo.bookname">
@@ -1513,7 +1506,7 @@ hr {
     width: 100%;
     margin: auto;
     border: none;
-    margin-top: 10%;
+    margin-top: 6%;
 }
 
 .search-form,
