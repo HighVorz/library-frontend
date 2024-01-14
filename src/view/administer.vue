@@ -5,6 +5,8 @@
             <ul>
                 <li><button :class="{ selected: selectedMenu === 'books' }" @click="select_menu('books')"><i
                             class="fas fa-book"></i> 书目详情</button></li>
+                <li><button :class="{ selected: selectedMenu === 'stocks' }" @click="select_menu('stocks')"><i
+                            class="fas fa-warehouse"></i> 库存详情</button></li>
                 <li><button :class="{ selected: selectedMenu === 'users' }" @click="select_menu('users')"><i
                             class="fas fa-users"></i> 借阅情况</button></li>
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="select_menu('orders')"><i
@@ -14,7 +16,7 @@
             </ul>
         </div>
         <div class="content">
-           
+
             <!-- 弹窗1 -->
             <div v-if="showModel3" class="Model">
                 <div class="search-container">
@@ -147,7 +149,7 @@
                         <td>{{ item.bookNumber }}</td>
                         <td>{{ item.bookStatus }}</td>
                         <td>
-                            <form action="" @submit="handleSubmit">
+                            <form @submit="handleSubmit">
                                 <button class="act addin" @click="showModel5 = true">修改</button>&nbsp&nbsp&nbsp<button
                                     class="act del" @click="deleteItem(item)">删除</button>
                             </form>
@@ -159,7 +161,72 @@
                     layout="prev, pager, next" :total="bookTotal.length">
                 </el-pagination>
             </div>
-            
+
+            <!-- 弹窗3 -->
+            <div v-if="showModel7" class="Model">
+                <div class="search-container">
+                    <form class="search-form" @submit.prevent="">
+                        <p>库存搜索</p>
+                        <div class="form-group">
+                            <label for="bkname">图书ID:</label>
+                            <input type="text" id="bkname" class="form-control" v-model="searchstock.bookid">
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN号:</label>
+                            <input type="text" id="isbn" class="form-control" v-model="searchstock.bookisbn">
+                        </div>
+                        <div class="form-group">
+                            <label for="loc">存放位置:</label>
+                            <input type="text" id="loc" class="form-control" v-model="searchstock.booklocate">
+                        </div>
+                        <div class="form-group">
+                            <label for="manager">经办人:</label>
+                            <input type="text" id="manager" class="form-control" v-model="searchstock.bookmanager">
+                        </div>
+                        <div class="form-group">
+                            <button class="searchbk" @click="showstockbook()">查找</button>
+                            <button @click="showModel7 = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div v-if="selectedMenu === 'stocks'">
+                <button class="search-button" @click="showModel7 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <div class="container">
+                    <div class="stockimg"></div>
+                    <table>
+                        <tr style="font-weight: bold;background-color: rgba(206, 88, 202, 0.5);">
+                            <td>图书ID</td>
+                            <td>ISBN号</td>
+                            <td>存放位置</td>
+                            <td>状态</td>
+                            <td>经办人</td>
+                            <!-- <td>借阅状态</td> -->
+                            <td>操作:修改 / 删除</td>
+                        </tr>
+                        <tr v-for="item in paginatedData4">
+                            <td>{{ item.userName }}</td>
+                            <td>{{ item.userOrder }}</td>
+                            <td>{{ item.userOrdertime }}</td>
+                            <td>{{ item.userMail }}</td>
+                            <!-- <td>{{ item.bookNumber }}</td> -->
+                            <td>{{ item.orderNum }}</td>
+                            <td>
+                                <form @submit="handleSubmit">
+                                    <button class="act addin" @click="showModel5 = true">修改</button>&nbsp&nbsp&nbsp<button
+                                        class="act del" @click="deleteItem(item)">删除</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <el-pagination class="pagination-container" @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+                        layout="prev, pager, next" :total="stockTotal.length">
+                    </el-pagination>
+                </div>
+            </div>
+
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
                 <div class="search-container">
@@ -212,7 +279,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control"  v-model="modifyuserinfo.borrownum">
+                            <input type="number" id="bknum" class="form-control" v-model="modifyuserinfo.borrownum">
                         </div>
                         <div class="form-group">
                             <label for="time">借书时间:</label>
@@ -272,11 +339,11 @@
                     </el-pagination>
                 </div>
             </div>
-            
+
             <!-- 弹窗3-1 -->
             <div v-if="showModel6" class="Model">
                 <div class="search-container">
-                    <form class="search-form"  @submit.prevent="">
+                    <form class="search-form" @submit.prevent="">
                         <p>预约搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
@@ -562,376 +629,378 @@ const userTotal = ref([
         "userReturntime": "2023-1-20"
     },
 ])
-const bookTotal = ref([{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},])
+const bookTotal = ref([
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "操作系统概念",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "人民邮电出版社",
+        "bookDate": "2023-2-27",
+        "bookStatus": "是",
+        "bookNumber": "5",
+        "bookRef": "/assets/img/操作系统概念.jpg",
+        "bookLocate": "图书馆计算机区"
+    },
+    {
+        "bookName": "数据库系统原理",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-1-2",
+        "bookStatus": "是",
+        "bookNumber": "8",
+        "bookRef": "/assets/img/数据库系统原理.jpg",
+        "bookLocate": "图书馆24小时自助借阅区"
+    },
+    {
+        "bookName": "算法设计与分析",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-7",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/算法设计与分析.jpg",
+        "bookLocate": "图书馆借阅室"
+    },
+    {
+        "bookName": "计算机体系结构",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "1",
+        "bookRef": "/assets/img/计算机体系结构.jpg",
+        "bookLocate": "图书馆1楼"
+    },
+    {
+        "bookName": "算法导论",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "MIT Press",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "2",
+        "bookRef": "/assets/img/算法导论.jpg",
+        "bookLocate": "图书馆2楼"
+    },
+    {
+        "bookName": "计算机网络",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "清华大学出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "3",
+        "bookRef": "/assets/img/计算机网络.jpg",
+        "bookLocate": "图书馆3楼"
+    },
+    {
+        "bookName": "计算机图形学",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "机械工业出版社",
+        "bookDate": "2023-12-27",
+        "bookStatus": "是",
+        "bookNumber": "6",
+        "bookRef": "/assets/img/计算机图形学.jpg",
+        "bookLocate": "图书馆大厅"
+    },
+    {
+        "bookName": "计算机组成与设计",
+        "bookAuthor": "钱璟丰",
+        "bookPublisher": "Morgan Kaufmann",
+        "bookDate": "2023-12-28",
+        "bookStatus": "否",
+        "bookNumber": "0",
+        "bookRef": "/assets/img/计算机组成与设计.jpg",
+        "bookLocate": "图书馆借阅室"
+    }
+])
 const orderTotal = ref([
     {
         "userName": "钱璟丰",
@@ -990,6 +1059,106 @@ const orderTotal = ref([
         "orderNum": "5"
     }
 ])
+const stockTotal = ref([
+    {
+        "bookId": "1",
+        "bookIsbn": "978-7-302-32911-1",
+        "bookLocate": "图书馆1楼",
+        "bookStatus": "是",
+        "bookManager": "01"
+    },
+    {
+        "bookId": "2",
+        "bookIsbn": "978-7-302-32911-2",
+        "bookLocate": "图书馆2楼",
+        "bookStatus": "是",
+        "bookManager": "09"
+    },
+    {
+        "bookId": "3",
+        "bookIsbn": "978-7-302-32911-3",
+        "bookLocate": "图书馆3楼",
+        "bookStatus": "是",
+        "bookManager": "03"
+    },
+    {
+        "bookId": "4",
+        "bookIsbn": "978-7-302-32911-4",
+        "bookLocate": "图书馆大厅",
+        "bookStatus": "是",
+        "bookManager": "06"
+    },
+    {
+        "bookId": "5",
+        "bookIsbn": "978-7-302-32911-5",
+        "bookLocate": "图书馆借阅室",
+        "bookStatus": "否",
+        "bookManager": "04"
+    },
+    {
+        "bookId": "6",
+        "bookIsbn": "978-7-302-32911-6",
+        "bookLocate": "图书馆借阅室",
+        "bookStatus": "是",
+        "bookManager": "08"
+    },
+    {
+        "bookId": "7",
+        "bookIsbn": "978-7-302-32911-7",
+        "bookLocate": "图书馆24小时自助借阅区",
+        "bookStatus": "是",
+        "bookManager": "07"
+    },
+    {
+        "bookId": "1",
+        "bookIsbn": "978-7-302-32911-1",
+        "bookLocate": "图书馆1楼",
+        "bookStatus": "是",
+        "bookManager": "01"
+    },
+    {
+        "bookId": "2",
+        "bookIsbn": "978-7-302-32911-2",
+        "bookLocate": "图书馆2楼",
+        "bookStatus": "是",
+        "bookManager": "09"
+    },
+    {
+        "bookId": "3",
+        "bookIsbn": "978-7-302-32911-3",
+        "bookLocate": "图书馆3楼",
+        "bookStatus": "是",
+        "bookManager": "03"
+    },
+    {
+        "bookId": "4",
+        "bookIsbn": "978-7-302-32911-4",
+        "bookLocate": "图书馆大厅",
+        "bookStatus": "是",
+        "bookManager": "06"
+    },
+    {
+        "bookId": "5",
+        "bookIsbn": "978-7-302-32911-5",
+        "bookLocate": "图书馆借阅室",
+        "bookStatus": "否",
+        "bookManager": "04"
+    },
+    {
+        "bookId": "6",
+        "bookIsbn": "978-7-302-32911-6",
+        "bookLocate": "图书馆借阅室",
+        "bookStatus": "是",
+        "bookManager": "08"
+    },
+    {
+        "bookId": "7",
+        "bookIsbn": "978-7-302-32911-7",
+        "bookLocate": "图书馆24小时自助借阅区",
+        "bookStatus": "是",
+        "bookManager": "07"
+    }
+])
 const selectedMenu = ref('books')
 const showModel = ref(false)
 const showModel2 = ref(false)
@@ -997,44 +1166,46 @@ const showModel3 = ref(false)
 const showModel4 = ref(false)
 const showModel5 = ref(false)
 const showModel6 = ref(false)
+const showModel7 = ref(false)
 const currentPage = ref(1)
-const pageSize = ref(7)
+const pageSize = ref(8)
 const paginatedData = ref([])
 const paginatedData2 = ref([])
 const paginatedData3 = ref([])
-const addbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
-const searchbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',booknumber:''})
-const searchuser = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
-const modifybkinfo = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
-const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
-const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
-
+const paginatedData4 = ref([])
+const addbook = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookstatus: '', booknumber: '' })
+const searchbook = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', booknumber: '' })
+const searchuser = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const modifybkinfo = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookstatus: '', booknumber: '' })
+const modifyuserinfo = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const searchorder = ref({ username: '', userorder: '', userordertime: '', usermail: '', ordernum: '' })
+const searchstock = ref({ bookid: '', bookisbn: '', booklocate: '', bookstatus: '', bookmanager: '' })
 //lifetime
 onMounted(() => {
-   
+
     updatePaginatedData();
 });
 
 // ui
-function select_menu(str){
+function select_menu(str) {
     selectedMenu.value = str
 
-    if(str === 'books'){
+    if (str === 'books') {
 
     }
 
-    if(str === 'users'){
+    if (str === 'users') {
 
     }
 
-    if(str === 'orders'){
-        
+    if (str === 'orders') {
+
     }
 }
 
 // nav
 function exit() {
-    auth.logout() 
+    auth.logout()
     router.replace('/admin_login')
 }
 
@@ -1055,6 +1226,7 @@ function updatePaginatedData() {
     paginatedData.value = userTotal.value.slice(start, end);
     paginatedData2.value = bookTotal.value.slice(start, end);
     paginatedData3.value = orderTotal.value.slice(start, end);
+    paginatedData4.value = stockTotal.value.slice(start, end);
 };
 
 
@@ -1137,6 +1309,15 @@ function showsearchorder() {
     console.log(searchorder.value.usermail);
     console.log(searchorder.value.ordernum);
     reset(searchorder.value);
+}
+function showstockbook() {
+    console.log('搜索成功');
+    console.log(searchstock.value.bookid);
+    console.log(searchstock.value.bookisbn);
+    console.log(searchstock.value.booklocate);
+    console.log(searchstock.value.bookstatus);
+    console.log(searchstock.value.bookmanager);
+    reset(searchstock.value);
 }
 function reset(obj) {
     Object.keys(obj).forEach(key => {
@@ -1515,6 +1696,18 @@ function getReservationBook() {
     z-index: -1;
 }
 
+.stockimg {
+    background-image: url("/assets/img/plead.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5;
+    position: fixed;
+    top: 0;
+    left: 16%;
+    width: 90%;
+    height: 100%;
+    z-index: -1;
+}
 
 .odimg {
     background-image: url("/assets/img/nekoneko.png");
