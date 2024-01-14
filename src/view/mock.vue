@@ -158,68 +158,6 @@ function click_borrowlist() {
         })
 }
 
-// administer - borrow
-function getBorrowBookList() {
-    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=10'
-    const body = {
-        "dueTime": null,
-        "borrowTime": null,
-        "librarianJobNumber": null,
-        "bookId": null,
-        "state": null,
-        "readerId": null,
-        "returnTime": null,
-        "borrowId": null
-    }
-
-    http.post(path, body)
-        .then(response => {
-            console.log('getBorrowBookList', response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-}
-
-
-function updataBorrowBookList() {
-    const path = '/api/bookBorrow/admin/updateBorrowBookList'
-    const body = {
-        "dueTime": null,
-        "borrowTime": null,
-        "librarianJobNumber": 1,
-        "state": null,
-        "returnTime": null,
-        "borrowId": 2
-    }
-
-    http.post(path, body)
-        .then(response => {
-            console.log('updataBorrowBookList', response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-}
-
-
-function deleteBorrowBookList() {
-    const body = {
-        dueTime: null,
-        borrowTime: null,
-        librarianJobNumber: null,
-        state: null,
-        returnTime: null,
-        borrowId: null
-    }
-
-    http.delete('/api/bookBorrow/admin/deleteBorrowBookList', body)
-        .then(response => {
-            console.log(response.data)
-        }).catch(error => {
-            console.log(error)
-        })
-}
 
 
 // user - borrow
@@ -348,6 +286,7 @@ function deleteReservationReader() {
             console.log(error)
         })
 }
+
 
 // user - bookinfo
 
@@ -570,6 +509,70 @@ function updateBookCatalogCover() {
     }).catch(error => {
         console.log(error)
     })
+}
+
+
+// administer - borrow
+function getBorrowBookList() {
+    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=10'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": null,
+        "bookId": null,
+        "state": null,
+        "readerId": null,
+        "returnTime": null,
+        "borrowId": null
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('getBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function updataBorrowBookList() {
+    const path = '/api/bookBorrow/admin/updateBorrowBookList'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": 1,
+        "state": null,
+        "returnTime": null,
+        "borrowId": 2
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('updataBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function deleteBorrowBookList() {
+    const body = {
+        dueTime: null,
+        borrowTime: null,
+        librarianJobNumber: null,
+        state: null,
+        returnTime: null,
+        borrowId: null
+    }
+
+    http.delete('/api/bookBorrow/admin/deleteBorrowBookList', body)
+        .then(response => {
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error)
+        })
 }
 
 // administer - reservation
