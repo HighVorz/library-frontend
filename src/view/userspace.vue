@@ -7,7 +7,7 @@
     <!-- 弹窗-续借 -->
     <div v-if="keepborrow" class="modalself">
         <div class="search-containerself">
-            <form class="search-formself">
+            <form class="search-formself" @submit.prevent="">
                 <input type="Date" class="userbr" v-model="keepdate" required>
                 <div class="funcbutton">
                     <button class="form-button borrow-btn" @click="renewBook(record.id)">续借</button>
@@ -300,6 +300,7 @@ function onFileChange(e) {
 
 function renewBook(id) {
     alert("续借成功");
+    console(keepdate)
 }
 
 function exit() {

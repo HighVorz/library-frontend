@@ -20,10 +20,10 @@
     <!-- 弹窗二-1 -->
     <div v-if="secondborrow" class="Model2-1">
         <div class="search-container2-1">
-            <form class="search-form2-1">
+            <form class="search-form2-1" @submit.prevent="">
                 <input type="number" class="userbr" v-model="brnum" placeholder="请输入借阅个数..." required>
                 <div class="funcbutton">
-                    <button class="form-button borrow-btn" @click="borrowBookfin">借阅</button>
+                    <button class="form-button borrow-btn" @click="borrowBookfin()">借阅</button>
                     <button class="form-button" @click="secondborrow = false">关闭</button>
                 </div>
             </form>
@@ -32,10 +32,10 @@
     <!-- 弹窗二-2 -->
     <div v-if="secondkeep" class="Model2-1">
         <div class="search-container2-1">
-            <form class="search-form2-1">
+            <form class="search-form2-1" @submit.prevent="">
                 <input type="date" class="userbr" v-model="brdate" required>
                 <div class="funcbutton">
-                    <button class="form-button keep-btn" @click="keepBookfin">续借</button>
+                    <button class="form-button keep-btn" @click="keepBookfin()">续借</button>
                     <button class="form-button" @click="secondkeep = false">关闭</button>
                 </div>
             </form>
@@ -45,10 +45,10 @@
     <!-- 弹窗二-3 -->
     <div v-if="secondorder" class="Model2-1">
         <div class="search-container2-1">
-            <form class="search-form2-1">
+            <form class="search-form2-1"  @submit.prevent="">
                 <input type="number" class="userod" v-model="ornum" placeholder="请输入预约个数..." required>
                 <div class="funcbutton">
-                    <button class="form-button order-btn" @click="orderBookfin">预约</button>
+                    <button class="form-button order-btn" @click="orderBookfin()">预约</button>
                     <button class="form-button" @click="secondorder = false">关闭</button>
                 </div>
             </form>
@@ -84,16 +84,16 @@
 
         </div>
         <hr class="divider">
-        <form class="search_bar" :class="{ focused: isFocused }">
+        <form class="search_bar" :class="{ focused: isFocused }" @submit.prevent="">
             <div class="input_part">
                 <input @focus="isFocused = true" @blur="isFocused = false" type="text" maxlength="200"
-                    placeholder="按名称、作者、ISBN、出版社、MD5...搜索。">
+                    placeholder="按名称、作者、ISBN、出版社、MD5...搜索。" v-model="searchbig">
             </div>
-            <button class="search_book" type="submit"><i class="fas fa-search"></i></button>
+            <button class="search_book" @click="handlesearchbig()"><i class="fas fa-search"></i></button>
         </form>
         <div class="container">
-            <div class="book" v-for="item in paginatedData">
-                <img :src="item.bookRef" @click="handleimgClick(item)" title="点击查看图书详情">
+            <div class="book" v-for="item in paginatedData" @click="handleimgClick(item)">
+                <img :src="item.bookRef" title="点击查看图书详情">
                 <td>
                     <p class="bigt" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">《{{ item.bookName
                     }}》</p>
@@ -137,7 +137,7 @@ const brnum = ref('')
 const brdate = ref('')
 const ornum = ref('')
 const selectedBook = ref([])
-
+const searchbig = ref([])
 // 这个对象是需要从后端获取的,进行覆盖就能刷新前端的页面了
 const bookTotal = ref([
     {
@@ -605,8 +605,26 @@ function keepBook() {
 function borrowBook() {
     secondborrow.value = "true";
 }
-
-
+function handlesearchbig() {
+    console.log(searchbig.value);
+    console.log('搜索成功');
+    searchbig.value = '';
+}
+function borrowBookfin() {
+    console.log('借阅成功');
+    console.log(brnum.value);
+    brnum.value = '';
+}
+function keepBookfin() {
+    console.log('续借成功');
+    console.log(brdate.value);
+    brdate.value = '';
+}
+function orderBookfin() {
+    console.log('预约成功');
+    console.log(ornum.value);
+    ornum.value = '';
+}
 // 🚩
 function queryBookCatalog() {
 
