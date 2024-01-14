@@ -241,29 +241,25 @@ onMounted(async () => {
     await getUserInfo()
 });
 
+// function getBorrowlist() {
+//     http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
+//         params: {
+//             dueTime: null,
+//             borrowTime: null,
+//             librarianJobNumber: null,
+//             bookId: null,
+//             state: null,
+//             returnTime: null,
+//             borrowId: null,
+//         },
+//     }).then(async response => {
+//         console.log(response.data)
+//         borrowRecords.value = response.data.result.borrowlist
 
+//         console.log('execute updatePaginatedData');
 
-
-
-function getBorrowlist() {
-    http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
-        params: {
-            dueTime: null,
-            borrowTime: null,
-            librarianJobNumber: null,
-            bookId: null,
-            state: null,
-            returnTime: null,
-            borrowId: null,
-        },
-    }).then(async response => {
-        console.log(response.data)
-        borrowRecords.value = response.data.result.borrowlist
-
-        console.log('execute updatePaginatedData');
-
-    }).catch(error => console.log(error))
-};
+//     }).catch(error => console.log(error))
+// };
 
 // ui
 function select(tab) {
@@ -284,16 +280,15 @@ function submit_avatar(){
 }
 
 
-
-function onFileChange(e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        avatar.value = e.target.result;
-        showModel.value = false;  // 关闭弹窗
-    };
-    reader.readAsDataURL(file);
-};
+// function onFileChange(e) {
+//     const file = e.target.files[0];
+//     const reader = new FileReader();
+//     reader.onload = (e) => {
+//         avatar.value = e.target.result;
+//         showModel.value = false;  // 关闭弹窗
+//     };
+//     reader.readAsDataURL(file);
+// };
 
 function renewBook(id) {
     alert("续借成功");

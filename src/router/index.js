@@ -153,7 +153,8 @@ router.beforeEach((to, from, next) => {
     const auth = useAuthStore();
 
     // openAuth
-    console.log("openAuth:", auth.openAuth)
+    // console.log("openAuth:", auth.openAuth)
+
     if(!auth.openAuth){
         console.log("open auth ...")
         next()
@@ -162,9 +163,9 @@ router.beforeEach((to, from, next) => {
 
     const identity = auth.identity
 
-    console.log("auth.redirectPath: ", auth.redirectPath)
-    console.log("to: ", to.fullPath)
-    console.log("from: ", from.fullPath)
+    // console.log("auth.redirectPath: ", auth.redirectPath)
+    // console.log("to: ", to.fullPath)
+    // console.log("from: ", from.fullPath)
 
     // redircet
     if(to.fullPath === '/login' || to.fullPath === '/admin_login') {

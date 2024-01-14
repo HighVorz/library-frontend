@@ -1,20 +1,32 @@
 <template>
     <div class="admin-container">
+
         <div class="sidebar">
             <h2><i class="fas fa-user-tie"></i> 图书管理员</h2>
             <ul>
+                <li><button :class="{ selected: selectedMenu === 'users' }" @click="select_menu('users')"><i
+                            class="fas fa-book"></i> 用户列表</button></li>
+
                 <li><button :class="{ selected: selectedMenu === 'books' }" @click="select_menu('books')"><i
                             class="fas fa-book"></i> 书目详情</button></li>
-                <li><button :class="{ selected: selectedMenu === 'users' }" @click="select_menu('users')"><i
-                            class="fas fa-users"></i> 借阅情况</button></li>
+
+                <li><button :class="{ selected: selectedMenu === 'respository' }" @click="select_menu('respository')"><i
+                            class="fas fa-book"></i> 库存管理</button></li>
+
+                <li><button :class="{ selected: selectedMenu === 'borrow' }" @click="select_menu('borrow')"><i
+                            class="fas fa-users"></i> 借阅申请</button></li>
+
                 <li><button :class="{ selected: selectedMenu === 'orders' }" @click="select_menu('orders')"><i
                             class="fas fa-calendar-check"></i> 预约情况</button></li>
+
                 <li><button :class="{ selected: selectedMenu === 'exit' }" class="exit-btn" @click="exit"><i
                             class="fas fa-sign-out-alt"></i> 退出系统</button></li>
             </ul>
         </div>
+
+
         <div class="content">
-           
+
             <!-- 弹窗1 -->
             <div v-if="showModel3" class="Model">
                 <div class="search-container">
@@ -59,27 +71,31 @@
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control" v-model="addbook.bookauthor">
+                            <input type="text" id="au" class="form-control" v-model="addbook.author">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版社:</label>
-                            <input type="text" id="pub" class="form-control" v-model="addbook.bookpublisher">
+                            <input type="text" id="pub" class="form-control" v-model="addbook.publisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="addbook.bookdate">
+                            <input type="date" id="time" class="form-control" v-model="addbook.date">
                         </div>
                         <div class="form-group">
-                            <label for="restbk">剩余数量:</label>
-                            <input type="number" id="restbk" class="form-control" v-model="addbook.booknumber">
+                            <label for="time">ISBN:</label>
+                            <input type="text" id="isbn" class="form-control" v-model="addbook.isbn">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
+                            <label for="restbk">册数:</label>
+                            <input type="number" id="restbk" class="form-control" v-model="addbook.number">
+                        </div> -->
+                        <!-- <div class="form-group">
                             <label for="status">借阅状态:</label>
-                            <input type="text" id="status" class="form-control" v-model="addbook.bookstatus">
-                        </div>
+                            <input type="text" id="status" class="form-control" v-model="addbook.status">
+                        </div> -->
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="addbk2" @click="showbookadd()">添加</button>
+                            <button class="addbk2" @click="addBookCatalog">添加</button>
                             <button @click="showModel4 = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -139,7 +155,7 @@
                         <td>借阅状态</td>
                         <td>操作:修改 / 删除</td>
                     </tr>
-                    <tr v-for="item in paginatedData2">
+                    <tr v-for="item in bookTotal">
                         <td>{{ item.bookName }}</td>
                         <td>{{ item.bookAuthor }}</td>
                         <td>{{ item.bookPublisher }}</td>
@@ -159,7 +175,7 @@
                     layout="prev, pager, next" :total="bookTotal.length">
                 </el-pagination>
             </div>
-            
+
             <!-- 弹窗1-1 -->
             <div v-if="showModel" class="Model">
                 <div class="search-container">
@@ -212,7 +228,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control"  v-model="modifyuserinfo.borrownum">
+                            <input type="number" id="bknum" class="form-control" v-model="modifyuserinfo.borrownum">
                         </div>
                         <div class="form-group">
                             <label for="time">借书时间:</label>
@@ -234,7 +250,7 @@
                     </form>
                 </div>
             </div>
-            <div v-if="selectedMenu === 'users'">
+            <div v-if="selectedMenu === 'borrow'">
                 <div class="container">
                     <div class="bg-image">
                     </div>
@@ -251,7 +267,7 @@
                             <td>用户邮箱</td>
                             <td>操作:修改 / 删除</td>
                         </tr>
-                        <tr v-for="item in paginatedData">
+                        <tr v-for="item in borrowTotal">
                             <td>{{ item.userName }}</td>
                             <td>《{{ item.userBorrow }}》</td>
                             <td>{{ item.borrowNum }}</td>
@@ -272,11 +288,11 @@
                     </el-pagination>
                 </div>
             </div>
-            
+
             <!-- 弹窗3-1 -->
             <div v-if="showModel6" class="Model">
                 <div class="search-container">
-                    <form class="search-form"  @submit.prevent="">
+                    <form class="search-form" @submit.prevent="">
                         <p>预约搜索</p>
                         <div class="form-group">
                             <label for="name">用户名:</label>
@@ -321,7 +337,7 @@
                             <!-- <td>借阅状态</td> -->
                             <td>操作:同意 / 取消</td>
                         </tr>
-                        <tr v-for="item in paginatedData3">
+                        <tr v-for="item in orderTotal">
                             <td>{{ item.userName }}</td>
                             <td>{{ item.userOrder }}</td>
                             <td>{{ item.userOrdertime }}</td>
@@ -360,636 +376,21 @@ const auth = useAuthStore();
 http.defaults.headers.common['Authorization'] = auth.token
 
 // data
-const userTotal = ref([
-    {
-        "userName": "钱璟丰",
-        "userMail": "2055318980@qq.com",
-        "userBorrow": "计算机体系结构",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小明",
-        "userMail": "666666666@qq.com",
-        "userBorrow": "计算机网络",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小红",
-        "userMail": "233465654756@qq.com",
-        "userBorrow": "计算机图形学",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-1",
-        "userReturntime": "2023-1-2"
-    },
-    {
-        "userName": "张三",
-        "userMail": "zhangsan@example.com",
-        "userBorrow": "数据库系统原理",
-        "borrowNum": "3",
-        "userBorrowtime": "2023-12-28",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "李四",
-        "userMail": "lisi@example.com",
-        "userBorrow": "操作系统概念",
-        "borrowNum": "2",
-        "userBorrowtime": "2023-2-1",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "王五",
-        "userMail": "wangwu@example.com",
-        "userBorrow": "算法设计与分析",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-7",
-        "userReturntime": "2024-1-1"
-    },
-    {
-        "userName": "赵六",
-        "userMail": "zhaoliu@example.com",
-        "userBorrow": "计算机组成与设计",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-15",
-        "userReturntime": "2023-1-20"
-    },
-    {
-        "userName": "陈七",
-        "userMail": "chenqi@example.com",
-        "userBorrow": "计算机体系结构",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-29"
-    },
-    {
-        "userName": "张十",
-        "userMail": "zhangshi@example.com",
-        "userBorrow": "数据结构与算法",
-        "borrowNum": "5",
-        "userBorrowtime": "2023-1-20",
-        "userReturntime": "2023-1-25"
-    },
-    {
-        "userName": "钱璟丰",
-        "userMail": "2055318980@qq.com",
-        "userBorrow": "计算机体系结构",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小明",
-        "userMail": "666666666@qq.com",
-        "userBorrow": "计算机网络",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小红",
-        "userMail": "233465654756@qq.com",
-        "userBorrow": "计算机图形学",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-1",
-        "userReturntime": "2023-1-2"
-    },
-    {
-        "userName": "张三",
-        "userMail": "zhangsan@example.com",
-        "userBorrow": "数据库系统原理",
-        "borrowNum": "3",
-        "userBorrowtime": "2023-12-28",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "李四",
-        "userMail": "lisi@example.com",
-        "userBorrow": "操作系统概念",
-        "borrowNum": "2",
-        "userBorrowtime": "2023-2-1",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "王五",
-        "userMail": "wangwu@example.com",
-        "userBorrow": "算法设计与分析",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-7",
-        "userReturntime": "2024-1-1"
-    },
-    {
-        "userName": "赵六",
-        "userMail": "zhaoliu@example.com",
-        "userBorrow": "计算机组成与设计",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-15",
-        "userReturntime": "2023-1-20"
-    },
-    {
-        "userName": "陈七",
-        "userMail": "chenqi@example.com",
-        "userBorrow": "计算机体系结构",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-29"
-    },
-    {
-        "userName": "张十",
-        "userMail": "zhangshi@example.com",
-        "userBorrow": "数据结构与算法",
-        "borrowNum": "5",
-        "userBorrowtime": "2023-1-20",
-        "userReturntime": "2023-1-25"
-    },
-    {
-        "userName": "钱璟丰",
-        "userMail": "2055318980@qq.com",
-        "userBorrow": "计算机体系结构",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小明",
-        "userMail": "666666666@qq.com",
-        "userBorrow": "计算机网络",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-27",
-        "userReturntime": "2023-12-28"
-    },
-    {
-        "userName": "小红",
-        "userMail": "233465654756@qq.com",
-        "userBorrow": "计算机图形学",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-1",
-        "userReturntime": "2023-1-2"
-    },
-    {
-        "userName": "张三",
-        "userMail": "zhangsan@example.com",
-        "userBorrow": "数据库系统原理",
-        "borrowNum": "3",
-        "userBorrowtime": "2023-12-28",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "李四",
-        "userMail": "lisi@example.com",
-        "userBorrow": "操作系统概念",
-        "borrowNum": "2",
-        "userBorrowtime": "2023-2-1",
-        "userReturntime": "null"
-    },
-    {
-        "userName": "王五",
-        "userMail": "wangwu@example.com",
-        "userBorrow": "算法设计与分析",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-12-7",
-        "userReturntime": "2024-1-1"
-    },
-    {
-        "userName": "赵六",
-        "userMail": "zhaoliu@example.com",
-        "userBorrow": "计算机组成与设计",
-        "borrowNum": "1",
-        "userBorrowtime": "2023-1-15",
-        "userReturntime": "2023-1-20"
-    },
-])
-const bookTotal = ref([{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "操作系统概念",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "人民邮电出版社",
-    "bookDate": "2023-2-27",
-    "bookStatus": "是",
-    "bookNumber": "5",
-    "bookRef": "/assets/img/操作系统概念.jpg",
-    "bookLocate": "图书馆计算机区"
-},
-{
-    "bookName": "数据库系统原理",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-1-2",
-    "bookStatus": "是",
-    "bookNumber": "8",
-    "bookRef": "/assets/img/数据库系统原理.jpg",
-    "bookLocate": "图书馆24小时自助借阅区"
-},
-{
-    "bookName": "算法设计与分析",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-7",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/算法设计与分析.jpg",
-    "bookLocate": "图书馆借阅室"
-},
-{
-    "bookName": "计算机体系结构",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "1",
-    "bookRef": "/assets/img/计算机体系结构.jpg",
-    "bookLocate": "图书馆1楼"
-},
-{
-    "bookName": "算法导论",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "MIT Press",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "2",
-    "bookRef": "/assets/img/算法导论.jpg",
-    "bookLocate": "图书馆2楼"
-},
-{
-    "bookName": "计算机网络",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "清华大学出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "3",
-    "bookRef": "/assets/img/计算机网络.jpg",
-    "bookLocate": "图书馆3楼"
-},
-{
-    "bookName": "计算机图形学",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "机械工业出版社",
-    "bookDate": "2023-12-27",
-    "bookStatus": "是",
-    "bookNumber": "6",
-    "bookRef": "/assets/img/计算机图形学.jpg",
-    "bookLocate": "图书馆大厅"
-},
-{
-    "bookName": "计算机组成与设计",
-    "bookAuthor": "钱璟丰",
-    "bookPublisher": "Morgan Kaufmann",
-    "bookDate": "2023-12-28",
-    "bookStatus": "否",
-    "bookNumber": "0",
-    "bookRef": "/assets/img/计算机组成与设计.jpg",
-    "bookLocate": "图书馆借阅室"
-},])
-const orderTotal = ref([
-    {
-        "userName": "钱璟丰",
-        "userOrder": "计算机体系结构",
-        "userOrdertime": "2023-12-27",
-        "userMail": "2055318980@qq.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "小明",
-        "userOrder": "计算机图形学",
-        "userOrdertime": "2023-1-2",
-        "userMail": "233465654756@qq.com",
-        "orderNum": "5"
-    },
-    {
-        "userName": "张三",
-        "userOrder": "计算机图形学",
-        "userOrdertime": "2023-12-28",
-        "userMail": "zhangsan@example.com",
-        "orderNum": "3"
-    },
-    {
-        "userName": "李四",
-        "userOrder": "操作系统概念",
-        "userOrdertime": "2023-2-1",
-        "userMail": "lisi@example.com",
-        "orderNum": "2"
-    },
-    {
-        "userName": "王五",
-        "userOrder": "算法设计与分析",
-        "userOrdertime": "2024-1-1",
-        "userMail": "wangwu@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "赵六",
-        "userOrder": "计算机组成与设计",
-        "userOrdertime": "2023-1-15",
-        "userMail": "zhaoliu@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "陈七",
-        "userOrder": "计算机体系结构",
-        "userOrdertime": "2023-12-27",
-        "userMail": "chenqi@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "张十",
-        "userOrder": "数据结构与算法",
-        "userOrdertime": "2023-1-20",
-        "userMail": "zhangshi@example.com",
-        "orderNum": "5"
-    }
-])
+
+// 用户列表
+const userTotal = ref([])
+
+// 书目列表
+const bookTotal = ref([])
+
+// 预约列表
+const orderTotal = ref([])
+
+// 已借列表
+
+// 申请借阅列表
+
+
 const selectedMenu = ref('books')
 const showModel = ref(false)
 const showModel2 = ref(false)
@@ -1002,39 +403,46 @@ const pageSize = ref(7)
 const paginatedData = ref([])
 const paginatedData2 = ref([])
 const paginatedData3 = ref([])
-const addbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
-const searchbook = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',booknumber:''})
-const searchuser = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
-const modifybkinfo = ref({bookname:'',bookauthor:'',bookpublisher:'',bookdate:'',bookstatus:'',booknumber:''})
-const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtime:'',userreturntime:'',usermail:''})
-const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
+const addbook = ref({ bookname: '', author: '', publisher: '', bookdate: '', isbn: '' })
+const searchbook = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', booknumber: '' })
+const searchuser = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const modifybkinfo = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookstatus: '', booknumber: '' })
+const modifyuserinfo = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const searchorder = ref({ username: '', userorder: '', userordertime: '', usermail: '', ordernum: '' })
 
 //lifetime
 onMounted(() => {
-   
+
     updatePaginatedData();
 });
 
 // ui
-function select_menu(str){
+function select_menu(str) {
     selectedMenu.value = str
 
-    if(str === 'books'){
-
+    if (str === 'books') {
+        // 后端未写
     }
 
-    if(str === 'users'){
-
+    if (str === 'borrow') {
+        getBorrowBookList()
     }
 
-    if(str === 'orders'){
-        
+    if (str === 'users') {
+        getAllReader()
+    }
+
+    if (str === 'orders') {
+
     }
 }
 
+// button
+
+
 // nav
 function exit() {
-    auth.logout() 
+    auth.logout()
     router.replace('/admin_login')
 }
 
@@ -1052,6 +460,8 @@ function handleCurrentChange(val) {
 function updatePaginatedData() {
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
+
+
     paginatedData.value = userTotal.value.slice(start, end);
     paginatedData2.value = bookTotal.value.slice(start, end);
     paginatedData3.value = orderTotal.value.slice(start, end);
@@ -1070,74 +480,8 @@ function handleReturn() {
 function handleLogout() {
     router.push('/login')
 };
-function deleteItem(item) {
-    alert('删除成功');
-    const index = userTotal.value.indexOf(item);
-    console.log(index);
-    if (index !== -1) {
-        userTotal.value.splice(index, 1);
-    }
-}
-function showbookadd() {
-    console.log('添加成功');
-    console.log(addbook.value.bookname);
-    console.log(addbook.value.bookauthor);
-    console.log(addbook.value.bookpublisher);
-    console.log(addbook.value.bookdate);
-    console.log(addbook.value.bookstatus);
-    console.log(addbook.value.booknumber);
-    reset(addbook.value);
-}
-function showsearchbook() {
-    console.log('搜索成功');
-    console.log(searchbook.value.bookname);
-    console.log(searchbook.value.bookauthor);
-    console.log(searchbook.value.bookpublisher);
-    console.log(searchbook.value.bookdate);
-    console.log(searchbook.value.booknumber);
-    reset(searchbook.value);
-}
-function showsearchuser() {
-    console.log('搜索成功');
-    console.log(searchuser.value.username);
-    console.log(searchuser.value.userborrow);
-    console.log(searchuser.value.borrownum);
-    console.log(searchuser.value.userborrowtime);
-    console.log(searchuser.value.userreturntime);
-    console.log(searchuser.value.usermail);
-    reset(searchuser.value);
-}
-function showmodifybkinfo() {
-    alert('修改成功');
-    console.log(modifybkinfo.value.bookname);
-    console.log(modifybkinfo.value.bookauthor);
-    console.log(modifybkinfo.value.bookpublisher);
-    console.log(modifybkinfo.value.bookdate);
-    console.log(modifybkinfo.value.booknumber);
-    console.log(modifybkinfo.value.bookstatus);
-    // showModel5.value = false;
-    reset(modifybkinfo.value);
-};
-function showmodifyuserinfo() {
-    alert('修改成功');
-    console.log(modifyuserinfo.value.username);
-    console.log(modifyuserinfo.value.userborrow);
-    console.log(modifyuserinfo.value.borrownum);
-    console.log(modifyuserinfo.value.userborrowtime);
-    console.log(modifyuserinfo.value.userreturntime);
-    console.log(modifyuserinfo.value.usermail);
-    // showModel6.value = false;
-    reset(modifyuserinfo.value);
-};
-function showsearchorder() {
-    console.log('搜索成功');
-    console.log(searchorder.value.username);
-    console.log(searchorder.value.userorder);
-    console.log(searchorder.value.userordertime);
-    console.log(searchorder.value.usermail);
-    console.log(searchorder.value.ordernum);
-    reset(searchorder.value);
-}
+
+
 function reset(obj) {
     Object.keys(obj).forEach(key => {
         obj[key] = '';
@@ -1152,6 +496,7 @@ function getAllReader() {
     http.get('/api/admin/getAllReader?page=1&pageSize=10')
         .then(response => {
             console.log("getAllReader: ", response.data)
+            userTotal.value = response.data.data
         })
         .catch(error => {
             console.log(error)
@@ -1248,12 +593,16 @@ function deleteBook_admin() {
 // administer - BookCatalog
 
 function addBookCatalog() {
+
+    console.log('addBookCatalog check data: ', addbook.value)
+
+
     http.post('/api/bookCatalog/admin/addBookCatalog', {
-        bookName: "我家有個小小哲學家",
-        author: "史考特.赫修維茲",
-        publisher: "采實文化",
-        publishDate: null,
-        isbn: "9786263495630",
+        bookName: addbook.value.bookname,
+        author: addbook.value.author,
+        publisher: addbook.value.publisher,
+        publishDate: addbook.value.date,
+        isbn: addbook.value.isbn,
         unitPrice: null
     }).then(response => {
         console.log("addBookCatalog: ", response.data)
@@ -1329,6 +678,70 @@ function updateBookCatalogCover() {
     }).catch(error => {
         console.log(error)
     })
+}
+
+
+// administer - borrow
+function getBorrowBookList() {
+    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=10'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": null,
+        "bookId": null,
+        "state": null,
+        "readerId": null,
+        "returnTime": null,
+        "borrowId": null
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('getBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function updataBorrowBookList() {
+    const path = '/api/bookBorrow/admin/updateBorrowBookList'
+    const body = {
+        "dueTime": null,
+        "borrowTime": null,
+        "librarianJobNumber": 1,
+        "state": null,
+        "returnTime": null,
+        "borrowId": 2
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('updataBorrowBookList', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
+function deleteBorrowBookList() {
+    const body = {
+        dueTime: null,
+        borrowTime: null,
+        librarianJobNumber: null,
+        state: null,
+        returnTime: null,
+        borrowId: null
+    }
+
+    http.delete('/api/bookBorrow/admin/deleteBorrowBookList', body)
+        .then(response => {
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error)
+        })
 }
 
 // administer - reservation
