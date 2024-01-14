@@ -1010,12 +1010,6 @@ const modifyuserinfo = ref({username:'',userborrow:'',borrownum:'',userborrowtim
 const searchorder = ref({username:'',userorder:'',userordertime:'',usermail:'',ordernum:''})
 //lifetime
 onMounted(() => {
-
-    const selected = router.query.selected || null
-    
-    if(selected){
-        selectedMenu.value = selected
-    }
    
     updatePaginatedData();
 });
