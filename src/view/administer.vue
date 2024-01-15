@@ -22,197 +22,387 @@
 
         <div class="content">
 
-            <!-- 弹窗1 -->
-            <div v-if="showModel3" class="Model">
+            <div v-if="bookSearchWindow" class="Model">
                 <div class="search-container">
                     <form class="search-form" @submit.prevent="">
                         <p>图书搜索</p>
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control" v-model="searchbook.bookname">
+                            <input type="text" id="name" class="form-control" v-model="searchBookForm.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control" v-model="searchbook.bookauthor">
+                            <input type="text" id="au" class="form-control" v-model="searchBookForm.bookauthor">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版商:</label>
-                            <input type="text" id="pub" class="form-control" v-model="searchbook.bookpublisher">
+                            <input type="text" id="pub" class="form-control" v-model="searchBookForm.bookpublisher">
                         </div>
                         <div class="form-group">
                             <label for="isbn">ISBN号:</label>
-                            <input type="text" id="isbn" class="form-control" v-model="searchbook.bookisbn">
+                            <input type="text" id="isbn" class="form-control" v-model="searchBookForm.bookisbn">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="searchbook.bookdate">
+                            <input type="date" id="time" class="form-control" v-model="searchBookForm.bookdate">
                         </div>
                         <div class="form-group">
                             <label for="restnum">册数:</label>
-                            <input type="number" id="restnum" class="form-control" v-model="searchbook.booknumber">
+                            <input type="number" id="restnum" class="form-control" v-model="searchBookForm.booknumber">
                         </div>
                         <div class="form-group">
                             <button class="searchbk" @click="showsearchbook()">查找</button>
-                            <button @click="showModel3 = false" class="quit">关闭</button>
+                            <button @click="bookSearchWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- 弹窗2 -->
-            <div v-if="showModel4" class="Model">
+
+            <div v-if="addBookWindow" class="Model">
                 <div class="search-container">
                     <form class="search-form4" @submit.prevent="">
-                        <p>添加图书</p>
+                        <p>添加书目</p>
                         <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control" v-model="addbook.bookname">
+                            <input type="text" id="name" class="form-control" v-model="addBookForm.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control" v-model="addbook.author">
+                            <input type="text" id="au" class="form-control" v-model="addBookForm.author">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版商:</label>
-                            <input type="text" id="pub" class="form-control" v-model="addbook.publisher">
+                            <input type="text" id="pub" class="form-control" v-model="addBookForm.publisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="addbook.date">
+                            <input type="date" id="time" class="form-control" v-model="addBookForm.date">
                         </div>
                         <div class="form-group">
                             <label for="isbn">ISBN:</label>
-                            <input type="text" id="isbn" class="form-control" v-model="addbook.isbn">
+                            <input type="text" id="isbn" class="form-control" v-model="addBookForm.isbn">
                         </div>
                         <div class="form-group">
                             <label for="num">册数:</label>
-                            <input type="number" id="num" class="form-control" v-model="addbook.number">
+                            <input type="number" id="num" class="form-control" v-model="addBookForm.number">
                         </div>
                         <div class="form-group">
                             <label for="manager">经办人:</label>
-                            <input type="text" id="manager" class="form-control" v-model="addbook.manager">
+                            <input type="text" id="manager" class="form-control" v-model="addBookForm.manager">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
                             <button class="addbk2" @click="addBookCatalog">添加</button>
-                            <button @click="showModel4 = false" class="quit">关闭</button>
+                            <button @click="addBookWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- 弹窗3 -->
-            <div v-if="showModel5" class="Model">
+            <div v-if="updateBookWindow" class="Model">
                 <div class="search-container">
                     <form class="search-form3" @submit.prevent="">
                         <p>修改信息</p>
                         <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control" v-model="modifybkinfo.bookname">
+                            <input type="text" id="name" class="form-control" v-model="updateBookForm.bookname">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control" v-model="modifybkinfo.bookauthor">
+                            <input type="text" id="au" class="form-control" v-model="updateBookForm.bookauthor">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版商:</label>
-                            <input type="text" id="pub" class="form-control" v-model="modifybkinfo.bookpublisher">
+                            <input type="text" id="pub" class="form-control" v-model="updateBookForm.bookpublisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="modifybkinfo.bookdate">
+                            <input type="date" id="time" class="form-control" v-model="updateBookForm.bookdate">
                         </div>
                         <div class="form-group">
                             <label for="restbk">册数:</label>
-                            <input type="number" id="restbk" class="form-control" v-model="modifybkinfo.booknumber">
+                            <input type="number" id="restbk" class="form-control" v-model="updateBookForm.booknumber">
                         </div>
                         <div class="form-group">
                             <label for="status">ISBN号:</label>
-                            <input type="text" id="status" class="form-control" v-model="modifybkinfo.bookisbn">
+                            <input type="text" id="status" class="form-control" v-model="updateBookForm.bookisbn">
                         </div>
                         <div class="form-group">
                             <label for="status">经办人:</label>
-                            <input type="text" id="status" class="form-control" v-model="modifybkinfo.bookmanager">
+                            <input type="text" id="status" class="form-control" v-model="updateBookForm.bookmanager">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
                             <button class="fixbk" @click="showmodifybkinfo()">修改</button>
-                            <button @click="showModel5 = false" class="quit">关闭</button>
+                            <button @click="updateBookWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div v-if="showModel8" class="Model">
+            <div v-if="searchUserWindow" class="Model">
                 <div class="search-container">
                     <form class="search-form" @submit.prevent="">
                         <p>用户搜索</p>
                         <div class="form-group">
                             <label for="id">用户ID:</label>
-                            <input type="text" id="id" class="form-control" v-model="searchuser.userid">
+                            <input type="text" id="id" class="form-control" v-model="searchUserForm.userid">
                         </div>
                         <div class="form-group">
                             <label for="user">用户名:</label>
-                            <input type="text" id="user" class="form-control" v-model="searchuser.username">
+                            <input type="text" id="user" class="form-control" v-model="searchUserForm.username">
                         </div>
                         <div class="form-group">
                             <label for="user">号码:</label>
-                            <input type="text" id="user" class="form-control" v-model="searchuser.phone">
+                            <input type="text" id="user" class="form-control" v-model="searchUserForm.phone">
                         </div>
                         <div class="form-group">
                             <label for="mail">邮箱:</label>
-                            <input type="email" id="mail" class="form-control" v-model="searchuser.mail">
+                            <input type="email" id="mail" class="form-control" v-model="searchUserForm.mail">
                         </div>
                         <div class="form-group">
                             <label for="bbk">借书数量:</label>
-                            <input type="number" id="bbk" class="form-control" v-model="searchuser.number">
+                            <input type="number" id="bbk" class="form-control" v-model="searchUserForm.number">
                         </div>
                         <div class="form-group">
                             <button class="searchbk" @click="showsearchuser()">查找</button>
-                            <button @click="showModel8 = false" class="quit">关闭</button>
+                            <button @click="searchUserWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div v-if="showModel9" class="Model">
+            <div v-if="updateUserWindow" class="Model">
                 <div class="search-container">
                     <form class="search-form3" @submit.prevent="">
                         <p>修改信息</p>
                         <div class="form-group">
                             <label for="id">用户ID:</label>
-                            <input type="text" id="id" class="form-control" v-model="modifyuserinfo.userid">
+                            <input type="text" id="id" class="form-control" v-model="updateUserForm.userid">
                         </div>
                         <div class="form-group">
                             <label for="uname">用户名:</label>
-                            <input type="text" id="uname" class="form-control" v-model="modifyuserinfo.username">
+                            <input type="text" id="uname" class="form-control" v-model="updateUserForm.username">
                         </div>
                         <div class="form-group">
                             <label for="phone">号码:</label>
-                            <input type="text" id="phone" class="form-control" v-model="modifyuserinfo.phone">
+                            <input type="text" id="phone" class="form-control" v-model="updateUserForm.phone">
                         </div>
                         <div class="form-group">
                             <label for="mail">邮箱:</label>
-                            <input type="email" id="mail" class="form-control" v-model="modifyuserinfo.mail">
+                            <input type="email" id="mail" class="form-control" v-model="updateUserForm.mail">
                         </div>
                         <div class="form-group">
                             <label for="bnum">借书数量:</label>
-                            <input type="number" id="bnum" class="form-control" v-model="modifyuserinfo.number">
+                            <input type="number" id="bnum" class="form-control" v-model="updateUserForm.number">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
                             <button class="fixbk" @click="showmodifyuserinfo()">修改</button>
-                            <button @click="showModel9 = false" class="quit">关闭</button>
+                            <button @click="updateUserWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
                 </div>
             </div>
 
+            <div v-if="addStockWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form4" @submit.prevent="">
+                        <p>添加图书</p>
+
+                        <div class="form-group">
+                            <label for="name">ISBN:</label>
+                            <input type="text" id="name" class="form-control" v-model="addStockForm.isbn">
+                        </div>
+                        <div class="form-group">
+                            <label for="au">位置:</label>
+                            <input type="text" id="au" class="form-control" v-model="addStockForm.location">
+                        </div>
+                        <div class="form-group">
+                            <button class="addbk2" @click="addBook_admin">添加</button>
+                            <button @click="addStockWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div v-if="searchStockWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form" @submit.prevent="">
+                        <p>库存搜索</p>
+                        <div class="form-group">
+                            <label for="bkname">图书ID:</label>
+                            <input type="text" id="bkname" class="form-control" v-model="searchStockForm.bookid">
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN号:</label>
+                            <input type="text" id="isbn" class="form-control" v-model="searchStockForm.bookisbn">
+                        </div>
+                        <div class="form-group">
+                            <label for="loc">存放位置:</label>
+                            <input type="text" id="loc" class="form-control" v-model="searchStockForm.booklocate">
+                        </div>
+                        <div class="form-group">
+                            <label for="manager">经办人:</label>
+                            <input type="text" id="manager" class="form-control" v-model="searchStockForm.bookmanager">
+                        </div>
+                        <div class="form-group">
+                            <button class="searchbk" @click="getBook_admin">查找</button>
+                            <button @click="searchStockWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div v-if="updateStockWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form3" @submit.prevent="">
+                        <p>修改信息</p>
+                        <div class="form-group">
+                            <label for="id">图书ID:</label>
+                            <input type="text" id="id" class="form-control" v-model="updateStockForm.bookid">
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN号:</label>
+                            <input type="text" id="isbn" class="form-control" v-model="updateStockForm.bookisbnr">
+                        </div>
+                        <div class="form-group">
+                            <label for="loc">存放位置:</label>
+                            <input type="text" id="loc" class="form-control" v-model="updateStockForm.booklocate">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">状态:</label>
+                            <input type="text" id="status" class="form-control" v-model="updateStockForm.bookstatus">
+                        </div>
+                        <div class="form-group">
+                            <label for="man">经办人:</label>
+                            <input type="text" id="man" class="form-control" v-model="updateStockForm.bookmanager">
+                        </div>
+                        <!-- 其实也能放入图片 -->
+                        <div class="form-group">
+                            <button class="fixbk" @click="showmodifybkinfo()">修改</button>
+                            <button @click="updateStockWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div v-if="searchBorrowWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form" @submit.prevent="">
+                        <p>借阅搜索</p>
+                        <div class="form-group">
+                            <label for="name">用户名:</label>
+                            <input type="text" id="name" class="form-control" v-model="searchBorrowForm.username">
+                        </div>
+                        <div class="form-group">
+                            <label for="au">借书名:</label>
+                            <input type="text" id="au" class="form-control" v-model="searchBorrowForm.userborrow">
+                        </div>
+                        <div class="form-group">
+                            <label for="bknum">借书数量:</label>
+                            <input type="number" id="bknum" class="form-control" v-model="searchBorrowForm.borrownum">
+                        </div>
+                        <div class="form-group">
+                            <label for="time">借书时间:</label>
+                            <input type="date" id="time" class="form-control" v-model="searchBorrowForm.userborrowtime">
+                        </div>
+                        <div class="form-group">
+                            <label for="ret">还书时间:</label>
+                            <input type="date" id="ret" class="form-control" v-model="searchBorrowForm.userreturntime">
+                        </div>
+                        <div class="form-group">
+                            <label for="mail">用户邮箱:</label>
+                            <input type="email" id="mail" class="form-control" v-model="searchBorrowForm.usermail">
+                        </div>
+                        <div class="form-group">
+                            <button class="searchbk" @click="showsearchborrow()">查找</button>
+                            <button @click="searchBorrowWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div v-if="updateBorrowWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form2" @submit.prevent="">
+                        <p>修改信息</p>
+                        <div class="form-group">
+                            <label for="name">用户名:</label>
+                            <input type="text" id="name" class="form-control" v-model="updateBorrowForm.username">
+                        </div>
+                        <div class="form-group">
+                            <label for="au">用户借书:</label>
+                            <input type="text" id="au" class="form-control" v-model="updateBorrowForm.userborrow">
+                        </div>
+                        <div class="form-group">
+                            <label for="bknum">借书数量:</label>
+                            <input type="number" id="bknum" class="form-control" v-model="updateBorrowForm.borrownum">
+                        </div>
+                        <div class="form-group">
+                            <label for="time">借书时间:</label>
+                            <input type="date" id="time" class="form-control" v-model="updateBorrowForm.userborrowtime">
+                        </div>
+                        <div class="form-group">
+                            <label for="ret">还书时间:</label>
+                            <input type="date" id="ret" class="form-control" v-model="updateBorrowForm.userreturntime">
+                        </div>
+                        <div class="form-group">
+                            <label for="mail">用户邮箱:</label>
+                            <input type="email" id="mail" class="form-control" v-model="updateBorrowForm.usermail">
+                        </div>
+                        <!-- 其实也能放入图片 -->
+                        <div class="form-group">
+                            <button class="addbk" @click="showmodifyuserinfo()">修改</button>
+                            <button @click="updateBorrowWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 弹窗3-1 -->
+            <div v-if="searchOrderWindow" class="Model">
+                <div class="search-container">
+                    <form class="search-form" @submit.prevent="">
+                        <p>预约搜索</p>
+                        <div class="form-group">
+                            <label for="name">用户名:</label>
+                            <input type="text" id="name" class="form-control" v-model="searchOrderForm.username">
+                        </div>
+                        <div class="form-group">
+                            <label for="bkname">申请书名:</label>
+                            <input type="text" id="bkname" class="form-control" v-model="searchOrderForm.userorder">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordertime">申请时间:</label>
+                            <input type="date" id="ordertime" class="form-control" v-model="searchOrderForm.userordertime">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mail">用户邮箱:</label>
+                            <input type="email" id="mail" class="form-control" v-model="searchOrderForm.usermail">
+                        </div>
+                        <div class="form-group">
+                            <label for="ordernum">申请数量:</label>
+                            <input type="number" id="ordernum" class="form-control" v-model="searchOrderForm.ordernum">
+                        </div>
+                        <div class="form-group">
+                            <button class="searchbk" @click="showsearchorder">查找</button>
+                            <button @click="searchOrderWindow = false" class="quit">关闭</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
             <div v-if="selectedMenu === 'users'" class="container">
                 <div class="uimg"></div>
-                <button class="search-button" @click="showModel8 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <button class="search-button" @click="searchUserWindow = true"><i class="fas fa-search"></i> 搜索一下</button>
 
                 <table>
                     <tr style="font-weight: bold;background-color: rgba(23, 150, 124, 0.5);">
@@ -231,7 +421,7 @@
                         <td>{{ item.borrowNum }}</td>
                         <td>
                             <form @submit="handleSubmit">
-                                <button class="act addin" @click="showModel9 = true">修改</button>&nbsp&nbsp&nbsp<button
+                                <button class="act addin" @click="updateUserWindow = true">修改</button>&nbsp&nbsp&nbsp<button
                                     class="act del" @click="deleteItem(item)">删除</button>
                             </form>
                         </td>
@@ -245,8 +435,8 @@
 
             <div v-if="selectedMenu === 'books'" class="container">
                 <div class="bimg"></div>
-                <button class="add-button" @click="showModel4 = true"><i class="fas fa-book"></i> 添加图书</button>
-                <button class="search-button2" @click="showModel3 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <button class="add-button" @click="addBookWindow = true"><i class="fas fa-book"></i> 添加书目</button>
+                <button class="search-button2" @click="bookSearchWindow = true"><i class="fas fa-search"></i> 搜索一下</button>
 
                 <table>
                     <tr style="font-weight: bold;background-color: rgba(202, 57, 57, 0.5);">
@@ -269,7 +459,7 @@
                         <td>{{ item.bookManager }}</td>
                         <td>
                             <form @submit="handleSubmit">
-                                <button class="act addin" @click="showModel5 = true">修改</button>&nbsp&nbsp&nbsp<button
+                                <button class="act addin" @click="updateBookWindow = true">修改</button>&nbsp&nbsp&nbsp<button
                                     class="act del" @click="deleteItem(item)">删除</button>
                             </form>
                         </td>
@@ -281,70 +471,10 @@
                 </el-pagination>
             </div>
 
-            <!-- 弹窗3 -->
-            <div v-if="showModel7" class="Model">
-                <div class="search-container">
-                    <form class="search-form" @submit.prevent="">
-                        <p>库存搜索</p>
-                        <div class="form-group">
-                            <label for="bkname">图书ID:</label>
-                            <input type="text" id="bkname" class="form-control" v-model="searchstock.bookid">
-                        </div>
-                        <div class="form-group">
-                            <label for="isbn">ISBN号:</label>
-                            <input type="text" id="isbn" class="form-control" v-model="searchstock.bookisbn">
-                        </div>
-                        <div class="form-group">
-                            <label for="loc">存放位置:</label>
-                            <input type="text" id="loc" class="form-control" v-model="searchstock.booklocate">
-                        </div>
-                        <div class="form-group">
-                            <label for="manager">经办人:</label>
-                            <input type="text" id="manager" class="form-control" v-model="searchstock.bookmanager">
-                        </div>
-                        <div class="form-group">
-                            <button class="searchbk" @click="showstockbook()">查找</button>
-                            <button @click="showModel7 = false" class="quit">关闭</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <div v-if="showModel10" class="Model">
-                <div class="search-container">
-                    <form class="search-form3" @submit.prevent="">
-                        <p>修改信息</p>
-                        <div class="form-group">
-                            <label for="id">图书ID:</label>
-                            <input type="text" id="id" class="form-control" v-model="modifystkinfo.bookid">
-                        </div>
-                        <div class="form-group">
-                            <label for="isbn">ISBN号:</label>
-                            <input type="text" id="isbn" class="form-control" v-model="modifystkinfo.bookisbnr">
-                        </div>
-                        <div class="form-group">
-                            <label for="loc">存放位置:</label>
-                            <input type="text" id="loc" class="form-control" v-model="modifystkinfo.booklocate">
-                        </div>
-                        <div class="form-group">
-                            <label for="status">状态:</label>
-                            <input type="text" id="status" class="form-control" v-model="modifystkinfo.bookstatus">
-                        </div>
-                        <div class="form-group">
-                            <label for="man">经办人:</label>
-                            <input type="text" id="man" class="form-control" v-model="modifystkinfo.bookmanager">
-                        </div>
-                        <!-- 其实也能放入图片 -->
-                        <div class="form-group">
-                            <button class="fixbk" @click="showmodifybkinfo()">修改</button>
-                            <button @click="showModel10 = false" class="quit">关闭</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
             <div v-if="selectedMenu === 'stocks'">
-                <button class="search-button" @click="showModel7 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <button class="add-button" @click="addStockWindow = true"><i class="fas fa-book"></i> 添加库存</button>
+                <button class="search-button2" @click="searchStockWindow = true"><i class="fas fa-search"></i> 搜索一下</button>
+
                 <div class="container">
                     <div class="stockimg"></div>
                     <table>
@@ -358,16 +488,17 @@
                             <td>操作:修改 / 删除</td>
                         </tr>
                         <tr v-for="item in stockTotalslice">
-                            <td>{{ item.bookId }}</td>
-                            <td>{{ item.bookIsbn }}</td>
-                            <td>{{ item.bookLocate }}</td>
-                            <td>{{ item.bookStatus }}</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.isbn }}</td>
+                            <td>{{ item.location }}</td>
+                            <td>{{ item.state }}</td>
                             <!-- <td>{{ item.bookNumber }}</td> -->
-                            <td>{{ item.bookManager }}</td>
+                            <td>{{ item.admin }}</td>
                             <td>
                                 <form @submit="handleSubmit">
-                                    <button class="act addin" @click="showModel10 = true">修改</button>&nbsp&nbsp&nbsp<button
-                                        class="act del" @click="deleteItem(item)">删除</button>
+                                    <button class="act addin"
+                                        @click="updateStockWindow = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
+                                        @click="deleteItem(item)">删除</button>
                                 </form>
                             </td>
                         </tr>
@@ -379,86 +510,14 @@
                 </div>
             </div>
 
-            <!-- 弹窗1-1 -->
-            <div v-if="showModel" class="Model">
-                <div class="search-container">
-                    <form class="search-form" @submit.prevent="">
-                        <p>借阅搜索</p>
-                        <div class="form-group">
-                            <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control" v-model="searchborrow.username">
-                        </div>
-                        <div class="form-group">
-                            <label for="au">借书名:</label>
-                            <input type="text" id="au" class="form-control" v-model="searchborrow.userborrow">
-                        </div>
-                        <div class="form-group">
-                            <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control" v-model="searchborrow.borrownum">
-                        </div>
-                        <div class="form-group">
-                            <label for="time">借书时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="searchborrow.userborrowtime">
-                        </div>
-                        <div class="form-group">
-                            <label for="ret">还书时间:</label>
-                            <input type="date" id="ret" class="form-control" v-model="searchborrow.userreturntime">
-                        </div>
-                        <div class="form-group">
-                            <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control" v-model="searchborrow.usermail">
-                        </div>
-                        <div class="form-group">
-                            <button class="searchbk" @click="showsearchborrow()">查找</button>
-                            <button @click="showModel = false" class="quit">关闭</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
-            <!-- 弹窗1-2 -->
-            <div v-if="showModel2" class="Model">
-                <div class="search-container">
-                    <form class="search-form2" @submit.prevent="">
-                        <p>修改信息</p>
-                        <div class="form-group">
-                            <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control" v-model="modifyborrowinfo.username">
-                        </div>
-                        <div class="form-group">
-                            <label for="au">用户借书:</label>
-                            <input type="text" id="au" class="form-control" v-model="modifyborrowinfo.userborrow">
-                        </div>
-                        <div class="form-group">
-                            <label for="bknum">借书数量:</label>
-                            <input type="number" id="bknum" class="form-control" v-model="modifyborrowinfo.borrownum">
-                        </div>
-                        <div class="form-group">
-                            <label for="time">借书时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="modifyborrowinfo.userborrowtime">
-                        </div>
-                        <div class="form-group">
-                            <label for="ret">还书时间:</label>
-                            <input type="date" id="ret" class="form-control" v-model="modifyborrowinfo.userreturntime">
-                        </div>
-                        <div class="form-group">
-                            <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control" v-model="modifyborrowinfo.usermail">
-                        </div>
-                        <!-- 其实也能放入图片 -->
-                        <div class="form-group">
-                            <button class="addbk" @click="showmodifyuserinfo()">修改</button>
-                            <button @click="showModel2 = false" class="quit">关闭</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
             <div v-if="selectedMenu === 'borrows'">
                 <div class="container">
                     <div class="bg-image">
                     </div>
 
-                    <button class="search-button" @click="showModel = true"><i class="fas fa-search"></i> 搜索一下</button>
+                    <button class="search-button" @click="searchBorrowWindow = true"><i class="fas fa-search"></i>
+                        搜索一下</button>
 
                     <table>
                         <tr style="font-weight: bold;background-color: rgba(103, 57, 202, 0.5);">
@@ -479,8 +538,9 @@
                             <td>{{ item.userMail }}</td>
                             <td>
                                 <form action="" @submit="handleSubmit">
-                                    <button class="act addin" @click="showModel2 = true">修改</button>&nbsp&nbsp&nbsp<button
-                                        class="act del" @click="deleteItem(item)">删除</button>
+                                    <button class="act addin"
+                                        @click="updateBorrowWindow = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
+                                        @click="deleteItem(item)">删除</button>
                                 </form>
                             </td>
                         </tr>
@@ -492,42 +552,8 @@
                 </div>
             </div>
 
-            <!-- 弹窗3-1 -->
-            <div v-if="showModel6" class="Model">
-                <div class="search-container">
-                    <form class="search-form" @submit.prevent="">
-                        <p>预约搜索</p>
-                        <div class="form-group">
-                            <label for="name">用户名:</label>
-                            <input type="text" id="name" class="form-control" v-model="searchorder.username">
-                        </div>
-                        <div class="form-group">
-                            <label for="bkname">申请书名:</label>
-                            <input type="text" id="bkname" class="form-control" v-model="searchorder.userorder">
-                        </div>
-                        <div class="form-group">
-                            <label for="ordertime">申请时间:</label>
-                            <input type="date" id="ordertime" class="form-control" v-model="searchorder.userordertime">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="mail">用户邮箱:</label>
-                            <input type="email" id="mail" class="form-control" v-model="searchorder.usermail">
-                        </div>
-                        <div class="form-group">
-                            <label for="ordernum">申请数量:</label>
-                            <input type="number" id="ordernum" class="form-control" v-model="searchorder.ordernum">
-                        </div>
-                        <div class="form-group">
-                            <button class="searchbk" @click="showsearchorder">查找</button>
-                            <button @click="showModel6 = false" class="quit">关闭</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
             <div v-if="selectedMenu === 'orders'">
-                <button class="search-button" @click="showModel6 = true"><i class="fas fa-search"></i> 搜索一下</button>
+                <button class="search-button" @click="searchOrderWindow = true"><i class="fas fa-search"></i> 搜索一下</button>
                 <div class="container">
                     <div class="odimg"></div>
                     <table>
@@ -561,6 +587,7 @@
                     </el-pagination>
                 </div>
             </div>
+
             <h1 v-if="selectedMenu === 'exit'">退出系统</h1>
         </div>
     </div>
@@ -579,8 +606,6 @@ const auth = useAuthStore();
 http.defaults.headers.common['Authorization'] = auth.token
 
 // data
-
-
 
 // 书目列表
 //const bookTotal = ref([])
@@ -670,115 +695,28 @@ const bookTotal = ref([
 ])
 const stockTotal = ref([
     {
-        "bookId": "1",
-        "bookIsbn": "978-7-302-32911-1",
-        "bookLocate": "图书馆1楼",
-        "bookStatus": "是",
-        "bookManager": "01"
-    },
-    {
-        "bookId": "2",
-        "bookIsbn": "978-7-302-32911-2",
-        "bookLocate": "图书馆2楼",
-        "bookStatus": "是",
-        "bookManager": "09"
-    },
-    {
-        "bookId": "3",
-        "bookIsbn": "978-7-302-32911-3",
-        "bookLocate": "图书馆3楼",
-        "bookStatus": "是",
-        "bookManager": "03"
-    },
-    {
-        "bookId": "4",
-        "bookIsbn": "978-7-302-32911-4",
-        "bookLocate": "图书馆大厅",
-        "bookStatus": "是",
-        "bookManager": "06"
-    },
-    {
-        "bookId": "5",
-        "bookIsbn": "978-7-302-32911-5",
-        "bookLocate": "图书馆借阅室",
-        "bookStatus": "否",
-        "bookManager": "04"
-    },
-    {
-        "bookId": "6",
-        "bookIsbn": "978-7-302-32911-6",
-        "bookLocate": "图书馆借阅室",
-        "bookStatus": "是",
-        "bookManager": "08"
-    },
-    {
-        "bookId": "7",
-        "bookIsbn": "978-7-302-32911-7",
-        "bookLocate": "图书馆24小时自助借阅区",
-        "bookStatus": "是",
-        "bookManager": "07"
-    },
-    {
-        "bookId": "1",
-        "bookIsbn": "978-7-302-32911-1",
-        "bookLocate": "图书馆1楼",
-        "bookStatus": "是",
-        "bookManager": "01"
-    },
-    {
-        "bookId": "2",
-        "bookIsbn": "978-7-302-32911-2",
-        "bookLocate": "图书馆2楼",
-        "bookStatus": "是",
-        "bookManager": "09"
-    },
-    {
-        "bookId": "3",
-        "bookIsbn": "978-7-302-32911-3",
-        "bookLocate": "图书馆3楼",
-        "bookStatus": "是",
-        "bookManager": "03"
-    },
-    {
-        "bookId": "4",
-        "bookIsbn": "978-7-302-32911-4",
-        "bookLocate": "图书馆大厅",
-        "bookStatus": "是",
-        "bookManager": "06"
-    },
-    {
-        "bookId": "5",
-        "bookIsbn": "978-7-302-32911-5",
-        "bookLocate": "图书馆借阅室",
-        "bookStatus": "否",
-        "bookManager": "04"
-    },
-    {
-        "bookId": "6",
-        "bookIsbn": "978-7-302-32911-6",
-        "bookLocate": "图书馆借阅室",
-        "bookStatus": "是",
-        "bookManager": "08"
-    },
-    {
-        "bookId": "7",
-        "bookIsbn": "978-7-302-32911-7",
-        "bookLocate": "图书馆24小时自助借阅区",
-        "bookStatus": "是",
-        "bookManager": "07"
+        "id": "7",
+        "isbn": "978-7-302-32911-7",
+        "location": "图书馆24小时自助借阅区",
+        "state": "borrowed",
+        "admin": "07"
     }
 ])
+
 const selectedMenu = ref('books')
-const showModel = ref(false)
-const showModel2 = ref(false)
-const showModel3 = ref(false)
-const showModel4 = ref(false)
-const showModel5 = ref(false)
-const showModel6 = ref(false)
-const showModel7 = ref(false)
-const showModel8 = ref(false)
-const showModel9 = ref(false)
-const showModel10 = ref(false)
+
+const searchBorrowWindow = ref(false)
+const updateBorrowWindow = ref(false)
+const bookSearchWindow = ref(false)
+const addBookWindow = ref(false)
+const updateBookWindow = ref(false)
+const searchOrderWindow = ref(false)
+const addStockWindow = ref(false)
+const searchStockWindow = ref(false)
+const updateStockWindow = ref(false)
+const searchUserWindow = ref(false)
+const updateUserWindow = ref(false)
+
 const currentPage = ref(1)
 const pageSize = ref(8)
 const userTotalSlice = ref([])
@@ -787,16 +725,17 @@ const bookTotalslice = ref([])
 const orderTotalslice = ref([])
 const stockTotalslice = ref([])
 
-const addbook = ref({ bookname: '', author: '', publisher: '', bookdate: '', isbn: '', number: '', manager: '' })
-const searchbook = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', booknumber: '', bookisbn: '' })
-const modifystkinfo = ref({ bookid: '', bookisbn: '', bookstatus: '', booklocate: '', bookmanager: '' })
-const searchborrow = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
-const modifyuserinfo = ref({ userid: '', username: '', email: '', number: '', phone: '' })
-const modifybkinfo = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookisbn: '', booknumber: '', bookmanager: '' })
-const modifyborrowinfo = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
-const searchorder = ref({ username: '', userorder: '', userordertime: '', usermail: '', ordernum: '' })
-const searchuser = ref({ userid: '', username: '', email: '', number: '', phone: '' })
-const searchstock = ref({ bookid: '', bookisbn: '', booklocate: '', bookmanager: '' })
+const addStockForm = ref({ isbn: '', location: '' })
+const addBookForm = ref({ bookname: '', author: '', publisher: '', bookdate: '', isbn: '', number: '', manager: '' })
+const searchBookForm = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', booknumber: '', bookisbn: '' })
+const updateStockForm = ref({ bookid: '', bookisbn: '', bookstatus: '', booklocate: '', bookmanager: '' })
+const searchBorrowForm = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const updateUserForm = ref({ userid: '', username: '', email: '', number: '', phone: '' })
+const updateBookForm = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookisbn: '', booknumber: '', bookmanager: '' })
+const updateBorrowForm = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
+const searchOrderForm = ref({ username: '', userorder: '', userordertime: '', usermail: '', ordernum: '' })
+const searchUserForm = ref({ userid: '', username: '', email: '', number: '', phone: '' })
+const searchStockForm = ref({ bookid: null, bookisbn: null, booklocate: null, bookmanager: null })
 //lifetime
 onMounted(() => {
 
@@ -874,9 +813,11 @@ function handleLogout() {
 };
 
 
+
+
 function reset(obj) {
     Object.keys(obj).forEach(key => {
-        obj[key] = '';
+        obj[key] = null;
     });
 }
 
@@ -932,28 +873,56 @@ function updateReader() {
 
 // administer - bookinfo
 
+// 🚩
 function getBook_admin() {
-    http.post('/api/bookInfo/admin/getBookInfo?page=1&pageSize=10', {
-        "isbn": null,
-        "location": null,
-        "state": null,
-        "id": null
-    }).then(response => {
-        console.log("getBook_admin: ", response.data)
-    }).catch(error => {
-        console.log("getBook_admin request fail", error)
-    })
+    const path = '/api/bookInfo/admin/getBookInfo?page=1&pageSize=10'
+    const body = {
+        isbn: searchStockForm.value.bookisbn,
+        location: searchStockForm.value.booklocate,
+        id: searchStockForm.value.bookid,
+        state: null,
+        librarianJobNumber: null,
+    }
+
+    console.log('parameters: ', body)
+
+    http.post(path, body)
+        .then(response => {
+            console.log("getBook_admin: ", response.data)
+
+            const data = response.data.data
+            data.forEach(obj => {
+                if (obj.hasOwnProperty('librarianJobNumber')) {
+                    delete obj['librarianJobNumber'];
+                }
+            });
+
+            stockTotal.value = data
+
+            updatePaginatedData()
+
+            reset(searchStockForm.value)
+           
+        }).catch(error => {
+            console.log("getBook_admin request fail", error)
+        })
+
+
 }
 
+// 🚩
 function addBook_admin() {
-    http.post('/api/bookInfo/admin/addBookInfo', {
-        "isbn": "9786263495630",
-        "location": "图书流通室"
-    }).then(response => {
-        console.log("addBook_admin: ", response.data)
-    }).catch(error => {
-        console.log(error)
-    })
+    const path = '/api/bookInfo/admin/addBookInfo'
+    const body = {
+        isbn: addStockForm.value.isbn,
+        location: addStockForm.value.location
+    }
+    http.post(path, body)
+        .then(response => {
+            console.log("addBook_admin: ", response.data)
+        }).catch(error => {
+            console.log(error)
+        })
 }
 
 function updateBook_admin() {
@@ -986,15 +955,15 @@ function deleteBook_admin() {
 
 function addBookCatalog() {
 
-    console.log('addBookCatalog check data: ', addbook.value)
+    console.log('addBookCatalog check data: ', addBookForm.value)
 
 
     http.post('/api/bookCatalog/admin/addBookCatalog', {
-        bookName: addbook.value.bookname,
-        author: addbook.value.author,
-        publisher: addbook.value.publisher,
-        publishDate: addbook.value.date,
-        isbn: addbook.value.isbn,
+        bookName: addBookForm.value.bookname,
+        author: addBookForm.value.author,
+        publisher: addBookForm.value.publisher,
+        publishDate: addBookForm.value.date,
+        isbn: addBookForm.value.isbn,
         unitPrice: null
     }).then(response => {
         console.log("addBookCatalog: ", response.data)
