@@ -45,7 +45,7 @@
     <!-- 弹窗二-3 -->
     <div v-if="secondorder" class="Model2-1">
         <div class="search-container2-1">
-            <form class="search-form2-1"  @submit.prevent="">
+            <form class="search-form2-1" @submit.prevent="">
                 <input type="number" class="userod" v-model="ornum" placeholder="请输入预约个数..." required>
                 <div class="funcbutton">
                     <button class="form-button order-btn" @click="orderBookfin()">预约</button>
@@ -84,13 +84,29 @@
 
         </div>
         <hr class="divider">
-        <form class="search_bar" :class="{ focused: isFocused }" @submit.prevent="">
+
+        <div>
+            <div class="input-row">
+                <input class="search-input"  type="text"
+                    placeholder="书名" v-model="bookname">
+                <input class="search-input"  type="text"
+                    placeholder="作者" v-model="author">
+                <input class="search-input"  type="text"
+                    placeholder="ISBN" v-model="isbn">
+                <button class="search-button" @click="search">搜索</button>
+            </div>
+        </div>
+        <!-- <form class="search_bar" :class="{ focused: isFocused }" @submit.prevent="">
             <div class="input_part">
                 <input @focus="isFocused = true" @blur="isFocused = false" type="text" maxlength="200"
                     placeholder="按名称、作者、ISBN、出版社、MD5...搜索。" v-model="searchbig">
+                   
+                
+            
+                
             </div>
             <button class="search_book" @click="handlesearchbig()"><i class="fas fa-search"></i></button>
-        </form>
+        </form> -->
         <div class="container">
             <div class="book" v-for="item in paginatedData" @click="handleimgClick(item)">
                 <img :src="item.bookRef" title="点击查看图书详情">
@@ -128,6 +144,10 @@ http.defaults.headers.common['Authorization'] = auth.token
 
 
 // data
+const bookname = ref("")
+const author = ref("")
+const isbn = ref("")
+
 const showChoose = ref(false)
 const secondborrow = ref(false)
 const secondkeep = ref(false)
@@ -572,6 +592,11 @@ function req_returnBook(borrowId) {
 
 
 // function 
+
+function search(){
+    console.log(bookname.value, author.value, isbn.value)
+}
+
 function handleSizeChange(val) {
     pageSize.value = val;
     updatePaginatedData();  // 更新数据的方法，需要你自己实现
@@ -633,6 +658,20 @@ function queryBookCatalog() {
 </script>
 
 <style scoped>
+
+.input-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-input {
+  flex: 1;
+  margin-right: 30px;
+}
+
+.search-button {
+  margin-left: 10px;
+}
 .search_bar {
     display: flex;
     justify-content: space-between;
@@ -1212,5 +1251,4 @@ button:hover {
     font-size: 20px;
     background-color: #e9e7ee;
     font-weight: 600;
-}
-</style>
+}</style>
