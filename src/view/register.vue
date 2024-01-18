@@ -11,11 +11,11 @@
                 <p v-if="usernameError" class="error" style="font-size: small;color: red;position: absolute;">用户名不能为空</p>
             </div>
             <div class="form_user_field">
-                <input type="tel" class="mail_input" v-model="userphone" placeholder="请输入手机号...">
+                <input type="tel" class="mail_input" v-model="phone" placeholder="请输入手机号...">
                 <p v-if="phoneError" class="error" style="font-size: small;color: red;position: absolute;">手机号不能为空</p>
             </div>
             <div class="form_user_field">
-                <input type="email" class="mail_input" v-model="useremail" placeholder="请输入邮箱...">
+                <input type="email" class="mail_input" v-model="email" placeholder="请输入邮箱...">
                 <p v-if="emailError" class="error" style="font-size: small;color: red;position: absolute;">邮箱不能为空</p>
             </div>
             <div class="form_password_field">

@@ -1,7 +1,7 @@
 <template>
     <div class="bg-image">
     </div>
-
+    
     <div class="position-absolute top-50 start-50 translate-middle">
         <form class="form" @submit.prevent="">
             <div class="form_title">读者登录</div>
@@ -59,11 +59,14 @@ const http = inject('$http');
 const router = inject('$router')
 
 
+
 // 🚩
 function signin() {
     // if (!verify_username() || !verify_password()) {
     //     return;
     // }
+
+
     http.post("/api/login", {
         username: username.value,
         password: password.value
@@ -76,12 +79,15 @@ function signin() {
             http.defaults.headers.common['Authorization'] = auth.token
             console.log("http.header.token:", http.defaults.headers.common['Authorization'])
 
-            const redirectPath = auth.redirectPath || '/'
+            const redirectPath = auth.redirectPath || '/user'
             router.replace(redirectPath)
         }
     }).catch(error => {
         console.log(error)
     })
+
+
+    
 };
 
 

@@ -66,7 +66,7 @@
                         <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control" v-model="addBookForm.bookname">
+                            <input type="text" id="name" class="form-control" v-model="addBookForm.bookName">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
@@ -78,23 +78,23 @@
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="addBookForm.date">
+                            <input type="date" id="time" class="form-control" v-model="addBookForm.publishDate">
                         </div>
                         <div class="form-group">
                             <label for="isbn">ISBN:</label>
                             <input type="text" id="isbn" class="form-control" v-model="addBookForm.isbn">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="num">册数:</label>
                             <input type="number" id="num" class="form-control" v-model="addBookForm.number">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="manager">经办人:</label>
-                            <input type="text" id="manager" class="form-control" v-model="addBookForm.manager">
+                            <input type="text" id="manager" class="form-control" v-model="addBookForm.librarianJobNumber">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="addbk2" @click="addBookCatalog">添加</button>
+                            <button class="addbk2" @click="addBookCatalog_btn">添加</button>
                             <button @click="addBookWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -108,35 +108,32 @@
                         <input type="file" id="input-cover">
                         <div class="form-group">
                             <label for="name">书名:</label>
-                            <input type="text" id="name" class="form-control" v-model="updateBookForm.bookname">
+                            <input type="text" id="name" class="form-control" v-model="updateBookForm.bookName">
                         </div>
                         <div class="form-group">
                             <label for="au">作者:</label>
-                            <input type="text" id="au" class="form-control" v-model="updateBookForm.bookauthor">
+                            <input type="text" id="au" class="form-control" v-model="updateBookForm.author">
                         </div>
                         <div class="form-group">
                             <label for="pub">出版商:</label>
-                            <input type="text" id="pub" class="form-control" v-model="updateBookForm.bookpublisher">
+                            <input type="text" id="pub" class="form-control" v-model="updateBookForm.publisher">
                         </div>
                         <div class="form-group">
                             <label for="time">出版时间:</label>
-                            <input type="date" id="time" class="form-control" v-model="updateBookForm.bookdate">
+                            <input type="date" id="time" class="form-control" v-model="updateBookForm.publishDate">
                         </div>
-                        <div class="form-group">
-                            <label for="restbk">册数:</label>
-                            <input type="number" id="restbk" class="form-control" v-model="updateBookForm.booknumber">
-                        </div>
+
                         <div class="form-group">
                             <label for="status">ISBN号:</label>
-                            <input type="text" id="status" class="form-control" v-model="updateBookForm.bookisbn">
+                            <input type="text" id="status" class="form-control" v-model="updateBookForm.isbn">
                         </div>
                         <div class="form-group">
-                            <label for="status">经办人:</label>
-                            <input type="text" id="status" class="form-control" v-model="updateBookForm.bookmanager">
+                            <label for="status">原价:</label>
+                            <input type="text" id="status" class="form-control" v-model="updateBookForm.unitPrice">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="fixbk" @click="showmodifybkinfo()">修改</button>
+                            <button class="fixbk" @click="updateBookCatalog_btn">修改</button>
                             <button @click="updateBookWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -168,7 +165,7 @@
                             <input type="number" id="bbk" class="form-control" v-model="searchUserForm.number">
                         </div>
                         <div class="form-group">
-                            <button class="searchbk" @click="showsearchuser()">查找</button>
+                            <button class="searchbk" @click="getAllReader">查找</button>
                             <button @click="searchUserWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -179,10 +176,7 @@
                 <div class="search-container">
                     <form class="search-form3" @submit.prevent="">
                         <p>修改信息</p>
-                        <div class="form-group">
-                            <label for="id">用户ID:</label>
-                            <input type="text" id="id" class="form-control" v-model="updateUserForm.userid">
-                        </div>
+
                         <div class="form-group">
                             <label for="uname">用户名:</label>
                             <input type="text" id="uname" class="form-control" v-model="updateUserForm.username">
@@ -195,13 +189,10 @@
                             <label for="mail">邮箱:</label>
                             <input type="email" id="mail" class="form-control" v-model="updateUserForm.mail">
                         </div>
-                        <div class="form-group">
-                            <label for="bnum">借书数量:</label>
-                            <input type="number" id="bnum" class="form-control" v-model="updateUserForm.number">
-                        </div>
+
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
-                            <button class="fixbk" @click="showmodifyuserinfo()">修改</button>
+                            <button class="fixbk" @click="updateReader(selectedUserId)">修改</button>
                             <button @click="updateUserWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -222,7 +213,7 @@
                             <input type="text" id="au" class="form-control" v-model="addStockForm.location">
                         </div>
                         <div class="form-group">
-                            <button class="addbk2" @click="addBook_admin">添加</button>
+                            <button class="addbk2" @click="addBook_admin_btn()">添加</button>
                             <button @click="addStockWindow = false" class="quit">关闭</button>
                         </div>
                     </form>
@@ -247,7 +238,8 @@
                         </div>
                         <div class="form-group">
                             <label for="manager">经办人:</label>
-                            <input type="text" id="manager" class="form-control" v-model="searchStockForm.bookmanager">
+                            <input type="text" id="manager" class="form-control"
+                                v-model="searchStockForm.librarianJobNumber">
                         </div>
                         <div class="form-group">
                             <button class="searchbk" @click="getBook_admin">查找</button>
@@ -279,7 +271,7 @@
                         </div>
                         <div class="form-group">
                             <label for="man">经办人:</label>
-                            <input type="text" id="man" class="form-control" v-model="updateStockForm.bookmanager">
+                            <input type="text" id="man" class="form-control" v-model="updateStockForm.librarianJobNumber">
                         </div>
                         <!-- 其实也能放入图片 -->
                         <div class="form-group">
@@ -414,15 +406,16 @@
                         <td>操作:修改 / 删除</td>
                     </tr>
                     <tr v-for="item in userTotalSlice">
-                        <td>{{ item.userid }}</td>
-                        <td>{{ item.username }}</td>
-                        <td>{{ item.phone }}</td>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.userName }}</td>
+                        <td>{{ item.telephoneNumber }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.borrowNum }}</td>
                         <td>
                             <form @submit="handleSubmit">
-                                <button class="act addin" @click="updateUserWindow = true">修改</button>&nbsp&nbsp&nbsp<button
-                                    class="act del" @click="deleteItem(item)">删除</button>
+                                <button class="act addin"
+                                    @click="updateUserWindow_updatebtn(item.id)">修改</button>&nbsp&nbsp&nbsp<button
+                                    class="act del" @click="deleteReader(item.id)">删除</button>
                             </form>
                         </td>
                     </tr>
@@ -451,16 +444,17 @@
                     </tr>
                     <tr v-for="item in bookTotalslice">
                         <td>{{ item.bookName }}</td>
-                        <td>{{ item.bookAuthor }}</td>
-                        <td>{{ item.bookPublisher }}</td>
-                        <td>{{ item.bookISBN }}</td>
-                        <td>{{ item.bookDate }}</td>
-                        <td>{{ item.bookNumber }}</td>
-                        <td>{{ item.bookManager }}</td>
+                        <td>{{ item.author }}</td>
+                        <td>{{ item.publisher }}</td>
+                        <td>{{ item.isbn }}</td>
+                        <td>{{ formatDate(item.publishDate) }}</td>
+                        <td>{{ item.totalCopies }}</td>
+                        <td>{{ item.librarianJobNumber }}</td>
                         <td>
                             <form @submit="handleSubmit">
-                                <button class="act addin" @click="updateBookWindow = true">修改</button>&nbsp&nbsp&nbsp<button
-                                    class="act del" @click="deleteItem(item)">删除</button>
+                                <button class="act addin"
+                                    @click="open_updateBookWindow(item)">修改</button>&nbsp&nbsp&nbsp<button class="act del"
+                                    @click="deleteBookCatalog_btn(item)">删除</button>
                             </form>
                         </td>
                     </tr>
@@ -480,6 +474,7 @@
                     <table>
                         <tr style="font-weight: bold;background-color: rgba(206, 88, 202, 0.5);">
                             <td>图书ID</td>
+                            <td>书名</td>
                             <td>ISBN号</td>
                             <td>存放位置</td>
                             <td>状态</td>
@@ -489,16 +484,17 @@
                         </tr>
                         <tr v-for="item in stockTotalslice">
                             <td>{{ item.id }}</td>
+                            <td>{{ item.bookName }}</td>
                             <td>{{ item.isbn }}</td>
                             <td>{{ item.location }}</td>
-                            <td>{{ item.state }}</td>
+                            <td>{{ stockState(item.state) }}</td>
                             <!-- <td>{{ item.bookNumber }}</td> -->
-                            <td>{{ item.admin }}</td>
+                            <td>{{ item.librarianJobNumber }}</td>
                             <td>
                                 <form @submit="handleSubmit">
                                     <button class="act addin"
                                         @click="updateStockWindow = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
-                                        @click="deleteItem(item)">删除</button>
+                                        @click="deleteStock_admin_btn(item)">删除</button>
                                 </form>
                             </td>
                         </tr>
@@ -521,28 +517,29 @@
 
                     <table>
                         <tr style="font-weight: bold;background-color: rgba(103, 57, 202, 0.5);">
+                            <td>借阅编号</td>
+                            <td>书名</td>
                             <td>用户名</td>
-                            <td>用户借书</td>
-                            <td>借书数量</td>
+
                             <td>借书时间</td>
-                            <td>还书时间</td>
-                            <td>用户邮箱</td>
-                            <td>操作:修改 / 删除</td>
+                            <td>截止时间</td>
+                            <td>状态</td>
+                            <!-- <td>操作:修改 / 删除</td> -->
                         </tr>
                         <tr v-for="item in borrowTotal">
+                            <td>{{ item.borrowId }}</td>
+                            <td>{{ item.bookName }}</td>
                             <td>{{ item.userName }}</td>
-                            <td>《{{ item.userBorrow }}》</td>
-                            <td>{{ item.borrowNum }}</td>
-                            <td>{{ item.userBorrowtime }}</td>
-                            <td>{{ item.userReturntime }}</td>
-                            <td>{{ item.userMail }}</td>
-                            <td>
+                            <td>{{ formatDate(item.borrowTime) }}</td>
+                            <td>{{ formatDate(item.dueTime) }}</td>
+                            <td>{{ borrowState(item.state) }}</td>
+                            <!-- <td>
                                 <form action="" @submit="handleSubmit">
                                     <button class="act addin"
                                         @click="updateBorrowWindow = true">修改</button>&nbsp&nbsp&nbsp<button class="act del"
                                         @click="deleteItem(item)">删除</button>
                                 </form>
-                            </td>
+                            </td> -->
                         </tr>
                     </table>
                     <el-pagination class="pagination-container" @size-change="handleSizeChange"
@@ -558,24 +555,25 @@
                     <div class="odimg"></div>
                     <table>
                         <tr style="font-weight: bold;background-color: rgba(59, 215, 59, 0.5);">
+                            <td>预约编号</td>
+                            <td>书名</td>
                             <td>用户名</td>
-                            <td>申请书名</td>
-                            <td>申请时间</td>
-                            <td>用户邮箱</td>
-                            <td>申请数量</td>
-                            <!-- <td>借阅状态</td> -->
-                            <td>操作:同意 / 取消</td>
+                            <td>申请日期</td>
+                            <td>截止日期</td>
+                            <td>操作</td>
+                            <!-- <td>操作:同意 / 取消</td> -->
                         </tr>
                         <tr v-for="item in orderTotal">
+                            <td>{{ item.reservationId }}</td>
+                            <td>{{ item.bookName }}</td>
                             <td>{{ item.userName }}</td>
-                            <td>{{ item.userOrder }}</td>
-                            <td>{{ item.userOrdertime }}</td>
-                            <td>{{ item.userMail }}</td>
-                            <!-- <td>{{ item.bookNumber }}</td> -->
-                            <td>{{ item.orderNum }}</td>
+                            <td>{{ formatDate(item.reservationTime) }}</td>
+                            <td>{{ formatDate(item.reservationDeadline) }}</td>
                             <td>
                                 <form action="" @submit="handleSubmit">
-                                    <button class="act satis" @click="">同意</button>&nbsp&nbsp&nbsp<button class="act del"
+                                    <button class="act satis" @click="getReservationBook_btn(item.readerId, item.isbn)">同意</button>
+                                    &nbsp&nbsp&nbsp
+                                    <button class="act del"
                                         @click="deleteItem(item)">取消</button>
                                 </form>
                             </td>
@@ -618,93 +616,14 @@ const orderTotal = ref([
 // 已借列表
 
 // 申请借阅列表
-
-const userTotal = ref([
-    {
-        'username': "666",
-        'userid': "07",
-        'phone': "2343242",
-        'email': "asdasd@121",
-        'borrowNum': "77"
-    }
-])
-const borrowTotal = ref([
-])
-const bookTotal = ref([
-    {
-        "bookName": "计算机体系结构",
-        "bookAuthor": "钱璟丰",
-        "bookPublisher": "机械工业出版社",
-        "bookDate": "2023-12-27",
-        "bookStatus": "是",
-        "bookNumber": "1",
-        "bookRef": "/assets/img/计算机体系结构.jpg",
-        "bookLocate": "图书馆1楼",
-        "bookISBN": "1425345346",
-        "bookManager": "01"
-    },
-    {
-        "bookName": "算法导论",
-        "bookAuthor": "钱璟丰",
-        "bookPublisher": "MIT Press",
-        "bookDate": "2023-12-27",
-        "bookStatus": "是",
-        "bookNumber": "2",
-        "bookRef": "/assets/img/算法导论.jpg",
-        "bookLocate": "图书馆2楼",
-        "bookISBN": "32534654646",
-        "bookManager": "08"
-    },
-    {
-        "bookName": "计算机网络",
-        "bookAuthor": "钱璟丰",
-        "bookPublisher": "清华大学出版社",
-        "bookDate": "2023-12-27",
-        "bookStatus": "是",
-        "bookNumber": "3",
-        "bookRef": "/assets/img/计算机网络.jpg",
-        "bookLocate": "图书馆3楼",
-        "bookISBN": "144352646",
-        "bookManager": "05"
-    },
-    {
-        "bookName": "计算机图形学",
-        "bookAuthor": "钱璟丰",
-        "bookPublisher": "机械工业出版社",
-        "bookDate": "2023-12-27",
-        "bookStatus": "是",
-        "bookNumber": "6",
-        "bookRef": "/assets/img/计算机图形学.jpg",
-        "bookLocate": "图书馆大厅",
-        "bookISBN": "1qe3243246",
-        "bookManager": "04"
-    },
-    {
-        "bookName": "计算机组成与设计",
-        "bookAuthor": "钱璟丰",
-        "bookPublisher": "Morgan Kaufmann",
-        "bookDate": "2023-12-28",
-        "bookStatus": "否",
-        "bookNumber": "0",
-        "bookRef": "/assets/img/计算机组成与设计.jpg",
-        "bookLocate": "图书馆借阅室",
-        "bookISBN": "54637567576",
-        "bookManager": "07"
-
-    },
-])
-const stockTotal = ref([
-    {
-        "id": "7",
-        "isbn": "978-7-302-32911-7",
-        "location": "图书馆24小时自助借阅区",
-        "state": "borrowed",
-        "admin": "07"
-    }
-])
+const selected_item = ref(null)
+const userTotal = ref([])
+const borrowTotal = ref([])
+const bookTotal = ref([])
+const stockTotal = ref([])
 
 const selectedMenu = ref('books')
-
+const selectedUserId = ref(null)
 const searchBorrowWindow = ref(false)
 const updateBorrowWindow = ref(false)
 const bookSearchWindow = ref(false)
@@ -726,19 +645,20 @@ const orderTotalslice = ref([])
 const stockTotalslice = ref([])
 
 const addStockForm = ref({ isbn: '', location: '' })
-const addBookForm = ref({ bookname: '', author: '', publisher: '', bookdate: '', isbn: '', number: '', manager: '' })
-const searchBookForm = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', booknumber: '', bookisbn: '' })
-const updateStockForm = ref({ bookid: '', bookisbn: '', bookstatus: '', booklocate: '', bookmanager: '' })
+const addBookForm = ref({ bookName: '', author: '', publisher: '', publishDate: '', isbn: '', librarianJobNumber: '' })
+const searchBookForm = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', librarianJobNumber: '', bookisbn: '' })
+const updateStockForm = ref({ bookid: '', bookisbn: '', bookstatus: '', booklocate: '', librarianJobNumber: '' })
 const searchBorrowForm = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
 const updateUserForm = ref({ userid: '', username: '', email: '', number: '', phone: '' })
-const updateBookForm = ref({ bookname: '', bookauthor: '', bookpublisher: '', bookdate: '', bookisbn: '', booknumber: '', bookmanager: '' })
+const updateBookForm = ref({ bookName: null, author: null, publisher: null, publishDate: '', isbn: null, unitPrice: null })
 const updateBorrowForm = ref({ username: '', userborrow: '', borrownum: '', userborrowtime: '', userreturntime: '', usermail: '' })
 const searchOrderForm = ref({ username: '', userorder: '', userordertime: '', usermail: '', ordernum: '' })
 const searchUserForm = ref({ userid: '', username: '', email: '', number: '', phone: '' })
-const searchStockForm = ref({ bookid: null, bookisbn: null, booklocate: null, bookmanager: null })
+const searchStockForm = ref({ bookid: null, bookisbn: null, booklocate: null, librarianJobNumber: null })
+
 //lifetime
 onMounted(() => {
-
+    select_menu('books')
     updatePaginatedData();
 });
 
@@ -747,7 +667,7 @@ function select_menu(str) {
     selectedMenu.value = str
 
     if (str === 'books') {
-        // 后端未写
+        queryBookCatalog_admin()
     }
 
     if (str === 'borrows') {
@@ -759,11 +679,11 @@ function select_menu(str) {
     }
 
     if (str === 'orders') {
-
+        queryReservation()
     }
 
     if (str === 'stocks') {
-
+        getBook_admin()
     }
 }
 
@@ -813,7 +733,10 @@ function handleLogout() {
 };
 
 
-
+function updateUserWindow_updatebtn(id) {
+    updateUserWindow.value = true
+    selectedUserId.value = id
+}
 
 function reset(obj) {
     Object.keys(obj).forEach(key => {
@@ -821,15 +744,91 @@ function reset(obj) {
     });
 }
 
+function formatDate(timestamp) {
+    let date = new Date(timestamp);
+    return date.toLocaleDateString();
+}
+
+// filter
+function borrowState(state) {
+    if (state === 'returned') {
+        return '已还'
+    }
+
+    if (state === 'normal') {
+        return '未还'
+    }
+}
+
+function stockState(state) {
+    if (state === 'borrowed') {
+        return '借出'
+    }
+
+    if (state === 'canBorrow') {
+        return '可借'
+    }
+}
+
+function open_updateBookWindow(item) {
+    updateBookWindow.value = true
+    selected_item.value = item
+}
+
+async function getReservationBook_btn(readerId, isbn){
+    await getReservationBook(readerId, isbn)
+    await queryReservation()
+}
+
+async function deleteBookCatalog_btn(item) {
+    await deleteBookCatalog(item.isbn)
+    await queryBookCatalog_admin()
+
+}
+
+async function updateBookCatalog_btn() {
+
+    console.log("updateBookCatalog_btn: ")
+    await updateBookCatalogCover(selected_item.value.isbn)
+
+    await modifyBookCatalog()
+}
+
+async function addBookCatalog_btn() {
+
+    await updateBookCatalogCover(addBookForm.value.isbn)
+
+    await addBookCatalog()
+    await queryBookCatalog_admin()
+}
+
+async function addBook_admin_btn() {
+    await addBook_admin()
+
+    getBook_admin()
+    updatePaginatedData()
+}
+
+async function deleteStock_admin_btn(item) {
+    await deleteBook_admin(item.id)
+
+    await getBook_admin()
+
+    updatePaginatedData()
+}
 
 // #region request
 
 // administer - Account
 function getAllReader() {
-    http.get('/api/admin/getAllReader?page=1&pageSize=10')
+    http.get('/api/admin/getAllReader?page=1&pageSize=100')
         .then(response => {
             console.log("getAllReader: ", response.data)
-            borrowTotal.value = response.data.data
+            userTotal.value = response.data.data
+            console.log("getallreader: ", userTotal.value)
+
+            updatePaginatedData()
+            reset(searchUserForm.value)
         })
         .catch(error => {
             console.log(error)
@@ -837,17 +836,20 @@ function getAllReader() {
 }
 
 
-function deleteReader() {
+function deleteReader(id) {
 
-    const config = {
-        params: {
-            id: 11
-        }
-    }
+    const path = '/api/admin/deleteReader?id=' + id
 
-    http.get('/api/admin/deleteReader', config)
+    http.get(path)
         .then(response => {
             console.log("deleteReader: ", response.data)
+
+            userTotal.value = userTotal.value.filter(function (user) {
+                return user.id !== id;
+            });
+
+            updatePaginatedData()
+
         }).catch(error => {
             console.log(error)
         })
@@ -855,33 +857,46 @@ function deleteReader() {
 
 
 
-function updateReader() {
+function updateReader(id) {
+    console.log('updateReader: ', id)
 
+    const path = '/api/admin/updateReader'
     const body = {
-        name: "zhangsan",
-        telephoneNumber: "1103",
-        email: "1256852079@shu.edu.cn",
-        id: 11
+        name: updateUserForm.value.name,
+        telephoneNumber: updateUserForm.value.telephoneNumber,
+        email: updateUserForm.value.email,
+        id: id
     }
 
-    http.post('/api/admin/updateReader', body).then(response => {
-        console.log("updateReader: ", response.data)
-    }).catch(error => {
-        console.log(error)
-    })
+    http.post(path, body)
+        .then(response => {
+            console.log("updateReader: ", response.data)
+
+
+            updatePaginatedData()
+
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+function update_bookTotal(data) {
+    bookTotal.value = data
+    updatePaginatedData()
 }
 
 // administer - bookinfo
 
 // 🚩
+// 获取库存
 function getBook_admin() {
-    const path = '/api/bookInfo/admin/getBookInfo?page=1&pageSize=10'
+    const path = '/api/bookInfo/admin/getBookInfo?page=1&pageSize=100'
     const body = {
         isbn: searchStockForm.value.bookisbn,
         location: searchStockForm.value.booklocate,
         id: searchStockForm.value.bookid,
         state: null,
-        librarianJobNumber: null,
+        librarianJobNumber: searchStockForm.value.librarianJobNumber,
     }
 
     console.log('parameters: ', body)
@@ -891,27 +906,52 @@ function getBook_admin() {
             console.log("getBook_admin: ", response.data)
 
             const data = response.data.data
-            data.forEach(obj => {
-                if (obj.hasOwnProperty('librarianJobNumber')) {
-                    delete obj['librarianJobNumber'];
-                }
-            });
+            // data.forEach(obj => {
+            //     if (obj.hasOwnProperty('librarianJobNumber')) {
+
+            //         delete obj['librarianJobNumber'];
+            //     }
+            // });
 
             stockTotal.value = data
 
             updatePaginatedData()
 
             reset(searchStockForm.value)
-           
+
         }).catch(error => {
             console.log("getBook_admin request fail", error)
         })
-
-
 }
 
+
+async function queryBookCatalog_admin() {
+    const path = '/api/bookCatalog/admin/queryBookCatalog?page=1&pageSize=100'
+    const body = {
+        "bookName": null,
+        "author": null,
+        "publisher": null,
+        "publishDate": null,
+        "isbn": null,
+        "unitPrice": null,
+        "librarianJobNumber": null
+    }
+
+    http.post(path, body)
+        .then(response => {
+            console.log('queryBookCatalog: ', response.data)
+
+            update_bookTotal(response.data.data)
+
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
+
+
 // 🚩
-function addBook_admin() {
+async function addBook_admin() {
     const path = '/api/bookInfo/admin/addBookInfo'
     const body = {
         isbn: addStockForm.value.isbn,
@@ -937,14 +977,18 @@ function updateBook_admin() {
     })
 }
 
-function deleteBook_admin() {
+
+// 删除库存
+function deleteBook_admin(id) {
+
     http.post('/api/bookInfo/admin/deleteBookInfo', {
-        "isbn": "9789577627452",
+        "isbn": null,
         "location": null,
         "state": null,
-        "id": null
+        "id": id
     }).then(response => {
         console.log("deleteBook_admin: ", response.data)
+
     }).catch(error => {
         console.log(error)
     })
@@ -953,16 +997,15 @@ function deleteBook_admin() {
 
 // administer - BookCatalog
 
-function addBookCatalog() {
+async function addBookCatalog() {
 
     console.log('addBookCatalog check data: ', addBookForm.value)
 
-
-    http.post('/api/bookCatalog/admin/addBookCatalog', {
-        bookName: addBookForm.value.bookname,
+    await http.post('/api/bookCatalog/admin/addBookCatalog', {
+        bookName: addBookForm.value.bookName,
         author: addBookForm.value.author,
         publisher: addBookForm.value.publisher,
-        publishDate: addBookForm.value.date,
+        publishDate: addBookForm.value.publishDate,
         isbn: addBookForm.value.isbn,
         unitPrice: null
     }).then(response => {
@@ -973,17 +1016,21 @@ function addBookCatalog() {
         else {
             console.log(response.data.msg)
         }
+
+
     }).catch(error => {
         console.log(error)
     })
 }
 
-function deleteBookCatalog() {
-    http.get('/api/bookCatalog/admin/deleteBookCatalog?isbn=9789577627452')
+async function deleteBookCatalog(isbn) {
+    const path = '/api/bookCatalog/admin/deleteBookCatalog?isbn=' + isbn
+
+    http.get(path)
         .then(response => {
             console.log("deleteBookCatalog: ", response.data)
-            if (response.data.msg === 'Success') {
-
+            if (response.data.code === 10003) {
+                alert("该书目尚有书本未还")
             }
             else {
                 console.log(response.data.msg)
@@ -994,13 +1041,14 @@ function deleteBookCatalog() {
 }
 
 function modifyBookCatalog() {
+
     http.post('/api/bookCatalog/admin/modifyBookCatalog', {
-        "bookName": "窗裡有什麼? ",
-        "author": "卡特琳娜.葛蕾克",
-        "publisher": "上誼文化",
-        "publishDate": "",
-        "isbn": "9789577627452",
-        "unitPrice": 20
+        bookName: updateBookForm.value.bookName,
+        author: updateBookForm.value.author,
+        publisher: updateBookForm.value.publisher,
+        publishDate: updateBookForm.value.publishDate,
+        isbn: updateBookForm.value.isbn,
+        unitPrice: updateBookForm.value.unitPrice
     }).then(response => {
         console.log("modifyBookCatalog: ", response.data)
         if (response.data.msg === 'Success') {
@@ -1014,37 +1062,42 @@ function modifyBookCatalog() {
     })
 }
 
-function updateBookCatalogCover() {
+function updateBookCatalogCover(isbn) {
 
     var fileInput = document.getElementById('input-cover');
+
+    if (!fileInput) return
+
     var file = fileInput.files[0];
 
-    console.log(file)
+    const config = {
+        params: {
+            isbn: isbn
+        },
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+
+    console.log('updateBookCatalogCover', file)
+    console.log('updateBookCatalogCover', isbn)
+
 
     var formData = new FormData();
     formData.append('file', file);
 
-    http.post('/api/bookCatalog/admin/updateBookCatalogCover?isbn=9789577627452', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    }).then(response => {
-        console.log("updateBookCatalogCover: ", response.data)
-        if (response.data.msg === 'Success') {
-            book_cover.value = response.data.data.url
-        }
-        else {
-            console.log(response.data.msg)
-        }
-    }).catch(error => {
-        console.log(error)
-    })
+    http.post('/api/bookCatalog/admin/updateBookCatalogCover', formData, config)
+        .then(response => {
+            console.log("updateBookCatalogCover: ", response.data)
+        }).catch(error => {
+            console.log(error)
+        })
 }
 
 
 // administer - borrow
 function getBorrowBookList() {
-    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=10'
+    const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=100'
     const body = {
         "dueTime": null,
         "borrowTime": null,
@@ -1056,9 +1109,12 @@ function getBorrowBookList() {
         "borrowId": null
     }
 
+    console.log('getBorrowBookList: ', body)
+
     http.post(path, body)
         .then(response => {
             console.log('getBorrowBookList', response.data)
+            borrowTotal.value = response.data.data
         })
         .catch(error => {
             console.log(error)
@@ -1138,7 +1194,7 @@ function deleteReservation() {
 }
 
 function queryReservation() {
-    const path = '/api/Reservation/admin/queryReservation?page=1&pageSize=10'
+    const path = '/api/Reservation/admin/queryReservation?page=1&pageSize=100'
     const body = {
         "reservationTime": null,
         "reservationDeadline": null,
@@ -1148,9 +1204,14 @@ function queryReservation() {
         "librarianJobNumber": null,
         "reservationId": null
     }
+
+    console.log('queryReservation: ', body)
+
     http.post(path, body)
         .then(response => {
             console.log('queryReservation: ', response.data)
+            orderTotal.value = response.data.data
+
         })
         .catch(error => {
             console.log(error)
@@ -1158,14 +1219,16 @@ function queryReservation() {
 
 }
 
-function getReservationBook() {
+function getReservationBook(readerId, isbn) {
     const path = '/api/Reservation/admin/getReservationBook'
 
     const body = {
-        "dueTime": "2024-01-15T22:18:26.625Z",
-        "readerId": 11,
-        "isbn": 121
+        "dueTime": "2024-01-31T22:18:26.625Z",
+        "readerId": readerId,
+        "isbn": isbn
     }
+
+    console.log('getReservationBook', body)
 
     http.post(path, body)
         .then(response => {

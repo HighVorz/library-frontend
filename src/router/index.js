@@ -152,9 +152,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const auth = useAuthStore();
 
-    // openAuth
-    // console.log("openAuth:", auth.openAuth)
-
     if(!auth.openAuth){
         console.log("open auth ...")
         next()
@@ -163,23 +160,31 @@ router.beforeEach((to, from, next) => {
 
     const identity = auth.identity
 
-    // console.log("auth.redirectPath: ", auth.redirectPath)
-    // console.log("to: ", to.fullPath)
-    // console.log("from: ", from.fullPath)
+  
 
     // redircet
+    // 直接去login页
     if(to.fullPath === '/login' || to.fullPath === '/admin_login') {
         if(auth.redirectPath === to.fullPath){
             auth.redirectPath = '/'
         }
     }
+
     else if (to.fullPath != auth.redirectPath) {
         auth.redirectPath = to.fullPath
     }
 
-    // admin
-    if (to.meta.requiresAuth && to.meta.type !== identity) {
+    if(auth.redirectPath === '/register'){
+        auth.redirectPath = null
+    }
 
+      console.log("auth.redirectPath: ", auth.redirectPath)
+    console.log("to: ", to.fullPath)
+    console.log("from: ", from.fullPath)
+
+
+    // 是否登录
+    if (to.meta.requiresAuth && to.meta.type !== identity) {
 
         if (to.meta.type === 'admin') {
 

@@ -1,4 +1,5 @@
 <template>
+    
     <div class="maincontent bg--white pt--80 pb--55">
         <div class="container" v-bind="book">
             <div class="row">

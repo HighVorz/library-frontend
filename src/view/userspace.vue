@@ -23,7 +23,8 @@
                 <ul>
                     <li :class="{ selected: selectedTab === 'userinfo' }" @click="select('userinfo')"><i
                             class="fas fa-user"></i> 用户信息</li>
-                    <li :class="{ selected: selectedTab === 'borrow' }" @click="select('borrow')"><i class="fas fa-book"></i>
+                    <li :class="{ selected: selectedTab === 'borrow' }" @click="select('borrow')"><i
+                            class="fas fa-book"></i>
                         借书情况
                     </li>
                     <li :class="{ selected: selectedTab === 'order' }" @click="select('order')"><i
@@ -33,21 +34,20 @@
             <div class="main">
                 <div v-if="selectedTab === 'userinfo'">
                     <div class="avatar-section">
-                        <img class="avatar-img" :src="userInfo.avatar" alt="头像"
-                            @click="showModel = true">
+                        <img class="avatar-img" :src="userInfo.avatar" alt="头像" @click="showModel = true">
                     </div>
                     <div class="basicinfo">
-                        <h2>{{ userInfo.userName }}</h2>
-                        <p>{{ userInfo.signature }}</p>
-                        <p>{{ userInfo.userMail }}</p>
+                        <h2> {{ userInfo.name }} </h2>
+                        <p> {{ userInfo.email }} </p>
                         <!-- <p>借书数量: {{ userInfo.userTotalborrow }}</p> -->
                         <p>{{ userInfo.status }}</p>
                         <p>进入时间: {{ new Date().toLocaleString() }}</p>
+                        <button class="form-button search-btn" @click="to_search">搜索</button>
                         <button class="form-button exit-btn" @click="exit">退出</button>
                     </div>
                 </div>
                 <div v-else-if="selectedTab === 'borrow'">
-                    <h2>借书情况</h2>
+                    <!-- <h2>借书情况</h2> -->
                     <!-- 借书情况列表... -->
                     <table class="styled-table">
                         <thead>
@@ -60,15 +60,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="record in paginatedData" :key="record.id">
+                            <tr v-for="record in borrowRecordsSlice" :key="record.borrowId">
                                 <td>《{{ record.bookName }}》</td>
                                 <!-- <td>{{ record.bookNumber }}</td> -->
-                                <td>{{ record.borrowDate }}</td>
-                                <td>{{ record.returnDate }}</td>
-                                <td>
-                                    <button @click="returnBook(record.id)" class="retbk">还书</button>
-                                    <button @click="keepborrow = true" class="kepbk">续借</button>
+                                <td>{{ formatDate(record.borrowTime) }}</td>
+                                <td>{{ formatDate(record.dueTime) }}</td>
+                                <td v-if="record.state !== 'returned'" style="text-align: center; vertical-align: middle;">
+
+                                    <button @click="returnBook_btn(record)" class="retbk">还书</button>
+                                    <!-- <button @click="keepborrow = true" class="kepbk">续借</button> -->
                                 </td>
+
+                                <td v-if="record.state === 'returned'" style="text-align: center; vertical-align: middle;">
+                                    已还</td>
                             </tr>
                         </tbody>
                     </table>
@@ -78,27 +82,29 @@
                     </el-pagination>
                 </div>
                 <div v-else-if="selectedTab === 'order'">
-                    <!-- 这个order要怎么放入,以下都是用来放用户预约列表的 -->
-                    <h2>预约情况</h2>
-                    <!-- 预约情况列表... -->
+                    <!-- <h2>预约情况</h2> -->
                     <table class="styled-table">
                         <thead>
                             <tr>
                                 <th>书名</th>
                                 <!-- <th>数量</th> -->
                                 <th>预约时间</th>
-                                <th>预约数量</th>
+                                <th>截止时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="record in paginatedData2" :key="record.id">
-                                <td>《{{ record.userOrder }}》</td>
+                            <tr v-for="record in orderRecordsSlice" :key="record.id">
+                                <td>《{{ record.bookName }}》</td>
                                 <!-- <td>{{ record.bookNumber }}</td> -->
-                                <td>{{ record.userOrdertime }}</td>
-                                <td>{{ record.orderNum }}</td>
+                                <td>{{ formatDate(record.reservationTime) }}</td>
+                                <td>{{ formatDate(record.reservationDeadline) }}</td>
                                 <td>
-                                    <button @click="orderBook(record.id)" class="odbk">取消预约</button>
+                                    <button v-if="record.state === 'reserving'" @click="deleteReservationReader_btn(record.reservationId)"
+                                        class="odbk">取消预约</button>
+
+                                    <button v-if="record.state === 'reserved'" @click="getReservationBook(record)"
+                                        class="odbk">取书</button>
                                     <!-- <button @click="keepborrow = true" class="kepbk">续借</button> -->
                                 </td>
                             </tr>
@@ -117,9 +123,13 @@
                         <span class="close" @click="showModel = false">&times;</span>
                         <p>请点击以下按钮选择一个新的头像：</p>
                         <input type="file" id="input-avatar">
-                        <button @click="submit_avatar">提交</button>
+                        <input type="text" placeholder="用户名" v-model="userInfoForm.name">
+                        <input type="text" placeholder="邮箱" v-model="userInfoForm.email">
+                        <input type="text" placeholder="手机号码" v-model="userInfoForm.telephoneNumber">
+                        <button @click="submit_userInfo">提交</button>
                     </div>
                 </div>
+
 
 
             </div>
@@ -147,119 +157,29 @@ const keepborrow = ref(false)
 const keepdate = ref([])
 // const avatar = ref('/assets/img/avatar.png')
 const borrowRecords = ref([
-    {
-        "bookName": "计算机体系结构",
-        "bookNumber": "1",
-        "borrowDate": "2023-12-27",
-        "returnDate": "2024-1-27"
-    },
-    {
-        "bookName": "算法导论",
-        "bookNumber": "2",
-        "borrowDate": "2023-12-25",
-        "returnDate": "2024-1-25"
-    },
-    {
-        "bookName": "计算机网络",
-        "bookNumber": "3",
-        "borrowDate": "2023-3-27",
-        "returnDate": "2023-4-27"
-    },
-    {
-        "bookName": "计算机图形学",
-        "bookNumber": "6",
-        "borrowDate": "2023-5-2",
-        "returnDate": "2023-6-2"
-    }
+    
 ])
 const orderRecords = ref([
-    {
-        "userName": "钱璟丰",
-        "userOrder": "计算机体系结构",
-        "userOrdertime": "2023-12-27",
-        "userMail": "2055318980@qq.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "小明",
-        "userOrder": "计算机图形学",
-        "userOrdertime": "2023-1-2",
-        "userMail": "233465654756@qq.com",
-        "orderNum": "5"
-    },
-    {
-        "userName": "张三",
-        "userOrder": "计算机图形学",
-        "userOrdertime": "2023-12-28",
-        "userMail": "zhangsan@example.com",
-        "orderNum": "3"
-    },
-    {
-        "userName": "李四",
-        "userOrder": "操作系统概念",
-        "userOrdertime": "2023-2-1",
-        "userMail": "lisi@example.com",
-        "orderNum": "2"
-    },
-    {
-        "userName": "王五",
-        "userOrder": "算法设计与分析",
-        "userOrdertime": "2024-1-1",
-        "userMail": "wangwu@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "赵六",
-        "userOrder": "计算机组成与设计",
-        "userOrdertime": "2023-1-15",
-        "userMail": "zhaoliu@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "陈七",
-        "userOrder": "计算机体系结构",
-        "userOrdertime": "2023-12-27",
-        "userMail": "chenqi@example.com",
-        "orderNum": "1"
-    },
-    {
-        "userName": "张十",
-        "userOrder": "数据结构与算法",
-        "userOrdertime": "2023-1-20",
-        "userMail": "zhangshi@example.com",
-        "orderNum": "5"
-    }
+    
 ])
 const showModel = ref(false)
 const userInfo = ref({})
+const userInfoForm = ref({
+    name: null,
+    telephoneNumber: null,
+    email: null,
+})
+
 const currentPage = ref(1)
 const pageSize = ref(6)
-const paginatedData = ref([])
-const paginatedData2 = ref([])
+const borrowRecordsSlice = ref([])
+const orderRecordsSlice = ref([])
 
 onMounted(async () => {
     await getUserInfo()
 });
 
-// function getBorrowlist() {
-//     http.get("/api/bookBorrow/getBorrowBookList?page=1&pageSize=10", {
-//         params: {
-//             dueTime: null,
-//             borrowTime: null,
-//             librarianJobNumber: null,
-//             bookId: null,
-//             state: null,
-//             returnTime: null,
-//             borrowId: null,
-//         },
-//     }).then(async response => {
-//         console.log(response.data)
-//         borrowRecords.value = response.data.result.borrowlist
 
-//         console.log('execute updatePaginatedData');
-
-//     }).catch(error => console.log(error))
-// };
 
 // ui
 function select(tab) {
@@ -274,25 +194,21 @@ function select(tab) {
     }
 };
 
-function submit_avatar(){
-    updateAvatar()
+async function submit_userInfo() {
+    await updateUserInfo()
     showModel.value = false
+    reset(userInfoForm.value)
+    await getUserInfo()
 }
 
-
-// function onFileChange(e) {
-//     const file = e.target.files[0];
-//     const reader = new FileReader();
-//     reader.onload = (e) => {
-//         avatar.value = e.target.result;
-//         showModel.value = false;  // 关闭弹窗
-//     };
-//     reader.readAsDataURL(file);
-// };
 
 function renewBook(id) {
     alert("续借成功");
     console(keepdate)
+}
+
+function to_search() {
+    router.push('/search')
 }
 
 function exit() {
@@ -300,48 +216,55 @@ function exit() {
     router.replace('/')
 }
 
+function formatDate(timestamp) {
+    let date = new Date(timestamp);
+    return date.toLocaleDateString();
+}
+
 function handleSizeChange(val) {
     pageSize.value = val;
     updatePaginatedData();
 }
+
 function handleCurrentChange(val) {
     currentPage.value = val;
     updatePaginatedData();
 }
+
 async function updatePaginatedData() {
     console.log('updatePaginatedData');
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;
-    paginatedData.value = borrowRecords.value.slice(start, end);
-    paginatedData2.value = orderRecords.value.slice(start, end);
-    // console.log("----");
-    // console.log(paginatedData.value);
+    borrowRecordsSlice.value = borrowRecords.value.slice(start, end);
+    orderRecordsSlice.value = orderRecords.value.slice(start, end);
 }
+
+function reset(obj) {
+    Object.keys(obj).forEach(key => {
+        obj[key] = null;
+    });
+}
+
+async function returnBook_btn(item) {
+    await returnBook(item.borrowId)
+    await getBorrowBookListReader()
+
+    updatePaginatedData()
+}
+
+async function deleteReservationReader_btn(id){
+    await deleteReservationReader(id)
+    await getReservationReader()
+} 
 
 // region request
 
 
 // user - borrow
 
-function borrowBook() {
-    const path = '/api/bookBorrow/borrowBook?isbn=9786269736676&borrowNum=1'
-    const body = {
-        "dueTime": "2024-01-15T22:18:26.625Z",
-        "librarianJobNumber": 1,
-        "readerId": 1,
-        "bookId": 1
-    }
-    http.post(path, body)
-        .then(response => {
-            console.log("borrowBook: ", response.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-}
 
-function returnBook() {
-    const path = '/api/bookBorrow/returnBook?borrowId=2'
+function returnBook(id) {
+    const path = '/api/bookBorrow/returnBook?borrowId=' + id
 
     http.post(path)
         .then(response => {
@@ -352,8 +275,9 @@ function returnBook() {
         })
 }
 
-function getBorrowBookListReader() {
-    const path = '/api/bookBorrow/getBorrowBookList?page=1&pageSize=10'
+async function getBorrowBookListReader() {
+    const path = '/api/bookBorrow/getBorrowBookList?page=1&pageSize=100'
+
     const body = {
         "dueTime": null,
         "borrowTime": null,
@@ -364,21 +288,29 @@ function getBorrowBookListReader() {
         "borrowId": null
     }
 
-    http.post(path, body)
+    console.group("getBorrowBookListReader")
+    console.log(body)
+
+    await http.post(path, body)
         .then(response => {
             console.log('getBorrowBookListReader: ', response.data)
+            borrowRecords.value = response.data.data
+
+            updatePaginatedData()
         })
         .catch(error => {
             console.log(error)
         })
+
+    console.groupEnd()
 }
 
 // user - account
 // 🚩
 
 
-function getUserInfo() {
-    http.get('api/userInfo')
+async function getUserInfo() {
+    await http.get('api/userInfo')
         .then(response => {
             console.log("getUserInfo: ", response.data)
             const data = response.data.data
@@ -390,42 +322,63 @@ function getUserInfo() {
 }
 
 
-function updateAvatar() {
-    var fileInput = document.getElementById('input-avatar');
-    var file = fileInput.files[0];
-    console.log(file)
-    var formData = new FormData();
-    formData.append('file', file);
-
-    http.post('/api/updateAvatar', formData, {
+async function updateAvatar(image) {
+    const path = '/api/updateAvatar'
+    const config = {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    }).then(response => {
-        console.log("updateAvatar: ", response.data)
-        userInfo.value.avatar = response.data.data.url
-    }).catch(error => {
-        console.log(error)
-    })
+    }
+    // var fileInput = document.getElementById('input-avatar');
+    // var file = fileInput.files[0];
+
+    console.log("image param: ", image)
+    var formData = new FormData();
+    formData.append('file', image);
+
+    http.post(path, formData, config)
+        .then(response => {
+            console.log("updateAvatar: ", response.data)
+            userInfo.value.avatar = response.data.data.url
+        }).catch(error => {
+            console.log(error)
+        })
+}
+
+async function updateUserInfo() {
+
+    var fileInput = document.getElementById('input-avatar');
+    var image = fileInput.files[0];
+
+    console.log("image: ", image)
+
+    if (image) {
+        await updateAvatar(image)
+    }
+
+    const path = '/api/updateUserInfo'
+    const body = {
+        "name": userInfoForm.value.name,
+        "telephoneNumber": userInfoForm.value.telephoneNumber,
+        "email": userInfoForm.value.email
+    }
+
+    console.log("updateUserInfo body: ", body)
+
+    await http.post(path, body)
+        .then(response => {
+            console.log('updateUserInfo: ', response.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
 }
 
 // user - reservation
 
-function addReservationReader() {
-    http.post('/api/Reservation/addReservationReader', {
-        "reservationTime": null,
-        "reservationDeadline": "2024-01-15T22:18:26.625Z",
-        "librarianJobNumber": 1,
-        "isbn": "9786263495630"
-    }).then(response => {
-        console.log("addReservationReader: ", response.data)
-    }).catch(error => {
-        console.log(error)
-    })
-}
 
-function getReservationReader() {
-    http.post('/api/Reservation/getReservationReader?page=1&pageSize=10', {
+async function getReservationReader() {
+    await http.post('/api/Reservation/getReservationReader?page=1&pageSize=100', {
         "reservationId": null,
         "reservationTime": null,
         "reservationDeadline": null,
@@ -434,15 +387,23 @@ function getReservationReader() {
         "state": null
     }).then(response => {
         console.log("getReservationReader: ", response.data)
+
+        orderRecords.value = response.data.data
+
+        updatePaginatedData()
+
     }).catch(error => {
         console.log(error)
     })
 }
 
-function deleteReservationReader() {
-    http.get('/api/Reservation/deleteReservationReader?reservationId=1')
+async function deleteReservationReader(id) {
+    const path = '/api/Reservation/deleteReservationReader?reservationId=' + id
+
+    await http.get(path)
         .then(response => {
             console.log("deleteReservationReader: ", response.data)
+            updatePaginatedData()
         }).catch(error => {
             console.log(error)
         })
@@ -450,23 +411,12 @@ function deleteReservationReader() {
 
 // user - bookinfo
 
-function getBook_reader() {
-    http.post('/api/bookInfo/getBook?page=1&pageSize=10', {
-        "isbn": null,
-        "location": null,
-        "state": null,
-        "id": null
-    }).then(response => {
-        console.log("getBook_reader: ", response.data)
-    }).catch(error => {
-        console.log("getBook_reader request fail", error)
-    })
-}
+
 
 
 // user - bookcatalog
 function queryBookCatalog() {
-    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=10', {
+    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=100', {
         "bookName": null,
         "author": null,
         "publisher": null,
@@ -484,6 +434,11 @@ function queryBookCatalog() {
     }).catch(error => {
         console.log(error)
     })
+}
+
+// 取书
+async function getReservationBook(item) {
+    alert(联系管理员取书)
 }
 
 // endregion
@@ -761,6 +716,10 @@ input[type="file"] {
     font-size: 20px;
     background-color: #e9e7ee;
     font-weight: 600;
+}
+
+.search-btn {
+    background-color: #0056b3;
 }
 
 .exit-btn {

@@ -17,8 +17,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/admin_login" type="button">管理员登录</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="/books" type="button">书目</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register" type="button">用户注册</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/search" type="button">搜索</a>
