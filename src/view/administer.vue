@@ -574,7 +574,7 @@
                                     <button class="act satis" @click="getReservationBook_btn(item.readerId, item.isbn)">同意</button>
                                     &nbsp&nbsp&nbsp
                                     <button class="act del"
-                                        @click="deleteItem(item)">取消</button>
+                                        @click="deleteReservation_btn(item)">取消</button>
                                 </form>
                             </td>
                         </tr>
@@ -817,11 +817,16 @@ async function deleteStock_admin_btn(item) {
     updatePaginatedData()
 }
 
+async function deleteReservation_btn(item){
+    await deleteReservation(item.reservationId)
+    await queryReservation()
+}
+
 // #region request
 
 // administer - Account
-function getAllReader() {
-    http.get('/api/admin/getAllReader?page=1&pageSize=100')
+async function getAllReader() {
+    await http.get('/api/admin/getAllReader?page=1&pageSize=100')
         .then(response => {
             console.log("getAllReader: ", response.data)
             userTotal.value = response.data.data
@@ -836,11 +841,11 @@ function getAllReader() {
 }
 
 
-function deleteReader(id) {
+async function deleteReader(id) {
 
     const path = '/api/admin/deleteReader?id=' + id
 
-    http.get(path)
+    await http.get(path)
         .then(response => {
             console.log("deleteReader: ", response.data)
 
@@ -857,7 +862,7 @@ function deleteReader(id) {
 
 
 
-function updateReader(id) {
+async function updateReader(id) {
     console.log('updateReader: ', id)
 
     const path = '/api/admin/updateReader'
@@ -868,7 +873,7 @@ function updateReader(id) {
         id: id
     }
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log("updateReader: ", response.data)
 
@@ -889,7 +894,7 @@ function update_bookTotal(data) {
 
 // 🚩
 // 获取库存
-function getBook_admin() {
+async function getBook_admin() {
     const path = '/api/bookInfo/admin/getBookInfo?page=1&pageSize=100'
     const body = {
         isbn: searchStockForm.value.bookisbn,
@@ -901,7 +906,7 @@ function getBook_admin() {
 
     console.log('parameters: ', body)
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log("getBook_admin: ", response.data)
 
@@ -937,7 +942,7 @@ async function queryBookCatalog_admin() {
         "librarianJobNumber": null
     }
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log('queryBookCatalog: ', response.data)
 
@@ -957,7 +962,7 @@ async function addBook_admin() {
         isbn: addStockForm.value.isbn,
         location: addStockForm.value.location
     }
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log("addBook_admin: ", response.data)
         }).catch(error => {
@@ -965,8 +970,8 @@ async function addBook_admin() {
         })
 }
 
-function updateBook_admin() {
-    http.post('/api/bookInfo/admin/updateBookInfo', {
+async function updateBook_admin() {
+    await http.post('/api/bookInfo/admin/updateBookInfo', {
         "location": null,
         "id": 35,
         "librarianJobNumber": 2
@@ -979,9 +984,9 @@ function updateBook_admin() {
 
 
 // 删除库存
-function deleteBook_admin(id) {
+async function deleteBook_admin(id) {
 
-    http.post('/api/bookInfo/admin/deleteBookInfo', {
+    await http.post('/api/bookInfo/admin/deleteBookInfo', {
         "isbn": null,
         "location": null,
         "state": null,
@@ -1026,7 +1031,7 @@ async function addBookCatalog() {
 async function deleteBookCatalog(isbn) {
     const path = '/api/bookCatalog/admin/deleteBookCatalog?isbn=' + isbn
 
-    http.get(path)
+    await http.get(path)
         .then(response => {
             console.log("deleteBookCatalog: ", response.data)
             if (response.data.code === 10003) {
@@ -1034,15 +1039,16 @@ async function deleteBookCatalog(isbn) {
             }
             else {
                 console.log(response.data.msg)
+
             }
         }).catch(error => {
             console.log(error)
         })
 }
 
-function modifyBookCatalog() {
+async function modifyBookCatalog() {
 
-    http.post('/api/bookCatalog/admin/modifyBookCatalog', {
+    await http.post('/api/bookCatalog/admin/modifyBookCatalog', {
         bookName: updateBookForm.value.bookName,
         author: updateBookForm.value.author,
         publisher: updateBookForm.value.publisher,
@@ -1062,7 +1068,7 @@ function modifyBookCatalog() {
     })
 }
 
-function updateBookCatalogCover(isbn) {
+async function updateBookCatalogCover(isbn) {
 
     var fileInput = document.getElementById('input-cover');
 
@@ -1086,7 +1092,7 @@ function updateBookCatalogCover(isbn) {
     var formData = new FormData();
     formData.append('file', file);
 
-    http.post('/api/bookCatalog/admin/updateBookCatalogCover', formData, config)
+    await http.post('/api/bookCatalog/admin/updateBookCatalogCover', formData, config)
         .then(response => {
             console.log("updateBookCatalogCover: ", response.data)
         }).catch(error => {
@@ -1096,7 +1102,7 @@ function updateBookCatalogCover(isbn) {
 
 
 // administer - borrow
-function getBorrowBookList() {
+async function getBorrowBookList() {
     const path = '/api/bookBorrow/admin/getBorrowBookList?page=1&pageSize=100'
     const body = {
         "dueTime": null,
@@ -1111,7 +1117,7 @@ function getBorrowBookList() {
 
     console.log('getBorrowBookList: ', body)
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log('getBorrowBookList', response.data)
             borrowTotal.value = response.data.data
@@ -1122,7 +1128,7 @@ function getBorrowBookList() {
 }
 
 
-function updataBorrowBookList() {
+async function updataBorrowBookList() {
     const path = '/api/bookBorrow/admin/updateBorrowBookList'
     const body = {
         "dueTime": null,
@@ -1133,7 +1139,7 @@ function updataBorrowBookList() {
         "borrowId": 2
     }
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log('updataBorrowBookList', response.data)
         })
@@ -1181,10 +1187,13 @@ function addReservation() {
         })
 }
 
-function deleteReservation() {
-    const path = '/api/Reservation/admin/deleteReservation?reservationId=1'
+async function deleteReservation(id) {
 
-    http.get(path)
+    const path = '/api/Reservation/admin/deleteReservation?reservationId=' + id
+
+    console.log('deleteReservation: ', id)
+
+    await http.get(path)
         .then(response => {
             console.log('deleteReservation: ', response.data)
         })
@@ -1193,7 +1202,7 @@ function deleteReservation() {
         })
 }
 
-function queryReservation() {
+async function queryReservation() {
     const path = '/api/Reservation/admin/queryReservation?page=1&pageSize=100'
     const body = {
         "reservationTime": null,
@@ -1207,7 +1216,7 @@ function queryReservation() {
 
     console.log('queryReservation: ', body)
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log('queryReservation: ', response.data)
             orderTotal.value = response.data.data
@@ -1219,7 +1228,7 @@ function queryReservation() {
 
 }
 
-function getReservationBook(readerId, isbn) {
+async function getReservationBook(readerId, isbn) {
     const path = '/api/Reservation/admin/getReservationBook'
 
     const body = {
@@ -1230,7 +1239,7 @@ function getReservationBook(readerId, isbn) {
 
     console.log('getReservationBook', body)
 
-    http.post(path, body)
+    await http.post(path, body)
         .then(response => {
             console.log('getReservationBook: ', response.data)
         })

@@ -244,10 +244,12 @@ async function borrowBook_btn(item) {
     await getBook_reader()
 }
 
-function orderBook_btn(item) {
+async function orderBook_btn(item) {
     console.log('orderBook_btn: ', item)
 
-    addReservationReader(item.isbn)
+    await addReservationReader(item.isbn)
+
+    getBook_reader()
 }
 
 function search_btn() {
@@ -366,14 +368,22 @@ async function borrowBook(bookid, isbn) {
 }
 
 
-function addReservationReader(isbn) {
-    http.post('/api/Reservation/addReservationReader', {
+async function addReservationReader(isbn) {
+    await http.post('/api/Reservation/addReservationReader', {
         "reservationTime": null,
         "reservationDeadline": "2024-01-30T22:18:26.625Z",
         "librarianJobNumber": 1,
         "isbn": isbn
     }).then(response => {
         console.log("addReservationReader: ", response.data)
+
+        if(response.data.msg === 'Success'){
+            alert('预约成功')
+        }
+        else{
+            alert('预约失败')
+        }
+
     }).catch(error => {
         console.log(error)
     })

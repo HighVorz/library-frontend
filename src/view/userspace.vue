@@ -263,12 +263,19 @@ async function deleteReservationReader_btn(id){
 // user - borrow
 
 
-function returnBook(id) {
+async function returnBook(id) {
     const path = '/api/bookBorrow/returnBook?borrowId=' + id
 
-    http.post(path)
+    await http.post(path)
         .then(response => {
             console.log("returnBook: ", response.data)
+
+            if(response.data.msg === 'Success'){
+                alert('还书成功')
+            }
+            else{
+                alert('还书错误')
+            }
         })
         .catch(error => {
             console.log(error)
@@ -336,7 +343,7 @@ async function updateAvatar(image) {
     var formData = new FormData();
     formData.append('file', image);
 
-    http.post(path, formData, config)
+    await http.post(path, formData, config)
         .then(response => {
             console.log("updateAvatar: ", response.data)
             userInfo.value.avatar = response.data.data.url
@@ -415,8 +422,8 @@ async function deleteReservationReader(id) {
 
 
 // user - bookcatalog
-function queryBookCatalog() {
-    http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=100', {
+async function queryBookCatalog() {
+    await http.post('/api/bookCatalog/queryBookCatalog?page=1&pageSize=100', {
         "bookName": null,
         "author": null,
         "publisher": null,
@@ -438,7 +445,7 @@ function queryBookCatalog() {
 
 // 取书
 async function getReservationBook(item) {
-    alert(联系管理员取书)
+    alert('联系管理员取书')
 }
 
 // endregion
