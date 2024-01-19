@@ -397,15 +397,41 @@ async function getUserInfo() {
 .input-row {
     display: flex;
     justify-content: space-between;
+    margin: 10px;
 }
 
 .search-input {
     flex: 1;
     margin-right: 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 5px;
+    height: 40px;
+    border: none;
+    background-color: rgba(218, 228, 226, 0.8);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.search-input:hover {
+    background-color: rgba(218, 228, 226, 1);
 }
 
 .search-button {
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    font-size: 16px;
+    height: 40px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px 10px 10px;
+    border-radius: 10px;
+}
+.search-button:hover {
+    background-color: #0056b3;
+
 }
 
 .search_bar {
